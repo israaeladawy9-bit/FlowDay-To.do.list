@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Premium Dashboard - FlowDay Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cairo:wght@400;600;700;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* 🔵 1. الثيم الافتراضي الفاتح (Light Theme) */
+        :root {
+            --bg-base: #F6F8FA; 
+            --container-bg: #FFFFFF;
+            --card-bg: #F1F5F9;
+            --card-border: transparent;
+            --text-main: #0F172A;     
+            --text-muted: #64748B;    
+            --main-purple: #4F46E5;
+            --progress-panel: #FFFFFF;
+            --progress-border: #E2E8F0;
+            --gradient-mood-tracker: linear-gradient(135deg, #0EA5E9 0%, #2563EB 100%); 
+            --gradient-relax-space: linear-gradient(135deg, #D946EF 0%, #C084FC 100%);  
+            --card-icon-bg: rgba(255, 255, 255, 0.22);
+            --nav-bg: #FFFFFF;
+        }
+
+        /* 🟤 2. الثيم البني الفاخر والدافئ (Brown Theme) */
+        body.theme-brown {
+            --bg-base: #F7F2EE;
+            --container-bg: #FFFFFF;
+            --card-bg: #F3EAE3;
+            --card-border: rgba(139, 92, 26, 0.08);
+            --text-main: #3E1B0A;
+            --text-muted: #855843;
+            --main-purple: #8C4F2B;
+            --progress-panel: #F7F2EE;
+            --progress-border: #E6D5CB;
+            --gradient-mood-tracker: linear-gradient(135deg, #8C4F2B 0%, #BD6E3C 100%);
+            --gradient-relax-space: linear-gradient(135deg, #5C3826 0%, #8C583E 100%);
+            --nav-bg: #FFFFFF;
+        }
+
+        /* 🌸 3. الثيم الوردي الناعم (Pink Theme) */
+        body.theme-pink {
+            --bg-base: #FFF0F2;
+            --container-bg: #FFFFFF;
+            --card-bg: #FFE4E8;
+            --card-border: rgba(244, 63, 94, 0.08);
+            --text-main: #4C0519;
+            --text-muted: #A21CAF;
+            --progress-panel: #FFF0F2;
+            --progress-border: #FCD34D;
+            --main-purple: #E11D48;
+            --gradient-mood-tracker: linear-gradient(135deg, #E11D48 0%, #FB7185 100%);
+            --gradient-relax-space: linear-gradient(135deg, #BE185D 0%, #F472B6 100%);
+            --nav-bg: #FFFFFF;
+        }
+
+        /* 🔮 4. الثيم البنفسجي الملكي (Purple Theme) */
+        body.theme-purple {
+            --bg-base: #F5F3FF;
+            --container-bg: #FFFFFF;
+            --card-bg: #EDE9FE;
+            --card-border: transparent;
+            --text-main: #2E1065;
+            --text-muted: #6D28D9;
+            --progress-panel: #F5F3FF;
+            --progress-border: #DDD6FE;
+            --main-purple: #7C3AED;
+            --gradient-mood-tracker: linear-gradient(135deg, #6D28D9 0%, #A78BFA 100%);
+            --gradient-relax-space: linear-gradient(135deg, #4C1D95 0%, #8B5CF6 100%);
+            --nav-bg: #FFFFFF;
+        }
+
+        /* 🌑 5. الثيم الداكن الاحترافي (Dark Theme) */
+        body.theme-dark {
+            --bg-base: #0B0F17;
+            --container-bg: #121824;
+            --card-bg: #1E2640;
+            --card-border: rgba(255, 255, 255, 0.02);
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+            --progress-panel: #1E2640;
+            --progress-border: #334155;
+            --main-purple: #6366F1;
+            --gradient-mood-tracker: linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%);
+            --gradient-relax-space: linear-gradient(135deg, #6B21A8 0%, #9333EA 100%);
+            --nav-bg: #121824;
+        }
+
+        /* 🟢 6. الثيم الأخضر الحيوي والمريح (Green Theme) */
+        body.theme-green {
+            --bg-base: #F0FDF4;
+            --container-bg: #FFFFFF;
+            --card-bg: #DCFCE7;
+            --card-border: rgba(22, 163, 74, 0.08);
+            --text-main: #14532D;
+            --text-muted: #16A34A;
+            --progress-panel: #F0FDF4;
+            --progress-border: #BBF7D0;
+            --main-purple: #15803D;
+            --gradient-mood-tracker: linear-gradient(135deg, #16A34A 0%, #4ADE80 100%);
+            --gradient-relax-space: linear-gradient(135deg, #115E59 0%, #14B8A6 100%);
+            --nav-bg: #FFFFFF;
+        }
+
+        /* 🟡 7. الثيم الأصفر المشرق (Yellow Theme) */
+        body.theme-yellow {
+            --bg-base: #FEFCE8;
+            --container-bg: #FFFFFF;
+            --card-bg: #FEF9C3;
+            --card-border: rgba(202, 138, 4, 0.08);
+            --text-main: #713F12;
+            --text-muted: #CA8A04;
+            --progress-panel: #FEFCE8;
+            --progress-border: #FEF08A;
+            --main-purple: #B45309;
+            --gradient-mood-tracker: linear-gradient(135deg, #CA8A04 0%, #FACC15 100%);
+            --gradient-relax-space: linear-gradient(135deg, #9A3412 0%, #F97316 100%);
+            --nav-bg: #FFFFFF;
+        }
+
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Plus Jakarta Sans', 'Outfit', 'Cairo', sans-serif;
+            transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                        background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                        color 0.4s ease, 
+                        border-color 0.4s ease, 
+                        transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        box-shadow 0.3s ease;
+        }
+
+        html, body { 
+            height: 100%; 
+            overflow: hidden; 
+            background-color: var(--bg-base); 
+            color: var(--text-main); 
+        }
+        body { display: flex; justify-content: center; align-items: center; position: relative; }
+        body.rtl { direction: rtl; }
+
+        .app-container {
+            background: var(--container-bg);
+            width: 100%; height: 100%; max-width: 460px; padding: 32px 24px 115px;
+            position: relative; z-index: 1; display: flex; flex-direction: column;
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.06);
+        }
+
+        .header-dashboard { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
+        .profile-area { display: flex; align-items: center; gap: 14px; }
+        .avatar-link { text-decoration: none; }
+        .avatar-box {
+            width: 58px; height: 58px; border-radius: 50%; background: linear-gradient(135deg, var(--main-purple) 0%, #F43F5E 100%);
+            padding: 3px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .avatar-placeholder { 
+            width: 100%; height: 100%; background: #FFFFFF; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            color: var(--main-purple); font-size: 20px; overflow: hidden;
+        }
+        .avatar-placeholder img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+        body.theme-dark .avatar-placeholder { background: #1E2640; }
+
+        .welcome-box h1 { font-size: 1.45rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; }
+        .welcome-box p { font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; margin-top: 2px; }
+
+        .streak-badge { background: var(--card-bg); border: 1px solid var(--card-border); padding: 10px 18px; border-radius: 22px; display: flex; align-items: center; gap: 8px; }
+        .streak-fire-icon { color: #FF4A6B; font-size: 16px; }
+        .streak-count { font-size: 14px; font-weight: 700; color: var(--text-main); }
+        .streak-badge.streak-empty { opacity: 0.4; }
+
+        .dashboard-content-scroll { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 26px; }
+        .dashboard-content-scroll::-webkit-scrollbar { width: 0px; }
+
+        .section-label { font-size: 12.5px; font-weight: 800; color: var(--text-main); opacity: 0.4; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: -8px; }
+
+        .mental-health-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        .mental-card {
+            border-radius: 26px; padding: 22px; display: flex; flex-direction: column; justify-content: space-between;
+            height: 145px; text-decoration: none; position: relative; overflow: hidden;
+            box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.04);
+        }
+        .mental-card.card-mood { background: var(--gradient-mood-tracker); }
+        .mental-card.card-relax { background: var(--gradient-relax-space); }
+        .mental-card .card-icon {
+            width: 46px; height: 46px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 20px; background: var(--card-icon-bg); color: #FFF; backdrop-filter: blur(8px);
+        }
+        .mental-card h3 { font-size: 16.5px; font-weight: 800; color: #FFF; margin-top: auto; letter-spacing: -0.2px; }
+        .mental-card p { font-size: 12px; color: #FFF; opacity: 0.85; font-weight: 500; margin-top: 2px; }
+        .mental-card:hover { transform: translateY(-4px); box-shadow: 0 16px 28px rgba(0,0,0,0.1); }
+
+        .tasks-overview-interactive-link { text-decoration: none; display: block; outline: none; }
+        .tasks-progress-container {
+            background: var(--card-bg); 
+            border: 2px solid var(--progress-border); 
+            border-radius: 30px;
+            padding: 24px; display: flex; gap: 20px;
+            position: relative; cursor: pointer;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.02);
+        }
+        .tasks-overview-interactive-link:hover .tasks-progress-container {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.06);
+            border-color: var(--main-purple);
+        }
+        
+        .today-tasks-panel { flex: 1; display: flex; flex-direction: column; gap: 12px; max-height: 180px; overflow-y: auto; }
+        .today-tasks-panel::-webkit-scrollbar { width: 0px; }
+        
+        .task-item-mini {
+            background: var(--container-bg); padding: 14px 18px; border-radius: 18px;
+            display: flex; justify-content: space-between; align-items: center; font-size: 14px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            border: 1px solid transparent;
+        }
+        .task-item-mini.completed { opacity: 0.4; text-decoration: line-through; }
+        .task-title-mini { font-weight: 700; color: var(--text-main); }
+        .task-time-mini { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+        .no-tasks-msg { font-size: 14px; color: var(--text-muted); font-weight: 600; text-align: center; margin: auto 0; padding: 20px 0; }
+
+        .progress-circle-side { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; border-left: 2px solid var(--progress-border); padding-left: 22px; }
+        body.rtl .progress-circle-side { border-left: none; border-right: 2px solid var(--progress-border); padding-left: 0; padding-right: 22px; }
+        
+        .progress-circle-box { position: relative; width: 84px; height: 84px; display: flex; align-items: center; justify-content: center; }
+        .progress-circle-box svg { transform: rotate(-90deg); width: 84px; height: 84px; }
+        .progress-circle-box circle { fill: none; stroke-width: 8; stroke-linecap: round; }
+        .progress-circle-box .circle-bg { stroke: var(--progress-border); opacity: 0.6; }
+        .progress-circle-box .circle-prime { stroke: var(--main-purple); stroke-dasharray: 238.7; stroke-dashoffset: 238.7; transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1); }
+        .progress-text { position: absolute; font-size: 15px; font-weight: 800; color: var(--text-main); }
+        .progress-circle-side p { font-size: 11px; font-weight: 800; color: var(--text-muted); text-align: center; text-transform: uppercase; width: 75px; line-height: 1.4; }
+
+        .features-list-vertical { display: flex; flex-direction: column; gap: 14px; }
+        .rectangle-card {
+            background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 26px;
+            padding: 20px 24px; display: flex; align-items: center; justify-content: space-between;
+            text-decoration: none;
+        }
+        .rectangle-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.02); }
+        .card-left-info { display: flex; align-items: center; gap: 18px; }
+        .rec-icon-box {
+            width: 50px; height: 50px; border-radius: 18px; display: flex; align-items: center; justify-content: center;
+            font-size: 19px; color: var(--main-purple); background: var(--container-bg);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        }
+        .rec-text-details h3 { font-size: 16px; font-weight: 800; color: var(--text-main); }
+        .rec-text-details p { font-size: 12.5px; color: var(--text-muted); font-weight: 500; margin-top: 3px; }
+        .rec-chevron { color: var(--text-muted); opacity: 0.4; font-size: 13px; }
+        body.rtl .rec-chevron i { transform: rotate(180deg); }
+
+        .nav-wrapper { position: absolute; bottom: 0; left: 0; width: 100%; padding: 0 24px 28px; z-index: 10; background: linear-gradient(transparent 0%, var(--bg-base) 45%); }
+        .bottom-nav {
+            background: var(--nav-bg); border: 1px solid var(--progress-border);
+            height: 78px; border-radius: 26px;
+            display: flex; justify-content: space-around; align-items: center; padding: 0 10px;
+            box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.06);
+        }
+        .nav-item { display: flex; align-items: center; justify-content: center; text-decoration: none; color: #A1A1AA; width: 54px; height: 54px; border-radius: 20px; }
+        .nav-icon { font-size: 22px; }
+        .nav-item.active { color: var(--main-purple); background: var(--card-bg); }
+    </style>
+
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('flowday_theme') || 'light';
+            if (savedTheme !== 'light') {
+                document.documentElement.className = 'theme-' + savedTheme;
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.body.classList.add('theme-' + savedTheme);
+                });
+            }
+            
+            const savedLang = localStorage.getItem('flowday_app_lang') || 'en';
+            const rtlLanguages = ['ar', 'fa', 'ur'];
+            if (rtlLanguages.includes(savedLang)) {
+                document.documentElement.dir = 'rtl';
+                document.addEventListener("DOMContentLoaded", () => {
+                    document.body.classList.add('rtl');
+                });
+            }
+        })();
+    </script>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <div class="header-dashboard">
+            <div class="profile-area">
+                <a href="./avatar.html" class="avatar-link">
+                    <div class="avatar-box">
+                        <div class="avatar-placeholder" id="avatarContainer">
+                            <i class="fa-regular fa-user" id="defaultAvatarIcon"></i>
+                        </div>
+                    </div>
+                </a>
+                <div class="welcome-box">
+                    <h1><span data-key="hi">Hi</span>, <span id="displayUsername">User</span></h1>
+                    <p data-key="creative_studio">Creative Studio</p>
+                </div>
+            </div>
+
+            <div class="streak-badge" id="streakBadge">
+                <i class="fa-solid fa-fire-flame-curved streak-fire-icon"></i>
+                <span class="streak-count"><span id="streakDays">0</span> <span data-key="days_count">Days</span></span>
+            </div>
+        </div>
+
+        <div class="dashboard-content-scroll">
+            
+            <span class="section-label" data-key="mental_health_title">Mental Health</span>
+            <div class="mental-health-row">
+                <a href="./mood.html" class="mental-card card-mood">
+                    <div class="card-icon"><i class="fa-regular fa-face-smile"></i></div>
+                    <div>
+                        <h3 data-key="mood_tracker">Mood Tracker</h3>
+                        <p data-key="mood_desc">Track emotions</p>
+                    </div>
+                </a>
+                <a href="./relaxe.html" class="mental-card card-relax">
+                    <div class="card-icon"><i class="fa-solid fa-spa"></i></div>
+                    <div>
+                        <h3 data-key="relax_space">Relax Space</h3>
+                        <p data-key="calm_mind">Calm your mind</p>
+                    </div>
+                </a>
+            </div>
+
+            <span class="section-label" data-key="today_overview">Today & Month Overview</span>
+            <a href="./maketable.html" class="tasks-overview-interactive-link">
+                <div class="tasks-progress-container">
+                    
+                    <div class="today-tasks-panel" id="todayTasksPanel"></div>
+
+                    <div class="progress-circle-side">
+                        <div class="progress-circle-box">
+                            <svg>
+                                <circle class="circle-bg" cx="42" cy="42" r="38"></circle>
+                                <circle class="circle-prime" id="progressRing" cx="42" cy="42" r="38"></circle>
+                            </svg>
+                            <span class="progress-text" id="progressPercent">0%</span>
+                        </div>
+                        <p data-key="progress_title">Monthly Target</p>
+                    </div>
+
+                </div>
+            </a>
+
+            <span class="section-label" data-key="productivity_tools">Productivity Tools</span>
+            <div class="features-list-vertical">
+                
+                <a href="./maketable.html" class="rectangle-card card-make-table">
+                    <div class="card-left-info">
+                        <div class="rec-icon-box"><i class="fa-regular fa-calendar-plus"></i></div>
+                        <div class="rec-text-details">
+                            <h3 data-key="make_table">Make Table</h3>
+                            <p data-key="design_workflow">Design workflow</p>
+                        </div>
+                    </div>
+                    <div class="rec-chevron"><i class="fa-solid fa-chevron-right"></i></div>
+                </a>
+
+                <a href="./hake.html" class="rectangle-card card-clean">
+                    <div class="card-left-info">
+                        <div class="rec-icon-box"><i class="fa-solid fa-broom"></i></div>
+                        <div class="rec-text-details">
+                            <h3 data-key="clean_work">Clean Work</h3>
+                            <p data-key="purge_distractions">Purge distractions</p>
+                        </div>
+                    </div>
+                    <div class="rec-chevron"><i class="fa-solid fa-chevron-right"></i></div>
+                </a>
+
+                <a href="./notes.html" class="rectangle-card card-notes">
+                    <div class="card-left-info">
+                        <div class="rec-icon-box"><i class="fa-regular fa-pen-to-square"></i></div>
+                        <div class="rec-text-details">
+                            <h3 data-key="quick_notes">Quick Notes</h3>
+                            <p data-key="capture_instant">Capture instant flashes</p>
+                        </div>
+                    </div>
+                    <div class="rec-chevron"><i class="fa-solid fa-chevron-right"></i></div>
+                </a>
+
+                <a href="./tree.html" class="rectangle-card card-forest">
+                    <div class="card-left-info">
+                        <div class="rec-icon-box"><i class="fa-solid fa-tree"></i></div>
+                        <div class="rec-text-details">
+                            <h3 data-key="focus_forest">Focus Forest</h3>
+                            <p data-key="forest_desc">Grow your focus</p>
+                        </div>
+                    </div>
+                    <div class="rec-chevron"><i class="fa-solid fa-chevron-right"></i></div>
+                </a>
+
+                <a href="./calendar.html" class="rectangle-card card-calendar">
+                    <div class="card-left-info">
+                        <div class="rec-icon-box"><i class="fa-regular fa-calendar-days"></i></div>
+                        <div class="rec-text-details">
+                            <h3 data-key="calendar">Calendar</h3>
+                            <p data-key="track_history">Track history & streaks</p>
+                        </div>
+                    </div>
+                    <div class="rec-chevron"><i class="fa-solid fa-chevron-right"></i></div>
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="nav-wrapper">
+            <div class="bottom-nav">
+                <a href="./main.html" class="nav-item active"><span class="nav-icon"><i class="fa-solid fa-house"></i></span></a>
+                <a href="./table.html" class="nav-item"><span class="nav-icon"><i class="fa-solid fa-chart-simple"></i></span></a>
+                <a href="./achieve.html" class="nav-item"><span class="nav-icon"><i class="fa-solid fa-trophy"></i></span></a>
+                <a href="./brofile.html" class="nav-item"><span class="nav-icon"><i class="fa-regular fa-circle-user"></i></span></a>
+                <a href="./sting.html" class="nav-item"><span class="nav-icon"><i class="fa-solid fa-gear"></i></span></a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyB1gI-OSbGCGPIMA5NCnuB2K_-IyrMWFHs",
+          authDomain: "flowday-81f42.firebaseapp.com",
+          projectId: "flowday-81f42",
+          storageBucket: "flowday-81f42.firebasestorage.app",
+          messagingSenderId: "854763403133",
+          appId: "1:854763403133:web:13f5eafb11422d89787e14",
+          measurementId: "G-W5Q0QYEGEG"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // فحص حالة المستخدم بشكل فوري ومستمر
+        onAuthStateChanged(auth, (user) => {
+            const usernameDisplay = document.getElementById('displayUsername');
+            if (user) {
+                if (usernameDisplay) {
+                    // 🌟 جلب الاسم من الـ LocalStorage كما تم تخزينه في صفحة الدخول
+                    const rememberedData = JSON.parse(localStorage.getItem('rememberedUser'));
+                    const savedName = localStorage.getItem('profile_saved_name');
+                    
+                    if (savedName) {
+                        usernameDisplay.textContent = savedName;
+                    } else if (rememberedData && rememberedData.username) {
+                        usernameDisplay.textContent = rememberedData.username;
+                    } else {
+                        usernameDisplay.textContent = user.displayName || "Creative";
+                    }
+                }
+            } else {
+                // إذا لم يكن مسجل دخول، يتم حظر الوصول وتوجيهه لصفحة الدخول index.html فوراً
+                window.location.href = "../index.html";
+            }
+        });
+    </script>
+
+    <script>
+        const localDictionary = {
+            en: { hi: "Hi", creative_studio: "Creative Studio", days_count: "Days", mental_health_title: "Mental Health", mood_tracker: "Mood Tracker", mood_desc: "Track emotions", relax_space: "Relax Space", calm_mind: "Calm your mind", today_overview: "Today & Month Overview", progress_title: "Monthly Target", productivity_tools: "Productivity Tools", make_table: "Make Table", design_workflow: "Design workflow", clean_work: "Clean Work", purge_distractions: "Purge distractions", quick_notes: "Quick Notes", capture_instant: "Capture instant flashes", calendar: "Calendar", track_history: "Track history", focus_forest: "Focus Forest", forest_desc: "Grow your focus", no_tasks: "No tasks for today 👍" },
+            ar: { hi: "مرحباً", creative_studio: "الاستودیو الإبداعي", days_count: "أيام", mental_health_title: "الصحة النفسية والذهنية", mood_tracker: "مراقب المزاج", mood_desc: "تتبع مشاعرك", relax_space: "مساحة الاسترخاء", calm_mind: "هدئ عقلك وصفّي ذهنك", today_overview: "نظرة عامة على اليوم والشهر", progress_title: "الهدف الشهري", productivity_tools: "أدوات الإنتاجية", make_table: "إنشاء جدول", design_workflow: "تصميم بيئة العمل", clean_work: "تنظيف العمل", purge_distractions: "تطهير المشتتات", quick_notes: "ملاحظات سريعة", capture_instant: "اقتنص الأفكار الومضية", calendar: "التقويم", track_history: "تتبع السجل والستريك", focus_forest: "غابة التركيز", forest_desc: "ازرع شجرتك وركز", no_tasks: "لا توجد مهام مجدولة لليوم 👍" },
+            es: { hi: "Hola", creative_studio: "Estudio Creativo", days_count: "Días", mental_health_title: "Salud Mental", mood_tracker: "Rastreador de Ánimo", mood_desc: "Tus emociones", relax_space: "Espacio de Relax", calm_mind: "Calma tu mente", today_overview: "Resumen de Hoy", progress_title: "Objetivo Mensual", productivity_tools: "Herramientas", make_table: "Crear Tabla", design_workflow: "Flujo de trabalho", clean_work: "Limpiar Trabajo", purge_distractions: "Sin distracciones", quick_notes: "Notas Rápidas", capture_instant: "Captura ideas", calendar: "Calendario", track_history: "Historial", focus_forest: "Bosque de Enfoque", forest_desc: "Cultiva enfoque", no_tasks: "Sin tareas para hoy 👍" },
+            fr: { hi: "Salut", creative_studio: "Studio Créatif", days_count: "Jours", mental_health_title: "Santé Mentale", mood_tracker: "Suivi de l'Humeur", mood_desc: "Suivre les émotions", relax_space: "Espace Détente", calm_mind: "Calmez votre esprit", today_overview: "Aperçu du Jour", progress_title: "Objectif Mensual", productivity_tools: "Outils de Prod", make_table: "Créer un Tableau", design_workflow: "Design workflow", clean_work: "Nettoyer Travail", purge_distractions: "Éliminer distractions", quick_notes: "Notes Rapides", capture_instant: "Flashs instantanés", calendar: "Calendrier", track_history: "Suivi d'histoire", focus_forest: "Forêt de Focus", forest_desc: "Cultivez le focus", no_tasks: "Aucune tâche aujourd'hui 👍" },
+            de: { hi: "Hallo", creative_studio: "Kreativstudio", days_count: "Tage", mental_health_title: "Mentale Gesundheit", mood_tracker: "Stimmungs-Tracker", mood_desc: "Emotionen verfolgen", relax_space: "Entspannungsraum", calm_mind: "Beruhige den Geist", today_overview: "Übersicht von Heute", progress_title: "Monatsziel", productivity_tools: "Produktivität", make_table: "Tabelle erstellen", design_workflow: "Workflow designen", clean_work: "Arbeit aufräumen", purge_distractions: "Ablenkungen löschen", quick_notes: "Schnelle Notizen", capture_instant: "Geistesblitze festhalten", calendar: "Kalender", track_history: "Verlauf verfolgen", focus_forest: "Fokus-Wald", forest_desc: "Fokus wachsen lassen", no_tasks: "Keine Aufgaben für heute 👍" },
+            tr: { hi: "Merhaba", creative_studio: "Yaratıcı Stüdyo", days_count: "Gün", mental_health_title: "Zihinsel Sağlık", mood_tracker: "Ruh Hali Takibi", mood_desc: "Duyguları takip et", relax_space: "Rahatlama Alanı", calm_mind: "Zihnini sakinleştir", today_overview: "Bugün ve Ay Özeti", progress_title: "Aylık Hedef", productivity_tools: "Verimlilik", make_table: "Tablo Oluştur", design_workflow: "İş akışını tasarla", clean_work: "Temiz Çalışma", purge_distractions: "Dikkat dağıtıcıları temizle", quick_notes: "Hızlı Notlar", capture_instant: "Anlık fikirleri yakala", calendar: "Takvim", track_history: "Geçmişi takip et", focus_forest: "Odak Ormanı", forest_desc: "Odağını geliştir", no_tasks: "Bugün için görev yok 👍" },
+            ru: { hi: "Привет", creative_studio: "Творческая студия", days_count: "Дней", mental_health_title: "Ментальное здоровье", mood_tracker: "Трекер настроения", mood_desc: "Отслеживать эмоции", relax_space: "Зона отдыха", calm_mind: "Успокойте разум", today_overview: "Обзор дня и месяца", progress_title: "Месячная цель", productivity_tools: "Продуктивность", make_table: "Создать таблицу", design_workflow: "Дизайн процессов", clean_work: "Очистка работы", purge_distractions: "Убрать отвлечения", quick_notes: "Быстрые заметки", capture_instant: "Ловите инсайты", calendar: "Календарь", track_history: "История и стрики", focus_forest: "Лес фокуса", forest_desc: "Растите фокус", no_tasks: "Нет задач на сегодня 👍" },
+            zh: { hi: "你好", creative_studio: "创意工作室", days_count: "天", mental_health_title: "心理健康", mood_tracker: "情緒 font Tracker", mood_desc: "记录情绪", relax_space: "放松空间", calm_mind: "静下心来", today_overview: "今日与本月概览", progress_title: "月度目标", productivity_tools: "高效工具", make_table: "制作表格", design_workflow: "设计工作流", clean_work: "高效净空", purge_distractions: "消除分心", quick_notes: "随手笔记", capture_instant: "捕捉灵感闪现", calendar: "日历", track_history: "追踪历史连击", focus_forest: "专注森林", forest_desc: "培养你的专注力", no_tasks: "今天没有任务 👍" },
+            ja: { hi: "こんにちは", creative_studio: "クリエイティブスタジオ", days_count: "日", mental_health_title: "メンタルヘルス", mood_tracker: "気分トラッカー", mood_desc: "感情を記録する", relax_space: "リラックススペース", calm_mind: "心を落ち着かせる", today_overview: "今日と今月の概要", progress_title: "月间目標", productivity_tools: "生産性ツール", make_table: "テーブル作成", design_workflow: "ワークフロー設計", clean_work: "クリーンワーク", purge_distractions: "雑念を消去する", quick_notes: "クイックノート", capture_instant: "ひらめきを捕まえる", calendar: "カレンダー", track_history: "履歴を追跡", focus_forest: "集中フォレスト", forest_desc: "集中を育てる", no_tasks: "今日のタスクはありません 👍" },
+            ko: { hi: "안녕하세요", creative_studio: "크리에이티브 스튜디오", days_count: "일", mental_health_title: "정신 건강", mood_tracker: "감정 추적기", mood_desc: "감정 기록하기", relax_space: "휴식 공간", calm_mind: "마음 진정시키기", today_overview: "오늘 및 이번 달 개요", progress_title: "월간 목표", productivity_tools: "생산성 도구", make_table: "표 만들기", design_workflow: "워크플로우 디자인", clean_work: "클린 워크", purge_distractions: "집중 방해 요소 제거", quick_notes: "빠른 메모", capture_instant: "떠오르는 생각 포착", calendar: "캘린더", track_history: "기록 추적", focus_forest: "집중 숲", focus_desc: "집중력 키우기", no_tasks: "오늘 할 일이 없습니다 👍" },
+            it: { hi: "Ciao", creative_studio: "Studio Creativo", days_count: "Giorni", mental_health_title: "Salute Mentale", mood_tracker: "Tracciamento Umore", mood_desc: "Traccia emozioni", relax_space: "Spazio Relax", calm_mind: "Calma la mente", today_overview: "Panoramica Oggi", progress_title: "Obiettivo Mensile", productivity_tools: "Strumenti", make_table: "Crea Tabella", design_workflow: "Flusso di lavoro", clean_work: "Pulisci Lavoro", purge_distractions: "Elimina distrazioni", quick_notes: "Note Rapide", capture_instant: "Cattura i lampi", calendar: "Calendario", track_history: "Traccia cronologia", focus_forest: "Foresta del Focus", forest_desc: "Coltiva il focus", no_tasks: "Nessun impegno oggi 👍" },
+            pt: { hi: "Olá", creative_studio: "Estúdio Criativo", days_count: "Dias", mental_health_title: "Saúde Mental", mood_tracker: "Monitor de Humor", mood_desc: "Rastrear emoções", relax_space: "Espaço Relax", calm_mind: "Acalme sua mente", today_overview: "Visão Geral de Hoje", progress_title: "Meta Mensal", productivity_tools: "Produtividade", make_table: "Criar Tabela", design_workflow: "Fluxo de trabalho", clean_work: "Limpar Trabalho", purge_distractions: "Limpar distrações", quick_notes: "Notas Rápidas", capture_instant: "Capte insights", calendar: "Calendário", track_history: "Rastrear histórico", focus_forest: "Floresta do Foco", forest_desc: "Cultive seu foco", no_tasks: "Sem tarefas para hoje 👍" },
+            hi: { hi: "नमस्ते", creative_studio: "क्रिएटिव स्टूडियो", days_count: "दिन", mental_health_title: "मानसिक स्वास्थ्य", mood_tracker: "मूड ट्रैकर", mood_desc: "भावनाएं ट्रैक करें", relax_space: "रिलैक्स स्पेस", calm_mind: "मन शांत करें", today_overview: "आज और महीने की समीक्षा", progress_title: "मासिक लक्ष्य", productivity_tools: "उत्पादकता उपकरण", make_table: "टेबल बनाएं", design_workflow: "कार्यप्रवाह डिज़ाइन", clean_work: "क्लीन वर्क", purge_distractions: "भटकाव दूर करें", quick_notes: "त्वरित नोट्स", capture_instant: "विचारों को तुरंत कैद करें", calendar: "कैलेंडर", track_history: "इतिहास ट्रैक करें", focus_forest: "फोकस फॉरेस्ट", forest_desc: "ध्यान बढ़ाएं", no_tasks: "आज कोई कार्य नहीं है 👍" },
+            bn: { hi: "হ্যালো", creative_studio: "ক্রিয়েটিভ স্টু디오", days_count: "দিন", mental_health_title: "মানसिक স্বাস্থ্য", mood_tracker: "মুড ট্র্যাকার", mood_desc: "আবেগ ট্র্যাক করুন", relax_space: "রিল্যাক্স স্পেস", calm_mind: "মন शांत করুন", today_overview: "আজ ও মাসের ওভারভিউ", progress_title: "মাসিক লক্ষ্য", productivity_tools: "প্রোডাক্টিভিটি টুলস", make_table: "টেবিল তৈরি করুন", design_workflow: "কাজের পরিবেশ ডিজাইন", clean_work: "ک্লین ورک", purge_distractions: "মনোযোগ বিভ্রান্তি দূর করুন", quick_notes: "কুইক নোটস", capture_instant: "ঝটपट আইডিয়া টুকে রাখুন", calendar: "ক্যালেন্ডার", track_history: "ইতিহাস ট্র্যাক করুন", focus_forest: "فोकس فरेस्ट", forest_desc: "মনোযোগ বৃদ্ধি করুন", no_tasks: "आज কোনো কাজ নেই 👍" },
+            fa: { hi: "سلام", creative_studio: "استودیوی خلاق", days_count: "روز", mental_health_title: "سلامت روان و ذهن", mood_tracker: "ردیاب مود", mood_desc: "پیگیری احساسات", relax_space: "فضای آرامش", calm_mind: "ذهنت را آرام کن", today_overview: "بررسی امروز و ماه", progress_title: "هدف ماهانه", productivity_tools: "ابزارهای بهره‌وری", make_table: "ساخت جدول", design_workflow: "طراحی جریان کار", clean_work: "پاکسازی کار", purge_distractions: "حذف حواس‌پرتی‌ها", quick_notes: "یادداشت‌های سریع", capture_instant: "شکار ایده‌های ناگهانی", calendar: "تقویم", track_history: "پیگیری تاریخچه و استریک", focus_forest: "جنگل تمرکز", forest_desc: "تمرکز خود را پرورش دهید", no_tasks: "هیچ وظیفه‌ای برای امروز نیست 👍" },
+            ur: { hi: "ہیلو", creative_studio: "کریٹو اسٹوڈیو", days_count: "دن", mental_health_title: "دماغی صحت", mood_tracker: "موڈ ٹریکر", mood_desc: "جذبات ٹریک کریں", relax_space: "ریلیکس اسپیس", calm_mind: "ذہن پرسکون کریں", today_overview: "آج اور مہینے کا جائزہ", progress_title: "ماہانہ ہدف", productivity_tools: "پروڈکٹیوٹی ٹولز", make_table: "ٹیبل بنائیں", design_workflow: "ورک فلو ڈیزائن", clean_work: "کام کی صفائی", purge_distractions: "توجہ ہٹانے والی چیزیں دور کریں", quick_notes: "فوری نوٹس", capture_instant: "فوری خیالات محفوظ کریں", calendar: "کیلنڈر", track_history: "ہسٹری ٹریک کریں", focus_forest: "فوکس فارسٹ", forest_desc: "توجہ پروان چڑھائیں", no_tasks: "آج کے لیے کوئی کام نہیں ہے 👍" },
+            id: { hi: "Halo", creative_studio: "Studio Kreatif", days_count: "Hari", mental_health_title: "Kesehatan Mental", mood_tracker: "Pelacak Suasana Hati", mood_desc: "Pantau emosi", relax_space: "Ruang Santai", calm_mind: "Tenangkan pikiran", today_overview: "Ikhtisar Hari & Bulan Ini", progress_title: "Target Bulanan", productivity_tools: "Alat Produktivitas", make_table: "Buat Tabel", design_workflow: "Desain alur kerja", clean_work: "Bersihkan Pekerjaan", purge_distractions: "Bersihkan gangguan", quick_notes: "Catatan Cepat", capture_instant: "Tangkap kilasan ide", calendar: "Kalender", track_history: "Pantau riwayat", focus_forest: "Hutan Fokus", forest_desc: "Tumbuhkan focus", no_tasks: "Tidak ada tugas hari ini 👍" },
+            vi: { hi: "Xin chào", creative_studio: "Studio Sáng Tạo", days_count: "Ngày", mental_health_title: "Sức Khỏe Tinh Thần", mood_tracker: "Theo Dõi Tâm Trạng", mood_desc: "Theo dõi cảm xúc", relax_space: "Không Gian Thư Giãn", calm_mind: "Thư giãn tâm trí", today_overview: "Tổng Quan Ngày & Tháng", progress_title: "Mục Tiêu Tháng", productivity_tools: "Công Cụ Năng Suất", make_table: "Tạo Bảng", design_workflow: "Thiết kế quy trình", clean_work: "Dọn Dẹp Công Việc", purge_distractions: "Xóa bỏ xao nhãng", quick_notes: "Ghi Chú Nhanh", capture_instant: "Bắt trọn ý tưởng", calendar: "Lịch", track_history: "Theo dõi lịch sử", focus_forest: "Rừng Tập Trung", forest_desc: "Nuôi dưỡng tập trung", no_tasks: "Không có nhiệm vụ hôm nay 👍" },
+            th: { hi: "สวัสดี", creative_studio: "ครีเอทีฟสตูดิโอ", days_count: "วัน", mental_health_title: "สุขภาพจิต", mood_tracker: "บันทึกอารมณ์", mood_desc: "ติดตามอารมณ์", relax_space: "พื้นที่ผ่อนคลาย", calm_mind: "ทำจิตใจให้สงบ", today_overview: "ภาพรวมวันนี้และรายเดือน", progress_title: "เป้าหมายรายเดือน", productivity_tools: "เครื่องมือเพิ่มประสิทธิภาพ", make_table: "สร้างตาราง", design_workflow: "ออกแบบเวิร์กโฟลว์", clean_work: "เคลียร์งาน", purge_distractions: "ขจัดสิ่งรบกวน", quick_notes: "บันทึกด่วน", capture_instant: "จับความคิดทันที", calendar: "ปฏิทิน", track_history: "ติดตามประวัติ", focus_forest: "ป่าแห่งสมาธิ", forest_desc: "ปลูกฝังความตั้งใจ", no_tasks: "ไม่มีงานสำหรับวันนี้ 👍" },
+            nl: { hi: "Hoi", creative_studio: "Creatieve Studio", days_count: "Dagen", mental_health_title: "Mentale Gezondheid", mood_tracker: "Stemming Tracker", mood_desc: "Emoties bijhouden", relax_space: "Ontspanningsruimte", calm_mind: "Kalmeer je geest", today_overview: "Overzicht van Vandaag", progress_title: "Maandelijkse Doel", productivity_tools: "Productiviteit", make_table: "Tabel Maken", design_workflow: "Workflow ontwerpen", clean_work: "Werk Opruimen", purge_distractions: "Afleidingen wissen", quick_notes: "Snelle Notities", capture_instant: "Leg flitsen vast", calendar: "Kalender", track_history: "Geschiedenis bijhouden", focus_forest: "Focus Bos", forest_desc: "Laat focus groei", no_tasks: "Geen taken voor vandaag 👍" },
+            pl: { hi: "Cześć", creative_studio: "Studio Kreatywne", days_count: "Dni", mental_health_title: "Zdrowie Psychiczne", mood_tracker: "Monitor Nastroju", mood_desc: "Śledź emocje", relax_space: "Strefa Relaksu", calm_mind: "Ukojenie umysłu", today_overview: "Przegląd Dnia i Miesiąca", progress_title: "Cel Miesięczny", productivity_tools: "Narzędzia", make_table: "Stwórz Tabelę", design_workflow: "Projektuj workflow", clean_work: "Czysta Praca", purge_distractions: "Usuń rozpraszacze", quick_notes: "Szybkie Notatki", capture_instant: "Łap nagłe błyski", calendar: "Kalendarz", track_history: "Śledź historię", focus_forest: "Las Skupienia", forest_desc: "Rozwijaj skupienie", no_tasks: "Brak zadań na dziś 👍" },
+            uk: { hi: "Привіт", creative_studio: "Творча студія", days_count: "Днів", mental_health_title: "Ментальне здоров'я", mood_tracker: "Трекер настрою", mood_desc: "Відстежувати емоції", relax_space: "Зона релаксу", calm_mind: "Заспокойте розум", today_overview: "Огляд дня та місяця", progress_title: "Місячна ціль", productivity_tools: "Продуктивність", make_table: "Створити таблицю", design_workflow: "Дизайн процесів", clean_work: "Очищення роботи", purge_distractions: "Прибрати відволікання", quick_notes: "Швидкі нотатки", capture_instant: "Ловіть інсайти", calendar: "Календар", track_history: "Історія та стріки", focus_forest: "Ліс фокусу", forest_desc: "Ростіть фокус", no_tasks: "Немає завдань на сьогодні 👍" }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('flowday_app_lang') || 'en';
+            
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (localDictionary[savedLang] && localDictionary[savedLang][key]) {
+                    element.innerText = localDictionary[savedLang][key];
+                }
+            });
+
+            const avatarContainer = document.getElementById('avatarContainer');
+            const savedVectorAvatar = localStorage.getItem('customVectorAvatar');
+            const savedImgAvatar = localStorage.getItem('customAvatarImg') || localStorage.getItem('userAvatar');
+
+            if (avatarContainer) {
+                if (savedVectorAvatar && savedVectorAvatar.trim().startsWith('<svg')) {
+                    avatarContainer.innerHTML = savedVectorAvatar;
+                } else if (savedImgAvatar) {
+                    avatarContainer.innerHTML = `<img src="${savedImgAvatar}" alt="User Avatar">`;
+                }
+            }
+
+            let totalColoredDays = 0;
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && key.startsWith('studyDays_')) {
+                    try {
+                        const daysArray = JSON.parse(localStorage.getItem(key));
+                        if (Array.isArray(daysArray)) totalColoredDays += daysArray.length;
+                    } catch (e) { console.error(e); }
+                }
+            }
+
+            const streakDaysDisplay = document.getElementById('streakDays');
+            if (streakDaysDisplay) { streakDaysDisplay.textContent = totalColoredDays; }
+            if (totalColoredDays === 0) document.getElementById('streakBadge')?.classList.add('streak-empty');
+
+            const targetDays = 30;
+            let percentage = Math.min(Math.round((totalColoredDays / targetDays) * 100), 100);
+            const progressPercent = document.getElementById('progressPercent');
+            const progressRing = document.getElementById('progressRing');
+            
+            if (progressPercent) progressPercent.textContent = percentage + '%';
+            if (progressRing) {
+                const circumference = 2 * Math.PI * 38; 
+                progressRing.style.strokeDasharray = circumference;
+                const offset = circumference - (percentage / 100) * circumference;
+                setTimeout(() => { progressRing.style.strokeDashoffset = offset; }, 300);
+            }
+
+            const todayTasksPanel = document.getElementById('todayTasksPanel');
+            let userTasks = JSON.parse(localStorage.getItem('smartUserTasks')) || [];
+
+            if (userTasks.length === 0) {
+                const dict = localDictionary[savedLang] || localDictionary['en'];
+                todayTasksPanel.innerHTML = `<div class="no-tasks-msg">${dict.no_tasks}</div>`;
+            } else {
+                todayTasksPanel.innerHTML = '';
+                userTasks.slice(0, 3).forEach(task => {
+                    const taskItem = document.createElement('div');
+                    taskItem.className = `task-item-mini ${task.completed ? 'completed' : ''}`;
+                    taskItem.innerHTML = `<span class="task-title-mini">${task.name}</span><span class="task-time-mini">⏱️ ${task.time || '--:--'}</span>`;
+                    todayTasksPanel.appendChild(taskItem);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

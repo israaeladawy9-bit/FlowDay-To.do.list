@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>AuraNotes Mobile Pro ✦</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<style>
+:root {
+  --bg-main: #FAF8FC;
+  --panel-glass: rgba(255, 255, 255, 0.85);
+  --border-glass: rgba(243, 230, 255, 0.9);
+  --primary-glow: linear-gradient(135deg, #A855F7 0%, #EC4899 100%);
+  --text-primary: #1E1B4B;
+  --text-muted: #78716C;
+  --accent-purple: #A855F7;
+  --accent-pink: #EC4899;
+  --star-gold: #FBBF24;
+  --shadow-sm: 0 4px 20px rgba(168, 85, 247, 0.04);
+  --shadow-lg: 0 20px 40px rgba(168, 85, 247, 0.08);
+  --card-surf: #FFFFFF;
+}
+
+body.theme-dark {
+  --bg-main: #0C0A12;
+  --panel-glass: rgba(24, 18, 36, 0.85);
+  --border-glass: rgba(168, 85, 247, 0.15);
+  --text-primary: #F3E8FF;
+  --text-muted: #A78BFA;
+  --card-surf: #161124;
+  --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+body.theme-pink {
+  --bg-main: #FFF1F2;
+  --panel-glass: rgba(255, 255, 255, 0.85);
+  --border-glass: #FFE4E6;
+  --text-primary: #4C0519;
+  --text-muted: #9F1239;
+  --card-surf: #FFFFFF;
+}
+body.theme-purple {
+  --bg-main: #FAF5FF;
+  --panel-glass: rgba(255, 255, 255, 0.85);
+  --border-glass: #F3E8FF;
+  --text-primary: #3B0764;
+  --text-muted: #701A75;
+  --card-surf: #FFFFFF;
+}
+body.theme-green {
+  --bg-main: #F0FDF4;
+  --panel-glass: rgba(255, 255, 255, 0.85);
+  --border-glass: #DCFCE7;
+  --text-primary: #14532D;
+  --text-muted: #16A34A;
+  --card-surf: #FFFFFF;
+}
+body.theme-blue {
+  --bg-main: #F0F9FF;
+  --panel-glass: rgba(255, 255, 255, 0.85);
+  --border-glass: #E0F2FE;
+  --text-primary: #0C4A6E;
+  --text-muted: #0284C7;
+  --card-surf: #FFFFFF;
+}
+body.theme-gold {
+  --bg-main: #FEFCE8;
+  --panel-glass: rgba(255, 255, 255, 0.85);
+  --border-glass: #FEF9C3;
+  --text-primary: #713F12;
+  --text-muted: #CA8A04;
+  --card-surf: #FFFFFF;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+body {
+  font-family: 'Outfit', 'Cairo', sans-serif;
+  background: var(--bg-main);
+  color: var(--text-primary);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  transition: background 0.3s, color 0.3s;
+}
+
+body.rtl { direction: rtl; }
+
+.glow-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.25; animation: floatAround 20s infinite alternate ease-in-out; }
+.orb-purple { width: 300px; height: 300px; top: -5%; left: -10%; background: #C084FC; }
+.orb-pink { width: 280px; height: 280px; bottom: 10%; right: -10%; background: #F472B6; animation-delay: -5s; }
+
+@keyframes floatAround { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(30px, 20px) scale(1.1); } }
+
+.app-container { width: 100%; max-width: 500px; margin: 0 auto; padding: 20px 16px 100px; position: relative; z-index: 1; }
+
+header {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;
+  background: var(--panel-glass); padding: 12px 16px; border-radius: 18px;
+  border: 1.5px solid var(--border-glass); box-shadow: var(--shadow-sm);
+}
+.menu-toggle-btn { background: transparent; border: none; font-size: 26px; color: var(--text-primary); cursor: pointer; display: flex; align-items: center; }
+.brand-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; background: var(--primary-glow); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.back-dash-btn { color: var(--text-muted); font-size: 24px; text-decoration: none; display: flex; align-items: center; transition: color 0.2s; }
+.back-dash-btn:hover { color: var(--accent-purple); }
+
+.sidebar-overlay { position: fixed; inset: 0; background: rgba(30, 27, 75, 0.4); backdrop-filter: blur(4px); z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+.sidebar-overlay.active { opacity: 1; pointer-events: all; }
+.sidebar { position: fixed; top: 0; bottom: 0; width: 290px; background: var(--card-surf); z-index: 2001; box-shadow: 20px 0 40px rgba(0,0,0,0.05); padding: 24px 20px; display: flex; flex-direction: column; gap: 20px; transition: left 0.3s ease, right 0.3s ease; overflow-y: auto; }
+body:not(.rtl) .sidebar { left: -290px; }
+body.rtl .sidebar { right: -290px; }
+body:not(.rtl) .sidebar-overlay.active .sidebar { left: 0; }
+body.rtl .sidebar-overlay.active .sidebar { right: 0; }
+.sidebar-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(168, 85, 247, 0.1); padding-bottom: 14px; }
+.sidebar-brand { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; }
+.panel-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); margin-bottom: 8px; margin-top: 8px; }
+.nav-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-radius: 12px; cursor: pointer; font-size: 14px; font-weight: 500; color: var(--text-primary); margin-bottom: 4px; transition: all 0.2s; }
+.nav-item .nav-left { display: flex; align-items: center; gap: 10px; }
+.nav-item i.main-icon { font-size: 18px; color: var(--accent-purple); }
+.nav-item:hover, .nav-item.active { background: var(--primary-glow); color: white; }
+.nav-item:hover i.main-icon, .nav-item.active i.main-icon { color: white; }
+
+.remove-folder-btn { background: transparent; border: none; color: #EF4444; opacity: 0; transition: opacity 0.2s; cursor: pointer; display: flex; align-items: center; }
+.nav-item:hover .remove-folder-btn { opacity: 1; }
+.nav-item.active .remove-folder-btn { color: white; opacity: 1; }
+
+.folders-scroll-zone { max-height: 140px; overflow-y: auto; }
+.add-folder-box { display: flex; gap: 8px; margin-top: 8px; background: rgba(168, 85, 247, 0.05); padding: 4px; border-radius: 12px; border: 1px dashed var(--accent-purple); }
+.folder-input { flex: 1; border: none; background: transparent; padding: 6px 10px; font-family: inherit; font-size: 13px; outline: none; color: var(--text-primary); }
+.btn-square { background: var(--primary-glow); border: none; color: white; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+.theme-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 6px; }
+.theme-dot { width: 100%; height: 34px; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: border 0.2s; }
+.theme-dot.active { border-color: var(--text-primary) !important; box-shadow: 0 0 10px rgba(168, 85, 247, 0.4); }
+
+.lang-select-box { background: var(--card-surf); border: 1.5px solid var(--border-glass); border-radius: 14px; padding: 10px 14px; font-family: inherit; font-size: 14px; color: var(--text-primary); width: 100%; outline: none; cursor: pointer; margin-top: 6px; }
+
+.main-content { display: flex; flex-direction: column; gap: 20px; }
+.editor-core { background: var(--panel-glass); border: 1.5px solid var(--border-glass); backdrop-filter: blur(20px); border-radius: 24px; padding: 18px; box-shadow: var(--shadow-lg); }
+.editor-top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.editor-options-group { display: flex; align-items: center; gap: 8px; }
+
+.folder-selector-wrapper { position: relative; display: inline-block; }
+.folder-selector { appearance: none; -webkit-appearance: none; background: var(--card-surf); border: 1.5px solid var(--border-glass); padding: 8px 32px 8px 12px; border-radius: 12px; font-family: inherit; font-size: 12px; font-weight: 500; color: var(--text-primary); outline: none; cursor: pointer; }
+body.rtl .folder-selector { padding: 8px 12px 8px 32px; }
+.folder-selector-wrapper::after { content: '\ebad'; font-family: 'boxicons'; position: absolute; top: 50%; transform: translateY(-50%); font-size: 14px; color: var(--accent-purple); pointer-events: none; }
+body:not(.rtl) .folder-selector-wrapper::after { right: 12px; }
+body.rtl .folder-selector-wrapper::after { left: 12px; }
+
+.secret-toggle-btn { background: var(--card-surf); border: 1.5px solid var(--border-glass); padding: 8px; border-radius: 12px; cursor: pointer; color: var(--text-muted); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.secret-toggle-btn.active { background: #EF4444; color: white; border-color: #EF4444; }
+
+.editor-title { width: 100%; border: none; outline: none; background: transparent; font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--text-primary); padding-bottom: 10px; border-bottom: 1px solid rgba(168, 85, 247, 0.1); margin-bottom: 14px; }
+.editor-content { width: 100%; border: none; outline: none; background: transparent; font-family: inherit; font-size: 14px; color: var(--text-primary); line-height: 1.7; min-height: 110px; resize: none; }
+.editor-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(168, 85, 247, 0.1); }
+.meta-info { font-size: 11px; color: var(--text-muted); font-weight: 500; display: flex; align-items: center; gap: 4px; }
+
+.action-btn { background: var(--primary-glow); color: white; border: none; padding: 10px 18px; border-radius: 12px; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(168, 85, 247, 0.2); }
+.action-btn.danger-btn { background: #EF4444; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2); }
+
+.controls-row { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+.section-title { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--text-primary); }
+.search-box { position: relative; width: 100%; }
+.search-box i { position: absolute; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 16px; }
+body:not(.rtl) .search-box i { left: 14px; }
+body.rtl .search-box i { right: 14px; }
+.search-input { background: var(--panel-glass); border: 1.5px solid var(--border-glass); border-radius: 14px; outline: none; font-family: inherit; font-size: 14px; width: 100%; color: var(--text-primary); box-shadow: var(--shadow-sm); padding: 10px 16px; }
+body:not(.rtl) .search-input { padding-left: 40px; }
+body.rtl .search-input { padding-right: 40px; }
+
+.notes-grid { display: flex; flex-direction: column; gap: 14px; }
+.note-card { background: var(--panel-glass); border: 1.5px solid var(--border-glass); backdrop-filter: blur(16px); border-radius: 20px; padding: 18px; display: flex; flex-direction: column; gap: 12px; position: relative; }
+.note-card.favorite-style { background: linear-gradient(to right, rgba(251, 191, 36, 0.03), var(--panel-glass)); box-shadow: 0 10px 25px rgba(251, 191, 36, 0.05); }
+body:not(.rtl) .note-card.favorite-style { border-left: 4px solid var(--star-gold); }
+body.rtl .note-card.favorite-style { border-right: 4px solid var(--star-gold); }
+.note-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.note-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--text-primary); }
+.star-btn { background: transparent; border: none; cursor: pointer; font-size: 24px; color: #D1D5DB; }
+.star-btn.active { color: var(--star-gold); }
+.note-body { font-size: 13.5px; color: var(--text-primary); opacity: 0.85; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; white-space: pre-wrap; }
+.note-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 10px; border-top: 1px solid rgba(168, 85, 247, 0.08); }
+.folder-badge { background: rgba(168, 85, 247, 0.08); color: var(--accent-purple); padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; }
+.folder-badge.secret-badge { background: rgba(239, 68, 68, 0.1); color: #EF4444; }
+.card-actions { display: flex; gap: 6px; align-items: center; }
+.card-icon-btn { width: 32px; height: 32px; border-radius: 8px; border: 1.5px solid var(--border-glass); background: var(--card-surf); color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.card-icon-btn.delete:hover { color: #EF4444; background: #FEF2F2; }
+
+.overlay { position: fixed; inset: 0; background: rgba(30, 27, 75, 0.4); backdrop-filter: blur(6px); z-index: 3000; display: flex; align-items: center; justify-content: center; padding: 16px; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.overlay.active { opacity: 1; pointer-events: all; }
+.modal-box { background: var(--card-surf); border-radius: 24px; padding: 20px; width: 100%; max-width: 400px; border: 1.5px solid var(--border-glass); }
+
+.pin-display { display: flex; justify-content: center; gap: 12px; margin: 20px 0; }
+.pin-dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--accent-purple); transition: background 0.2s; }
+.pin-dot.filled { background: var(--accent-purple); }
+.pin-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 240px; margin: 0 auto; }
+.pin-btn { background: var(--panel-glass); border: 1.5px solid var(--border-glass); border-radius: 50%; width: 54px; height: 54px; font-size: 20px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; margin: 0 auto; color: var(--text-primary); }
+
+.toast-bar { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--text-primary); color: var(--bg-main); padding: 12px 24px; border-radius: 30px; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 8px; box-shadow: var(--shadow-lg); transition: transform 0.3s ease; z-index: 10000; }
+.toast-bar.active { transform: translateX(-50%) translateY(0); }
+.empty-state { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 14px; }
+
+.back-to-top { position: fixed; bottom: 30px; width: 46px; height: 46px; background: var(--primary-glow); color: white; border: none; border-radius: 50%; font-size: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 8px 24px rgba(168, 85, 247, 0.2); z-index: 99; opacity: 0; visibility: hidden; transition: all 0.4s ease; }
+body:not(.rtl) .back-to-top { right: 20px; }
+body.rtl .back-to-top { left: 20px; }
+.back-to-top.show { opacity: 1; visibility: visible; }
+</style>
+</head>
+<body>
+
+<button id="backToTopBtn" class="back-to-top"><i class='bx bx-up-arrow-alt'></i></button>
+
+<div class="glow-bg">
+  <div class="glow-orb orb-purple"></div>
+  <div class="glow-orb orb-pink"></div>
+</div>
+
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar(false)">
+  <div class="sidebar" onclick="event.stopPropagation()">
+    <div class="sidebar-header">
+      <span class="sidebar-brand" id="sbBrand">AuraNotes Space</span>
+      <button class="menu-toggle-btn" onclick="toggleSidebar(false)"><i class='bx bx-x'></i></button>
+    </div>
+    
+    <div>
+      <div class="panel-title" id="sbViewsTitle">Views</div>
+      <div class="nav-item active" id="viewAll" onclick="switchView('all')">
+        <div class="nav-left"><i class='bx bx-grid-alt main-icon'></i><span id="sbAllNotes">All Notes</span></div>
+      </div>
+      <div class="nav-item" id="viewSecret" onclick="switchView('secret')">
+        <div class="nav-left"><i class='bx bx-lock-alt main-icon' style="color:#EF4444"></i><span id="sbSecretNotes">Secret Notes</span></div>
+      </div>
+      <div class="nav-item" id="viewFav" onclick="switchView('fav')">
+        <div class="nav-left"><i class='bx bxs-star main-icon' style="color:var(--star-gold)"></i><span id="sbFavs">Favorites</span></div>
+      </div>
+      <div class="nav-item" id="viewTrash" onclick="switchView('trash')">
+        <div class="nav-left"><i class='bx bx-trash main-icon' style="color:#78716C"></i><span id="sbTrashBin">Trash Bin</span></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="panel-title" id="sbFoldersTitle">Folders Management</div>
+      <div id="foldersContainer" class="folders-scroll-zone"></div>
+      <div class="add-folder-box">
+        <input type="text" id="newFolderInput" class="folder-input">
+        <button class="btn-square" onclick="createNewFolder()"><i class='bx bx-plus'></i></button>
+      </div>
+    </div>
+
+    <div>
+      <div class="panel-title" id="sbLangTitle">Language / اللغة</div>
+      <select id="langSelect" class="lang-select-box" onchange="changeLanguage(this.value)">
+        <option value="en">🇺🇸 English</option>
+        <option value="ar">🇸🇦 العربية</option>
+        <option value="fr">🇫🇷 Français</option>
+        <option value="es">🇪🇸 Español</option>
+        <option value="de">🇩🇪 Deutsch</option>
+        <option value="tr">🇹🇷 Türkçe</option>
+        <option value="it">🇮🇹 Italiano</option>
+        <option value="ru">🇷🇺 Русский</option>
+        <option value="zh">🇨🇳 中文</option>
+        <option value="ja">🇯🇵 日本語</option>
+        <option value="ko">🇰🇷 한국어</option>
+        <option value="fa">🇮🇷 فارسی</option>
+        <option value="ur">🇵🇰 اردو</option>
+        <option value="hi">🇮🇳 हिन्दी</option>
+        <option value="bn">🇧🇩 বাংলা</option>
+        <option value="id">🇮🇩 Indonesia</option>
+        <option value="ms">🇲🇾 Melayu</option>
+        <option value="vi">🇻🇳 Tiếng Việt</option>
+        <option value="th">🇹🇭 ไทย</option>
+        <option value="nl">🇳🇱 Nederlands</option>
+        <option value="pt">🇵🇹 Português</option>
+      </select>
+    </div>
+
+    <div>
+      <div class="panel-title" id="sbThemeTitle">Select Aura Theme</div>
+      <div class="theme-grid">
+        <div class="theme-dot active" data-theme="light" style="background:#FAF8FC; border:1px solid #ddd;" onclick="setTheme('light')"></div>
+        <div class="theme-dot" data-theme="dark" style="background:#0C0A12;" onclick="setTheme('dark')"></div>
+        <div class="theme-dot" data-theme="pink" style="background:#FFF1F2;" onclick="setTheme('pink')"></div>
+        <div class="theme-dot" data-theme="purple" style="background:#FAF5FF;" onclick="setTheme('purple')"></div>
+        <div class="theme-dot" data-theme="green" style="background:#F0FDF4;" onclick="setTheme('green')"></div>
+        <div class="theme-dot" data-theme="blue" style="background:#F0F9FF;" onclick="setTheme('blue')"></div>
+        <div class="theme-dot" data-theme="gold" style="background:#FEFCE8;" onclick="setTheme('gold')"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="app-container">
+  <header class="animate__animated animate__fadeInDown">
+    <button class="menu-toggle-btn" onclick="toggleSidebar(true)"><i class='bx bx-menu-alt-left'></i></button>
+    <h1 class="brand-title" id="mainHeaderTitle">My Notes ✨</h1>
+    <a href="main.html" class="back-dash-btn"><i class='bx bx-home-smile'></i></a>
+  </header>
+
+  <div class="main-content animate__animated animate__fadeInUp">
+    
+    <div class="editor-core" id="mainEditorBox">
+      <div class="editor-top-bar">
+        <span class="meta-info"><i class='bx bx-edit-alt'></i> <span id="lblCompose">Compose Ideas</span></span>
+        <div class="editor-options-group">
+          <button class="secret-toggle-btn" id="secretToggleBtn" onclick="toggleSecretMode()" title="Secure Note">
+            <i class='bx bx-lock-alt'></i>
+          </button>
+          <div class="folder-selector-wrapper">
+            <select id="noteFolderSelect" class="folder-selector"></select>
+          </div>
+        </div>
+      </div>
+      <input type="text" id="noteTitle" class="editor-title">
+      <textarea id="noteContent" class="editor-content"></textarea>
+      <div class="editor-footer">
+        <span class="meta-info" id="charCount">0 characters</span>
+        <button class="action-btn" onclick="addNote()">
+          <i class='bx bx-folder-plus'></i> <span id="btnSave">Save Log</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="controls-row">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h2 class="section-title" id="currentViewTitle">All Notes</h2>
+        <button class="action-btn danger-btn" id="emptyTrashBtn" style="display:none; padding:6px 12px; font-size:11px;" onclick="emptyTrashAll()">Empty Trash</button>
+      </div>
+      <div class="search-box">
+        <i class='bx bx-search'></i>
+        <input type="text" id="searchInput" class="search-input" oninput="renderNotes()">
+      </div>
+    </div>
+
+    <div class="notes-grid" id="notesGrid"></div>
+  </div>
+</div>
+
+<div class="overlay" id="editModal">
+  <div class="modal-box animate__animated animate__zoomIn animate__fast">
+    <div class="editor-top-bar">
+      <span class="section-title" id="lblModify">Modify Note</span>
+      <div class="folder-selector-wrapper">
+        <select id="editFolderSelect" class="folder-selector"></select>
+      </div>
+    </div>
+    <input type="text" id="editTitle" class="editor-title" style="margin-top:12px">
+    <textarea id="editContent" class="editor-content" style="min-height:140px"></textarea>
+    <div class="editor-footer">
+      <button class="card-icon-btn" onclick="closeModal()"><i class='bx bx-x'></i></button>
+      <button class="action-btn" onclick="saveEdit()" id="btnApply">Apply Changes</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="pinModal">
+  <div class="modal-box animate__animated animate__zoomIn animate__fast" style="max-width:320px; text-align:center;">
+    <h3 class="section-title" id="pinModalTitle" style="margin-bottom:6px;">Enter Security PIN</h3>
+    <p style="font-size:12px; color:var(--text-muted);" id="pinModalDesc">Access secure zone identity verification</p>
+    
+    <div class="pin-display">
+      <div class="pin-dot" id="dot-0"></div>
+      <div class="pin-dot" id="dot-1"></div>
+      <div class="pin-dot" id="dot-2"></div>
+      <div class="pin-dot" id="dot-3"></div>
+    </div>
+
+    <div class="pin-grid">
+      <button class="pin-btn" onclick="pressPin('1')">1</button>
+      <button class="pin-btn" onclick="pressPin('2')">2</button>
+      <button class="pin-btn" onclick="pressPin('3')">3</button>
+      <button class="pin-btn" onclick="pressPin('4')">4</button>
+      <button class="pin-btn" onclick="pressPin('5')">5</button>
+      <button class="pin-btn" onclick="pressPin('6')">6</button>
+      <button class="pin-btn" onclick="pressPin('7')">7</button>
+      <button class="pin-btn" onclick="pressPin('8')">8</button>
+      <button class="pin-btn" onclick="pressPin('9')">9</button>
+      <button class="pin-btn" onclick="biometricAuth()" id="bioAuthBtn" style="color:var(--accent-purple);"><i class='bx bx-fingerprint'></i></button>
+      <button class="pin-btn" onclick="pressPin('0')">0</button>
+      <button class="pin-btn" onclick="clearPin()" style="color:#EF4444;"><i class='bx bx-left-arrow-alt'></i></button>
+    </div>
+    
+    <div style="margin-top: 15px; display: flex; gap: 8px;">
+      <button class="action-btn danger-btn" style="flex: 1; padding: 8px; font-size: 11px;" id="btnResetPin" onclick="initiatePinReset()">Change PIN</button>
+      <button class="card-icon-btn" style="width: 46px;" onclick="closePinModal()"><i class='bx bx-x'></i></button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-bar" id="toastBar">
+  <i class='bx bx-check-circle' style="color:var(--accent-pink); font-size: 18px;"></i>
+  <span id="toastMessage">Action completed</span>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB1gI-OSbGCGPIMA5NCnuB2K_-IyrMWFHs",
+  authDomain: "flowday-81f42.firebaseapp.com",
+  projectId: "flowday-81f42",
+  storageBucket: "flowday-81f42.firebasestorage.app",
+  messagingSenderId: "854763403133",
+  appId: "1:854763403133:web:13f5eafb11422d89787e14",
+  measurementId: "G-W5Q0QYEGEG"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const db = getFirestore(app);
+
+// Link Firebase Functions to Global Scope
+window.saveToFirebase = async function() {
+  try {
+    await setDoc(doc(db, "users", "global_user"), {
+      notes: window.notes,
+      trash: window.trash,
+      folders: window.folders,
+      customPin: window.customPin
+    });
+  } catch (error) {
+    console.error("Firebase Sync Error: ", error);
+  }
+};
+
+window.loadFromFirebase = async function() {
+  try {
+    const docRef = doc(db, "users", "global_user");
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      if(data.notes) window.notes = data.notes;
+      if(data.trash) window.trash = data.trash;
+      if(data.folders) window.folders = data.folders;
+      if(data.customPin) {
+        window.customPin = data.customPin;
+        localStorage.setItem('auraNotes_custom_pin', window.customPin);
+      }
+      window.saveState(false); 
+      window.renderFolders();
+      window.renderNotes();
+    }
+  } catch (error) {
+    console.error("Firebase Load Error: ", error);
+  }
+};
+
+// Auto fetch data on load
+window.addEventListener('DOMContentLoaded', () => {
+  window.loadFromFirebase();
+});
+</script>
+
+<script>
+const dictionary = {
+  en: {
+    title: "My Notes ✨", compose: "Compose Ideas", title_ph: "Untitled Document", content_ph: "Start typing your thoughts...",
+    char: "characters", save: "Save Log", search_ph: "Search across documents...", all_notes: "All Notes", favs: "Favorites ✦",
+    empty: "No documents found.", modal_title: "Modify Note", apply: "Apply Changes", sb_brand: "AuraNotes Space",
+    sb_views: "Views", sb_folders: "Folders Management", folder_ph: "Create folder...", blank_folder: "Folder name cannot be blank.",
+    exist_folder: "Folder already exists.", folder_success: "New folder established!", sys_folder_err: "System folders cannot be removed.",
+    folder_del_success: "Folder deleted.", empty_log: "Cannot store empty logs.", save_success: "Masterpiece saved!",
+    fav_add: "Added to favorites ✦", fav_rem: "Removed from favorites", doc_del: "Moved to Trash Bin.", doc_up: "Document updated.", coll: "Collection", no_text: "No text content.",
+    secret_notes: "Secret Notes 🔒", trash_bin: "Trash Bin 🗑️", select_theme: "Select Aura Theme", secure_activated: "Secure encryption enabled!",
+    secure_deactivated: "Standard mode active", pin_title: "Enter Security PIN", pin_desc: "Access secure zone verification",
+    pin_incorrect: "Incorrect PIN code!", pin_success: "Identity authorized!", trash_empty: "Trash fully evacuated.", doc_restored: "Note restored completely.",
+    empty_trash_btn: "Empty Trash", bio_err: "Biometrics not configured or unsupported.",
+    setup_pin: "Set your custom 4-digit PIN", confirm_pin: "Confirm your 4-digit PIN", pin_mismatch: "PIN codes do not match!", pin_saved: "New PIN successfully saved!", change_pin_auth: "Enter current PIN to change it",
+    pin_setup_desc: "Create security code for the first time", pin_confirm_desc: "Confirm your new password code", pin_reset_desc: "Verify current code to proceed",
+    trash_badge: "Trash"
+  },
+  ar: {
+    title: "ملاحظاتي ✨", compose: "صغ أفكارك الآن", title_ph: "وثيقة بدون عنوان", content_ph: "ابدأ بكتابة أفكارك الفاخرة...",
+    char: "حرف", save: "حفظ السجل", search_ph: "ابحث في المستندات...", all_notes: "جميع الملاحظات", favs: "المفضلة ✦",
+    empty: "لم يتم العثور على مستندات.", modal_title: "تعديل الملاحظة", apply: "تطبيق التغييرات", sb_brand: "فضاء أورا",
+    sb_views: "القوائم", sb_folders: "إدارة المجلدات", folder_ph: "أنشئ مجلداً...", blank_folder: "لا يمكن أن يكون اسم المجلد فارغاً.",
+    exist_folder: "المجلد موجود بالفعل.", folder_success: "تم إنشاء المجلد بنجاح!", sys_folder_err: "لا يمكن حذف مجلدات النظام الافتراضية.",
+    folder_del_success: "تم حذف المجلد بنجاح.", empty_log: "لا يمكن حفظ سجلات فارغة.", save_success: "تم حفظ التحفة الفنية!",
+    fav_add: "تم الإضافة إلى المفضلة ✦", fav_rem: "تم الإزالة من المفضلة", doc_del: "تم النقل إلى سلة المحذوفات.", doc_up: "تم تحديث المستند بنجاح.", coll: "مجموعة", no_text: "لا يوجد محتوى نصي.",
+    secret_notes: "ملاحظات سرية 🔒", trash_bin: "سلة المحذوفات 🗑️", select_theme: "اختر ثيم أورا", secure_activated: "تم تفعيل التشفير السري المحمي!",
+    secure_deactivated: "الوضع العادي نشط الآن", pin_title: "أدخل رمز الحماية PIN", pin_desc: "التحقق الهيكلي لمنطقة الأمان الخاصة بك",
+    pin_incorrect: "رمز PIN غير صحيح!", pin_success: "تم التحقق وصلاحية الدخول مسموحة!", trash_empty: "تم تفريغ سلة المحذوفات بالكامل.", doc_restored: "تم استعادة الملاحظة بنجاح.",
+    empty_trash_btn: "إفراغ السلة", bio_err: "المستشعر الحيوي لا يعمل أو غير مدعوم حالياً.",
+    setup_pin: "قم بتعيين رمز PIN جديد مكون من 4 أرقام", confirm_pin: "تأكيد رمز PIN الجديد", pin_mismatch: "رموز الـ PIN غير متطابقة!", pin_saved: "تم حفظ الرمز السري الجديد بنجاح!", change_pin_auth: "أدخل الرمز الحالي لتغييره",
+    pin_setup_desc: "إنشاء رمز أمان لأول مرة", pin_confirm_desc: "تأكيد الرمز السري الجديد", pin_reset_desc: "التحقق من الرمز الحالي لتعديله",
+    trash_badge: "المحذوفات"
+  },
+  fr: {
+    title: "Mes Notes ✨", compose: "Composer des idées", title_ph: "Document sans titre", content_ph: "Commencez à écrire vos pensées...",
+    char: "caractères", save: "Enregistrer", search_ph: "Rechercher...", all_notes: "Toutes les notes", favs: "Favoris ✦",
+    empty: "Aucun document trouvé.", modal_title: "Modifier la note", apply: "Appliquer", sb_brand: "Espace AuraNotes",
+    sb_views: "Vues", sb_folders: "Gestion des dossiers", folder_ph: "Créer un dossier...", blank_folder: "Le nom ne peut pas être vide.",
+    exist_folder: "Le dossier existe déjà.", folder_success: "Dossier créé!", sys_folder_err: "Dossiers système protégés.",
+    folder_del_success: "Dossier supprimé.", empty_log: "Impossible d'enregistrer vide.", save_success: "Enregistré!",
+    fav_add: "Ajouté aux favoris ✦", fav_rem: "Retiré des favoris", doc_del: "Déplacé vers la corbeille.", doc_up: "Note mise à jour.", coll: "Collection", no_text: "Pas de texte.",
+    secret_notes: "Notes Secrètes 🔒", trash_bin: "Corbeille 🗑️", select_theme: "Choisir le thème", secure_activated: "Chiffrement activé!",
+    secure_deactivated: "Mode standard activé", pin_title: "Entrez le code PIN", pin_desc: "Vérification de sécurité",
+    pin_incorrect: "Code PIN incorrect!", pin_success: "Identité autorisée!", trash_empty: "Corbeille vidée.", doc_restored: "Note restaurée.",
+    empty_trash_btn: "Vider la corbeille", bio_err: "Biométrie non supportée.",
+    setup_pin: "Définir un code PIN à 4 chiffres", confirm_pin: "Confirmer le code PIN", pin_mismatch: "Les codes ne correspondent pas!", pin_saved: "Code PIN enregistré!", change_pin_auth: "Entrez le PIN actuel",
+    pin_setup_desc: "Créer un code de sécurité", pin_confirm_desc: "Confirmez le code", pin_reset_desc: "Vérifiez le code actuel",
+    trash_badge: "Corbeille"
+  },
+  es: {
+    title: "Mis Notas ✨", compose: "Redactar ideas", title_ph: "Documento sin título", content_ph: "Comienza a escribir tus pensamientos...",
+    char: "caracteres", save: "Guardar", search_ph: "Buscar...", all_notes: "Todas las notas", favs: "Favoritos ✦",
+    empty: "No se encontraron documentos.", modal_title: "Modificar nota", apply: "Aplicar cambios", sb_brand: "Espacio AuraNotes",
+    sb_views: "Vistas", sb_folders: "Gestión de carpetas", folder_ph: "Crear carpeta...", blank_folder: "El Legal no puede estar vacío.",
+    exist_folder: "La carpeta ya existe.", folder_success: "¡Carpeta creada!", sys_folder_err: "Carpetas del sistema protegidas.",
+    folder_del_success: "Carpeta eliminada.", empty_log: "No se puede guardar vacío.", save_success: "¡Guardado con éxito!",
+    fav_add: "Añadido a favoritos ✦", fav_rem: "Eliminado de favoritos", doc_del: "Movido a la papelera.", doc_up: "Nota actualizada.", coll: "Colección", no_text: "Sin contenido.",
+    secret_notes: "Notas Secretas 🔒", trash_bin: "Papelera 🗑️", select_theme: "Seleccionar tema", secure_activated: "¡Cifrado activado!",
+    secure_deactivated: "Mode estándar activo", pin_title: "Ingrese el PIN", pin_desc: "Verificación de seguridad",
+    pin_incorrect: "¡PIN incorrecto!", pin_success: "¡Identidad autorizada!", trash_empty: "Papelera vaciada.", doc_restored: "Nota restaurada.",
+    empty_trash_btn: "Vaciar papelera", bio_err: "Biometría no compatible.",
+    setup_pin: "Establecer PIN de 4 dígitos", confirm_pin: "Confirmar PIN", pin_mismatch: "¡Los códigos no coinciden!", pin_saved: "¡PIN guardado!", change_pin_auth: "Ingrese PIN actual",
+    pin_setup_desc: "Crear código de seguridad", pin_confirm_desc: "Confirme su código", pin_reset_desc: "Verifique código actual",
+    trash_badge: "Papelera"
+  },
+  de: {
+    title: "Meine Notizen ✨", compose: "Ideen verfassen", title_ph: "Unbenanntes Dokument", content_ph: "Schreiben Sie Ihre Gedanken...",
+    char: "Zeichen", save: "Speichern", search_ph: "Suchen...", all_notes: "Alle Notizen", favs: "Favoriten ✦",
+    empty: "Keine Dokumente gefunden.", modal_title: "Notiz ändern", apply: "Änderungen übernehmen", sb_brand: "AuraNotes Raum",
+    sb_views: "Ansichten", sb_folders: "Ordnerverwaltung", folder_ph: "Ordner erstellen...", blank_folder: "Name darf nicht leer sein.",
+    exist_folder: "Ordner existiert bereits.", folder_success: "Ordner erstellt!", sys_folder_err: "Systemordner geschützt.",
+    folder_del_success: "Ordner gelöscht.", empty_log: "Leere Notiz kann nicht gespeichert werden.", save_success: "Gespeichert!",
+    fav_add: "Zu Favoriten hinzugefügt ✦", fav_rem: "Aus Favoriten entfernt", doc_del: "In den Papierkorb verschoben.", doc_up: "Notiz aktualisiert.", coll: "Sammlung", no_text: "Kein Text.",
+    secret_notes: "Geheime Notizen 🔒", trash_bin: "Papierkorb 🗑️", select_theme: "Design auswählen", secure_activated: "Verschlüsselung aktiviert!",
+    secure_deactivated: "Standardmodus aktiv", pin_title: "PIN eingeben", pin_desc: "Sicherheitsüberprüfung",
+    pin_incorrect: "Falsche PIN!", pin_success: "Identität bestätigt!", trash_empty: "Papierkorb geleert.", doc_restored: "Notiz wiederhergestellt.",
+    empty_trash_btn: "Papierkorb leeren", bio_err: "Biometrie nicht unterstützt.",
+    setup_pin: "4-stellige PIN festlegen", confirm_pin: "PIN bestätigen", pin_mismatch: "PINs stimmen nicht überein!", pin_saved: "PIN gespeichert!", change_pin_auth: "Aktuelle PIN eingeben",
+    pin_setup_desc: "Sicherheitscode erstellen", pin_confirm_desc: "Bestätigen Sie den Code", pin_reset_desc: "Aktuellen Code überprüfen",
+    trash_badge: "Papierkorb"
+  },
+  tr: {
+    title: "Notlarım ✨", compose: "Fikir Yaz", title_ph: "Adsız Belge", content_ph: "Düşüncelerinizi yazmaya başlayın...",
+    char: "karakter", save: "Kaydet", search_ph: "Belgelerde ara...", all_notes: "Tüm Notlar", favs: "Favoriler ✦",
+    empty: "Belge bulunamadı.", modal_title: "Notu Düzenle", apply: "Değişiklikleri Uygula", sb_brand: "AuraNotes Alanı",
+    sb_views: "Görünümler", sb_folders: "Klasör Yönetimi", folder_ph: "Klasör oluştur...", blank_folder: "Klasör adı boş olamaz.",
+    exist_folder: "Klasör zaten mevcut.", folder_success: "Yeni klasör oluşturuldu!", sys_folder_err: "Sistem klasörleri silinemez.",
+    folder_del_success: "Klasör silindi.", empty_log: "Boş günlük kaydedilemez.", save_success: "Başarıyla kaydedildi!",
+    fav_add: "Favorilere eklendi ✦", fav_rem: "Favorilerden çıkarıldı", doc_del: "Çöp Kutusuna taşındı.", doc_up: "Belge güncellendi.", coll: "Koleksiyon", no_text: "Metin içeriği yok.",
+    secret_notes: "Gizli Notlar 🔒", trash_bin: "Çöp Kutusu 🗑️", select_theme: "Tema Seç", secure_activated: "Güvenli şifreleme etkinleştirildi!",
+    secure_deactivated: "Standart mod aktif", pin_title: "Güvenlik PIN'ini Girin", pin_desc: "Güvenli bölge kimlik doğrulaması",
+    pin_incorrect: "Geçersiz PIN kodu!", pin_success: "Kimlik doğrulandı!", trash_empty: "Çöp kutusu tamamen boşaltıldı.", doc_restored: "Not başarıyla geri yüklendi.",
+    empty_trash_btn: "Çöpü Boşalt", bio_err: "Biyometri yapılandırılmamış veya desteklenmiyor.",
+    setup_pin: "4 haneli PIN kodunuzu belirleyin", confirm_pin: "PIN kodunuzu onaylayın", pin_mismatch: "PIN kodları eşleşmiyor!", pin_saved: "Yeni PIN başarıyla kaydedildi!", change_pin_auth: "Değiştirmek için mevcut PIN'i girin",
+    pin_setup_desc: "İlk kez güvenlik kodu oluşturun", pin_confirm_desc: "Yeni şifre kodunuzu onaylayın", pin_reset_desc: "Devam etmek için mevcut kodu doğrulayın",
+    trash_badge: "Çöp"
+  },
+  it: {
+    title: "Note ✨", compose: "Componi Idee", title_ph: "Senza Titolo", content_ph: "Scrivi i tuoi pensieri...",
+    char: "caratteri", save: "Salva", search_ph: "Cerca...", all_notes: "Tutte le note", favs: "Preferiti ✦",
+    empty: "Nessun documento trovato.", modal_title: "Modifica Nota", apply: "Applica Modifiche", sb_brand: "Spazio AuraNotes",
+    sb_views: "Viste", sb_folders: "Gestione Cartelle", folder_ph: "Crea cartella...", blank_folder: "Il nome non può essere vuoto.",
+    exist_folder: "Cartella già esistente.", folder_success: "Cartella creata!", sys_folder_err: "Cartelle di sistema protette.",
+    folder_del_success: "Cartella eliminata.", empty_log: "Impossibile salvare note vuote.", save_success: "Salvato!",
+    fav_add: "Aggiunto ai preferiti ✦", fav_rem: "Rimosso dai preferiti", doc_del: "Spostato nel cestino.", doc_up: "Nota aggiornata.", coll: "Collezione", no_text: "Nessun testo.",
+    secret_notes: "Note Segrete 🔒", trash_bin: "Cestino 🗑️", select_theme: "Seleziona Tema", secure_activated: "Crittografia attivata!",
+    secure_deactivated: "Modalità standard attiva", pin_title: "Inserisci PIN", pin_desc: "Verifica di segurança",
+    pin_incorrect: "PIN errato!", pin_success: "Identità confermata!", trash_empty: "Cestino svuotato.", doc_restored: "Nota ripristinata.",
+    empty_trash_btn: "Svuota Cestino", bio_err: "Biometria non supportata.",
+    setup_pin: "Imposta PIN a 4 cifre", confirm_pin: "Conferma PIN", pin_mismatch: "I PIN non corrispondono!", pin_saved: "PIN salvato!", change_pin_auth: "Inserisci PIN attuale",
+    pin_setup_desc: "Crea codice di sicurezza", pin_confirm_desc: "Conferma il codice", pin_reset_desc: "Verifica codice attuale",
+    trash_badge: "Cestino"
+  },
+  ru: {
+    title: "Мои Заметки ✨", compose: "Создать идею", title_ph: "Без названия", content_ph: "Начните писать свои мысли...",
+    char: "знаков", save: "Сохранить", search_ph: "Поиск документов...", all_notes: "Все заметки", favs: "Избранное ✦",
+    empty: "Документы не найдены.", modal_title: "Изменить заметку", apply: "Применить", sb_brand: "Пространство AuraNotes",
+    sb_views: "Разделы", sb_folders: "Управление папками", folder_ph: "Создать папку...", blank_folder: "Имя папки не может быть пустым.",
+    exist_folder: "Папка уже существует.", folder_success: "Папка создана!", sys_folder_err: "Системные папки защищены.",
+    folder_del_success: "Папка удалена.", empty_log: "Нельзя сохранить пустую заметку.", save_success: "Сохранено успешно!",
+    fav_add: "Добавлено в избранное ✦", fav_rem: "Удалено из избранного", doc_del: "Перенесено в корзину.", doc_up: "Заметка обновлена.", coll: "Коллекция", no_text: "Текст отсутствует.",
+    secret_notes: "Секретные заметки 🔒", trash_bin: "Корзина 🗑️", select_theme: "Выбрать тему", secure_activated: "Шифрование включено!",
+    secure_deactivated: "Стандартный режим", pin_title: "Введите PIN-код", pin_desc: "Проверка безопасности",
+    pin_incorrect: "Неверный PIN-код!", pin_success: "Доступ разрешен!", trash_empty: "Корзина очищена.", doc_restored: "Заметка восстановлена.",
+    empty_trash_btn: "Очистить корзину", bio_err: "Биометрия не поддерживается.",
+    setup_pin: "Установить 4-значный PIN", confirm_pin: "Подтвердить PIN", pin_mismatch: "PIN-коды не совпадают!", pin_saved: "PIN-код сохранен!", change_pin_auth: "Введите текущий PIN",
+    pin_setup_desc: "Создайте код безопасности", pin_confirm_desc: "Подтвердите код", pin_reset_desc: "Проверьте текущий код",
+    trash_badge: "Корзина"
+  },
+  zh: {
+    title: "我的笔记 ✨", compose: "撰写想法", title_ph: "无标题文档", content_ph: "开始输入你的想法...",
+    char: "字符", save: "保存日志", search_ph: "搜索所有文档...", all_notes: "所有笔记", favs: "收藏夹 ✦",
+    empty: "未找到文档。", modal_title: "修改笔记", apply: "应用更改", sb_brand: "AuraNotes 空间",
+    sb_views: "视图", sb_folders: "文件夹管理", folder_ph: "创建文件夹...", blank_folder: "文件夹名称不能为空。",
+    exist_folder: "文件夹已存在。", folder_success: "新文件夹已建立！", sys_folder_err: "文件夹无法删除。",
+    folder_del_success: "文件夹已删除。", empty_log: "无法存储空日志。", save_success: "杰作已保存！",
+    fav_add: "已加入收藏夹 ✦", fav_rem: "已移出收藏夹", doc_del: "已移至回收站。", doc_up: "文档已更新。", coll: "收藏", no_text: "无文本内容。",
+    secret_notes: "加密笔记 🔒", trash_bin: "回收站 🗑️", select_theme: "选择主题", secure_activated: "安全加密已启用！",
+    secure_deactivated: "标准模式已激活", pin_title: "输入安全 PIN 码", pin_desc: "访问安全区域身份验证",
+    pin_incorrect: "PIN 码错误！", pin_success: "身份验证成功！", trash_empty: "回收站已完全清空。", doc_restored: "笔记完全恢复。",
+    empty_trash_btn: "清空回收站", bio_err: "生物识别未配置或不支持。",
+    setup_pin: "设置您的 4 位 PIN 码", confirm_pin: "确认您的 4 位 PIN 码", pin_mismatch: "PIN 码不匹配！", pin_saved: "新 PIN 码保存成功！", change_pin_auth: "输入当前 PIN 码以更改",
+    pin_setup_desc: "首次创建安全码", pin_confirm_desc: "确认您的新密码", pin_reset_desc: "验证当前代码以继续",
+    trash_badge: "回收站"
+  },
+  ja: {
+    title: "マイノート ✨", compose: "アイデアを作成", title_ph: "無題のドキュメント", content_ph: "思考を入力してください...",
+    char: "文字", save: "ログを保存", search_ph: "ドキュメントを検索...", all_notes: "すべてのノート", favs: "お気に入り ✦",
+    empty: "ドキュメントが見つかりません。", modal_title: "ノートを修正", apply: "変更を適用", sb_brand: "AuraNotes スペース",
+    sb_views: "表示", sb_folders: "フォルダ管理", folder_ph: "フォルダを作成...", blank_folder: "フォルダ名は空にできません。",
+    exist_folder: "フォルダは既に存在します。", folder_success: "新規フォルダが作成されました！", sys_folder_err: "システムフォルダは削除できません。",
+    folder_del_success: "フォルダが削除されました。", empty_log: "空のログは保存できません。", save_success: "名作が保存されました！",
+    fav_add: "お気に入りに追加されました ✦", fav_rem: "お気に入りから削除されました", doc_del: "ゴミ箱に移動しました。", doc_up: "ドキュメントが更新されました。", coll: "コレクション", no_text: "テキスト内容がありません。",
+    secret_notes: "秘密のノート 🔒", trash_bin: "ゴミ箱 🗑️", select_theme: "テーマを選択", secure_activated: "安全な暗号化が有効になりました！",
+    secure_deactivated: "標準モードが有効です处理", pin_title: "セキュリティPINを入力", pin_desc: "安全地帯の本人確認アクセス",
+    pin_incorrect: "PINコードが正しくありません！", pin_success: "本人が認証されました！", trash_empty: "ゴミ箱が完全に空になりました。", doc_restored: "ノートが完全に復元されました。",
+    empty_trash_btn: "ゴミ箱を空にする", bio_err: "生体認証が設定されていないか、サポートされていません。",
+    setup_pin: "カスタム4桁のPINを設定する", confirm_pin: "4桁のPINを確認する", pin_mismatch: "PINコードが一致しません！", pin_saved: "新しいPINが正常に保存されました！", change_pin_auth: "変更するには現在のPINを入力してください",
+    pin_setup_desc: "初めてセキュリティコードを作成する", pin_confirm_desc: "新しいパスワードコードを確認する", pin_reset_desc: "続行するには現在のコードを確認してください",
+    trash_badge: "ゴミ箱"
+  },
+  ko: {
+    title: "내 노트 ✨", compose: "아이디어 작성", title_ph: "제목 없는 문서", content_ph: "생각을 입력하세요...",
+    char: "글자", save: "로그 저장", search_ph: "문서 검색...", all_notes: "모든 노트", favs: "즐겨찾기 ✦",
+    empty: "문서를 찾을 수 없습니다.", modal_title: "노트 수정", apply: "변경 사항 적용", sb_brand: "AuraNotes 공간",
+    sb_views: "보기", sb_folders: "폴더 관리", folder_ph: "폴더 만들기...", blank_folder: "폴더 이름은 비워 둘 수 없습니다.",
+    exist_folder: "이미 존재하는 폴더입니다.", folder_success: "새 폴더가 생성되었습니다!", sys_folder_err: "시스템 폴더는 삭제할 수 없습니다.",
+    folder_del_success: "폴더가 삭제되었습니다.", empty_log: "빈 로그는 저장할 수 없습니다.", save_success: "작품이 저장되었습니다!",
+    fav_add: "즐겨찾기에 추가됨 ✦", fav_rem: "즐겨찾기에서 제거됨", doc_del: "휴지통으로 이동했습니다.", doc_up: "문서가 업데이트되었습니다.", coll: "컬렉션", no_text: "텍스트 내용이 없습니다.",
+    secret_notes: "비밀 노트 🔒", trash_bin: "휴지통 🗑️", select_theme: "테마 선택", secure_activated: "보안 암호화가 활성화되었습니다!",
+    secure_deactivated: "일반 모드 활성화됨", pin_title: "보안 PIN 입력", pin_desc: "보안 영역 신원 확인 액세스",
+    pin_incorrect: "PIN 코드가 올바르지 않습니다!", pin_success: "신원이 확인되었습니다!", trash_empty: "휴지통이 완전히 비워졌습니다.", doc_restored: "노트가 복구되었습니다.",
+    empty_trash_btn: "휴지통 비우기", bio_err: "생체 인식을 사용할 수 없거나 지원되지 않습니다.",
+    setup_pin: "사용자 정의 4자리 PIN 설정", confirm_pin: "4자리 PIN 확인", pin_mismatch: "PIN 코드가 일치하지 않습니다!", pin_saved: "새 PIN이 저장되었습니다!", change_pin_auth: "변경하려면 현재 PIN을 입력하세요",
+    pin_setup_desc: "보안 코드를 처음 생성합니다", pin_confirm_desc: "새 비밀번호 코드를 확인합니다", pin_reset_desc: "계속하려면 현재 코드를 확인하세요",
+    trash_badge: "휴지통"
+  },
+  fa: {
+    title: "یادداشت‌های من ✨", compose: "نگارش ایده‌ها", title_ph: "سند بدون عنوان", content_ph: "شروع به نوشتن افکار خود کنید...",
+    char: "نویسه", save: "ذخیره لاگ", search_ph: "جستجو در اسناد...", all_notes: "همه یادداشت‌ها", favs: "علاقه‌مندی‌ها ✦",
+    empty: "هیچ سندی یافت نشد.", modal_title: "ویرایش یادداشت", apply: "اعمال تغییرات", sb_brand: "فضای AuraNotes",
+    sb_views: "نماها", sb_folders: "مدیریت پوشه‌ها", folder_ph: "ایجاد پوشه...", blank_folder: "نام پوشه نمی‌تواند خالی باشد.",
+    exist_folder: "پوشه از قبل وجود دارد.", folder_success: "پوشه جدید ایجاد شد!", sys_folder_err: "پوشه‌های سیستم حذف نمی‌شوند.",
+    folder_del_success: "پوشه حذف شد.", empty_log: "یادداشت خالی قابل ذخیره نیست.", save_success: "شاهکار شما ذخیره شد!",
+    fav_add: "به علاقه‌مندی‌ها اضافه شد ✦", fav_rem: "از علاقه‌مندی‌ها حذف شد", doc_del: "به سطل زباله منتقل شد.", doc_up: "سند به‌روزرسانی شد.", coll: "مجموعه", no_text: "محتوای متنی وجود ندارد.",
+    secret_notes: "یادداشت‌های محرمانه 🔒", trash_bin: "سطل زباله 🗑️", select_theme: "انتخاب پوسته", secure_activated: "رمزگذاری امن فعال شد!",
+    secure_deactivated: "حالت استاندارد فعال است", pin_title: "کد PIN امنیتی را وارد کنید", pin_desc: "احراز هویت منطقه امن",
+    pin_incorrect: "کد PIN اشتباه است!", pin_success: "هویت تایید شد!", trash_empty: "سطل زباله کاملاً تخلیه شد.", doc_restored: "یادداشت کاملاً بازیابی شد.",
+    empty_trash_btn: "تخلیه سطل زباله", bio_err: "حسگر زیستی تنظیم نشده یا پشتیبانی نمی‌شود.",
+    setup_pin: "رمز PIN 4 رقمی خود را تعیین کنید", confirm_pin: "تایید رمز PIN 4 رقمی", pin_mismatch: "کدهای PIN مطابقت ندارند!", pin_saved: "رمز PIN جدید با موفقیت ذخیره شد!", change_pin_auth: "برای تغییر، رمز PIN فعلی را وارد کنید",
+    pin_setup_desc: "برای اولین بار کد امنیتی بسازید", pin_confirm_desc: "رمز عبور جدید خود را تایید کنید", pin_reset_desc: "برای ادامه کد فعلی را تایید کنید",
+    trash_badge: "زباله"
+  },
+  ur: {
+    title: "میرے نوٹس ✨", compose: "خیالات لکھیں", title_ph: "بغیر عنوان دستاویز", content_ph: "اپنے خیالات لکھنا شروع کریں...",
+    char: "حروف", save: "لاگ محفوظ کریں", search_ph: "دستاویزات میں تلاش کریں...", all_notes: "تمام نوٹس", favs: "پسندیدہ ✦",
+    empty: "کوئی دستاویز نہیں ملی۔", modal_title: "نوٹ تبدیل کریں", apply: "تبدیلیاں نافذ کریں", sb_brand: "فضائے AuraNotes",
+    sb_views: "مناظر", sb_folders: "فولڈر مینجمنٹ", folder_ph: "فولڈر بنائیں...", blank_folder: "فولڈر کا نام خالی نہیں ہو سکتا۔",
+    exist_folder: "فولڈر پہلے سے موجود ہے۔", folder_success: "نیا فولڈر بن گیا!", sys_folder_err: "سسٹم فولڈرز کو حذف نہیں کیا جا سکتا۔",
+    folder_del_success: "فولڈر حذف کر دیا گیا۔", empty_log: "خالی لاگ محفوظ نہیں کیا جا سکتا۔", save_success: "شاہکار محفوظ ہو گیا!",
+    fav_add: "پسندیدہ میں شامل کر دیا گیا ✦", fav_rem: "پسندیدہ سے ہٹا دیا گیا", doc_del: "کچرے دان میں منتقل کر دیا گیا۔", doc_up: "دستاویز اپ ڈیٹ ہو گئی۔", coll: "مجموعہ", no_text: "کوئی تحریری مواد نہیں ہے۔",
+    secret_notes: "خفیہ نوٹس 🔒", trash_bin: "کچرا دان 🗑️", select_theme: "تھیم منتخب کریں", secure_activated: "محفوظ خفیہ کاری فعال ہو گئی!",
+    secure_deactivated: "معیاری وضع فعال ہے", pin_title: "سیکیورٹی PIN درج کریں", pin_desc: "محفوظ زون کی شناخت کی تصدیق",
+    pin_incorrect: "غلط PIN کوڈ!", pin_success: "شناخت کی تصدیق ہو گئی!", trash_empty: "کچرا دان مکمل خالی کر دیا گیا۔", doc_restored: "نوٹ مکمل طور پر بحال ہو گیا۔",
+    empty_trash_btn: "کچرا دان خالی کریں", bio_err: "بایومیٹرکس کنفیگر نہیں ہے یا تعاون یافتہ نہیں ہے۔",
+    setup_pin: "اپنا کسٹم 4 ہندسوں کا PIN سیٹ کریں", confirm_pin: "اپنے 4 ہندسوں کے PIN کی تصدیق کریں", pin_mismatch: "PIN کوڈز مطابقت نہیں رکھتے!", pin_saved: "نیا PIN کامیابی سے محفوظ ہو گیا!", change_pin_auth: "تبدیل کرنے کے لیے موجودہ PIN درج کریں",
+    pin_setup_desc: "پہلی بار سیکیورٹی کوڈ بنائیں", pin_confirm_desc: "اپنے نئے پاس ورڈ کوڈ کی تصدیق کریں", pin_reset_desc: "آگے بڑھنے کے لیے موجودہ کوڈ کی تصدیق کریں",
+    trash_badge: "کچرا"
+  },
+  hi: {
+    title: "मेरे नोट्स ✨", compose: "विचार लिखें", title_ph: "बिना शीर्षक का दस्तावेज़", content_ph: "अपने विचारों को टाइप करना शुरू करें...",
+    char: "वर्ण", save: "लॉग सहेजें", search_ph: "दस्तावेज़ों में खोजें...", all_notes: "सभी नोट्स", favs: "पसंदीदा ✦",
+    empty: "कोई दस्तावेज़ नहीं मिला।", modal_title: "नोट संशोधित करें", apply: "बदलाव लागू करें", sb_brand: "AuraNotes स्पेस",
+    sb_views: "व्यूज़", sb_folders: "फ़ोल्डर प्रबंधन", folder_ph: "फ़ोल्डर बनाएं...", blank_folder: "फ़ोल्डर का नाम खाली नहीं हो सकता।",
+    exist_folder: "फ़ोल्डर पहले से मौजूद है।", folder_success: "नया फ़ोल्डर स्थापित हुआ!", sys_folder_err: "सिस्टम फ़ोल्डर हटाए नहीं जा सकते।",
+    folder_del_success: "फ़ोल्डर हटा दिया गया।", empty_log: "खाली लॉग सहेजा नहीं जा सकता।", save_success: "मास्टरपीस सहेज ली गई!",
+    fav_add: "पसंदीदा में जोड़ा गया ✦", fav_rem: "पसंदीदा से हटाया गया", doc_del: "कचरा पेटी में स्थानांतरित।", doc_up: "दस्तावेज़ अपडेट किया गया।", coll: "संग्रह", no_text: "कोई पाठ सामग्री नहीं है।",
+    secret_notes: "गुप्त नोट्स 🔒", trash_bin: "कचरा पेटी 🗑️", select_theme: "थीม चुनें", secure_activated: "सुरक्षित एन्क्रिप्शन सक्षम!",
+    secure_deactivated: "मानक मोड सक्रिय", pin_title: "सुरक्षा PIN दर्ज करें", pin_desc: "सुरक्षित क्षेत्र पहचान सत्यापन",
+    pin_incorrect: "गलत PIN कोड!", pin_success: "पहचान प्रमाणित की गई!", trash_empty: "कचरा पेटी पूरी तरह से खाली की गई।", doc_restored: "नोट पूरी तरह से पुनर्स्थापित।",
+    empty_trash_btn: "कचरा खाली करें", bio_err: "बायोमेट्रिक्स कॉन्फ़िगर नहीं है या समर्थित नहीं है।",
+    setup_pin: "अपना कस्टम 4-अंकीय PIN सेट करें", confirm_pin: "अपने 4-अंकीय PIN की पुष्टि करें", pin_mismatch: "PIN कोड मेल नहीं खाते!", pin_saved: "नया PIN सफलतापूर्वक सहेजा गया!", change_pin_auth: "इसे बदलने के लिए वर्तमान PIN दर्ज करें",
+    pin_setup_desc: "पहली बार सुरक्षा कोड बनाएं", pin_confirm_desc: "अपने नए पासवर्ड कोड की पुष्टि करें", pin_reset_desc: "आगे बढ़ने के लिए वर्तमान कोड सत्यापित करें",
+    trash_badge: "कचरा"
+  },
+  bn: {
+    title: "আমার নোট ✨", compose: "ভাবনা লিখুন", title_ph: "শিরোনামহীন নথি", content_ph: "আপনার চিন্তা টাইপ করা শুরু করুন...",
+    char: "অক্ষর", save: "লগ সংরক্ষণ করুন", search_ph: "নথি অনুসন্ধান করুন...", all_notes: "সব নোট", favs: "প্রিয় ✦",
+    empty: "কোন নথি পাওয়া যায়নি।", modal_title: "নোট সংশোধন করুন", apply: "পরিবর্তন প্রয়োগ করুন", sb_brand: "AuraNotes স্পেস",
+    sb_views: "ভিউ", sb_folders: "ফোল্ডার পরিচালনা", folder_ph: "ফোল্ডার তৈরি করুন...", blank_folder: "ফোল্ডারের নাম খালি হতে পারে না।",
+    exist_folder: "ফোল্ডার ইতিমধ্যে বিদ্যমান।", folder_success: "নতুন ফোল্ডার তৈরি হয়েছে!", sys_folder_err: "সিস্টেম ফোল্ডার মুছে ফেলা যাবে না।",
+    folder_del_success: "ফোল্ডার মুছে ফেলা হয়েছে।", empty_log: "খালি লগ সংরক্ষণ করা যাবে না।", save_success: "মাস্টারপিস সংরক্ষিত হয়েছে!",
+    fav_add: "প্রিয়তে যোগ করা হয়েছে ✦", fav_rem: "প্রিয় থেকে সরানো হয়েছে", doc_del: "আবর্জনা বাক্সে সরানো হয়েছে।", doc_up: "নথি আপডেট করা হয়েছে।", coll: "সংগ্রহ", no_text: "কোন লেখা নেই।",
+    secret_notes: "গোপন নোট 🔒", trash_bin: "আবর্জনা বাক্স 🗑️", select_theme: "থিম চয়ন করুন", secure_activated: "सुरक्षित एनक्रिपशन सक्रिय!",
+    secure_deactivated: "সাধারণ মোড सक्रिय", pin_title: "सुरक्षा PIN दर्ज करें", pin_desc: "सुरक्षित क्षेत्र पहचान सत्यापन",
+    pin_incorrect: "गलत PIN कोड!", pin_success: "पहचान प्रमाणित की गई!", trash_empty: "আবর্জনা বাক্স সম্পূর্ণ খালি করা হয়েছে।", doc_restored: "নোট সম্পূর্ণ পুনরুদ্ধার করা হয়েছে।",
+    empty_trash_btn: "আবর্জনা খালি করুন", bio_err: "বায়োমেट्रिक्स সমর্থিত নয়।",
+    setup_pin: "আপনার ৪ ডিজিটের পিন সেট করুন", confirm_pin: "পিন নিশ্চিত করুন", pin_mismatch: "পিন মেলেনি!", pin_saved: "নতুন পিন সংরক্ষিত হয়েছে!", change_pin_auth: "পরিবর্তনের জন্য বর্তমান পিন দিন",
+    pin_setup_desc: "প্রথমবারের জন্য নিরাপত্তা কোড তৈরি করুন", pin_confirm_desc: "আপনার নতুন পাসওয়ার্ড কোড নিশ্চিত করুন", pin_reset_desc: "এগিয়ে যেতে বর্তমান কোড যাচাই করুন",
+    trash_badge: "আবর্জনা"
+  },
+  id: {
+    title: "Catatanku ✨", compose: "Tulis Ide", title_ph: "Dokumen Tanpa Judul", content_ph: "Mulai ketik pikiran Anda...",
+    char: "karakter", save: "Simpan Catatan", search_ph: "Cari dokumen...", all_notes: "Semua Catatan", favs: "Favorit ✦",
+    empty: "Dokumen tidak ditemukan.", modal_title: "Ubah Catatan", apply: "Terapkan Perubahan", sb_brand: "AuraNotes Space",
+    sb_views: "Tampilan", sb_folders: "Manajemen Folder", folder_ph: "Buat folder...", blank_folder: "Nama folder tidak boleh kosong.",
+    exist_folder: "Folder sudah ada.", folder_success: "Folder baru dibuat!", sys_folder_err: "Folder sistem tidak bisa dihapus.",
+    folder_del_success: "Folder dihapus.", empty_log: "Tidak dapat menyimpan catatan kosong.", save_success: "Catatan disimpan!",
+    fav_add: "Ditambahkan ke favorit ✦", fav_rem: "Dihapus dari favorit", doc_del: "Dipindahkan ke Tempat Sampah.", doc_up: "Dokumen diperbarui.", coll: "Koleksi", no_text: "Tidak ada konten teks.",
+    secret_notes: "Catatan Rahasia 🔒", trash_bin: "Tempat Sampah 🗑️", select_theme: "Pilih Tema", secure_activated: "Enkripsi aman diaktifkan!",
+    secure_deactivated: "Mode standar aktif", pin_title: "Masukkan PIN Keamanan", pin_desc: "Verifikasi identitas zona aman",
+    pin_incorrect: "Kode PIN salah!", pin_success: "Identitas terotorisasi!", trash_empty: "Tempat sampah dikosongkan.", doc_restored: "Catatan dipulihkan sepenuhnya.",
+    empty_trash_btn: "Kosongkan Sampah", bio_err: "Biometrik tidak dikonfigurasi.",
+    setup_pin: "Atur 4-digit PIN Anda", confirm_pin: "Konfirmasi 4-digit PIN", pin_mismatch: "Kode PIN tidak cocok!", pin_saved: "PIN baru berhasil disimpan!", change_pin_auth: "Masukkan PIN saat ini untuk mengubah",
+    pin_setup_desc: "Buat kode keamanan untuk pertama kali", pin_confirm_desc: "Konfirmasi kode sandi baru Anda", pin_reset_desc: "Verifikasi kode saat ini untuk melanjutkan",
+    trash_badge: "Sampah"
+  },
+  ms: {
+    title: "Lipat Saya ✨", compose: "Gubah Idea", title_ph: "Dokumen Tanpa Tajuk", content_ph: "Mula menaip fikiran anda...",
+    char: "karakter", save: "Simpan Log", search_ph: "Cari dokumen...", all_notes: "Semua Nota", favs: "Kegemaran ✦",
+    empty: "Dokumen tidak ditemui.", modal_title: "Ubah Nota", apply: "Sahkan Perubahan", sb_brand: "Ruang AuraNotes",
+    sb_views: "Paparan", sb_folders: "Pengurusan Folder", folder_ph: "Cipta folder...", blank_folder: "Nama folder tidak boleh kosong.",
+    exist_folder: "Folder sudah wujud.", folder_success: "Folder baru dicipta!", sys_folder_err: "Folder sistem tidak boleh dipadam.",
+    folder_del_success: "Folder dipadam.", empty_log: "Tidak boleh menyimpan log kosong.", save_success: "Berjaya disimpan!",
+    fav_add: "Ditambah ke kegemaran ✦", fav_rem: "Dikeluarkan dari kegemaran", doc_del: "Dipindahkan ke Tong Sampah.", doc_up: "Dokumen dikemas kini.", coll: "Koleksi", no_text: "Tiada kandungan teks.",
+    secret_notes: "Nota Rahsia 🔒", trash_bin: "Tong Sampah 🗑️", select_theme: "Pilih Tema", secure_activated: "Secara enkripsi diaktifkan!",
+    secure_deactivated: "Mod standard aktif", pin_title: "Masukkan PIN Keselamatan", pin_desc: "Akses pengesahan zon selamat",
+    pin_incorrect: "Kod PIN salah!", pin_success: "Identiti disahkan!", trash_empty: "Tong sampah dikosongkan sepenuhnya.", doc_restored: "Nota dipulihkan sepenuhnya.",
+    empty_trash_btn: "Kosongkan Tong", bio_err: "Biometrik tidak disokong.",
+    setup_pin: "Tetapkan 4-digit PIN anda", confirm_pin: "Sahkan 4-digit PIN", pin_mismatch: "Kod PIN tidak sepadan!", pin_saved: "PIN baru berjaya disimpan!", change_pin_auth: "Masukkan PIN semasa untuk menukar",
+    pin_setup_desc: "Cipta kod keselamatan buat kali pertama", pin_confirm_desc: "Sahkan kod laluan baru anda", pin_reset_desc: "Sahkan kod semasa untuk meneruskan",
+    trash_badge: "Sampah"
+  },
+  vi: {
+    title: "Ghi Chú ✨", compose: "Soạn Thảo Ý Tưởng", title_ph: "Tài liệu không có tiêu đề", content_ph: "Bắt đầu nhập suy nghĩ của bạn...",
+    char: "ký tự", save: "Lưu Nhật Ký", search_ph: "Tìm kiếm tài liệu...", all_notes: "Tất Cả Ghi Chú", favs: "Mục Yêu Thích ✦",
+    empty: "Không tìm thấy tài liệu.", modal_title: "Sửa Ghi Chú", apply: "Áp Dụng Thay Đổi", sb_brand: "Không Gian AuraNotes",
+    sb_views: "Chế độ xem", sb_folders: "Quản Lý Thư Mục", folder_ph: "Tạo thư mục...", blank_folder: "Tên thư mục không được để trống.",
+    exist_folder: "Thư mục đã tồn tại.", folder_success: "Thư mục mới đã được tạo!", sys_folder_err: "Không thể xóa thư mục hệ thống.",
+    folder_del_success: "Đã xóa thư mục.", empty_log: "Không thể lưu nhật ký trống.", save_success: "Kiệt tác đã được lưu!",
+    fav_add: "Đã thêm vào mục yêu thích ✦", fav_rem: "Đã xóa khỏi mục yêu thích", doc_del: "Đã chuyển vào Thùng Rác.", doc_up: "Tài liệu đã cập nhật.", coll: "Bộ sưu tập", no_text: "Không có nội dung văn bản.",
+    secret_notes: "Ghi Chú Bảo Mật 🔒", trash_bin: "Thùng Rác 🗑️", select_theme: "Chọn Giao Diện", secure_activated: "Đã bật mã hóa bảo mật!",
+    secure_deactivated: "Chế độ tiêu chuẩn đang hoạt động", pin_title: "Nhập Mã PIN Bảo Mật", pin_desc: "Truy cập xác minh vùng an toàn",
+    pin_incorrect: "Mã PIN không chính xác!", pin_success: "Danh tính đã được ủy quyền!", trash_empty: "Thùng rác đã được dọn sạch hoàn toàn.", doc_restored: "Ghi chú đã được khôi phục hoàn toàn.",
+    empty_trash_btn: "Dọn Sạch Thùng Rác", bio_err: "Sinh trắc học chưa được cấu hình hoặc không hỗ trợ.",
+    setup_pin: "Đặt mã PIN 4 chữ số tùy chỉnh của bạn", confirm_pin: "Xác nhận mã PIN 4 chữ số của bạn", pin_mismatch: "Mã PIN không khớp!", pin_saved: "Mã PIN mới đã được lưu thành công!", change_pin_auth: "Nhập mã PIN hiện tại để thay đổi",
+    pin_setup_desc: "Tạo mã bảo mật lần đầu tiên", pin_confirm_desc: "Xác nhận mã mật khẩu mới của bạn", pin_reset_desc: "Xác minh mã hiện tại để tiếp tục",
+    trash_badge: "Thùng rác"
+  },
+  th: {
+    title: "บันทึกของฉัน ✨", compose: "เขียนไอเดีย", title_ph: "เอกสารไม่มีชื่อ", content_ph: "เริ่มพิมพ์ความรู้สึกของคุณ...",
+    char: "ตัวอักษร", save: "บันทึกข้อมูล", search_ph: "ค้นหาในเอกสาร...", all_notes: "บันทึกทั้งหมด", favs: "รายการโปรด ✦",
+    empty: "ไม่พบเอกสาร", modal_title: "แก้ไขบันทึก", apply: "ใช้การเปลี่ยนแปลง", sb_brand: "พื้นที่ AuraNotes",
+    sb_views: "มุมมอง", sb_folders: "จัดการโฟลเดอร์", folder_ph: "สร้างโฟลเดอร์...", blank_folder: "ชื่อโฟลเดอร์ต้องไม่ว่างเปล่า",
+    exist_folder: "โฟลเดอร์นี้มีอยู่แล้ว", folder_success: "โฟลเดอร์ใหม่ถูกสร้างขึ้นแล้ว!", sys_folder_err: "ไม่สามารถลบโฟลเดอร์ระบบได้",
+    folder_del_success: "ลบโฟลเดอร์แล้ว", empty_log: "ไม่สามารถบันทึกข้อมูลว่างได้", save_success: "บันทึกผลงานชิ้นเอกแล้ว!",
+    fav_add: "เพิ่มในรายการโปรดแล้ว ✦", fav_rem: "นำออกจากรายการโปรดแล้ว", doc_del: "ย้ายไปที่ถังขยะแล้ว", doc_up: "อัปเดتเอกสารแล้ว", coll: "คอลเลกชัน", no_text: "ไม่มีเนื้อหาข้อความ",
+    secret_notes: "บันทึกลับ 🔒", trash_bin: "ถังขยะ 🗑️", select_theme: "เลือกธีม", secure_activated: "เปิดใช้งานการเข้ารหัสความปลอดภัยแล้ว!",
+    secure_deactivated: "โหมดปกติทำงานอยู่", pin_title: "ป้อนรหัส PIN ความปลอดภัย", pin_desc: "เข้าถึงการยืนยันตัวตนโซนปลอดภัย",
+    pin_incorrect: "รหัส PIN ไม่ถูกต้อง!", pin_success: "ยืนยันตัวตนสำเร็จ!", trash_empty: "ล้างถังขยะเรียบร้อยแล้ว", doc_restored: "กู้คืนบันทึกอย่างสมบูรณ์แล้ว",
+    empty_trash_btn: "ล้างถังขยะ", bio_err: "ไม่ได้กำหนดค่าหรือระบบไม่รองรับชีวมาตร",
+    setup_pin: "ตั้งรหัส PIN 4 หลักของคุณเอง", confirm_pin: "ยืนยันรหัส PIN 4 หลักของคุณ", pin_mismatch: "รหัส PIN ไม่ตรงกัน!", pin_saved: "บันทึกรหัส PIN ใหม่สำเร็จแล้ว!", change_pin_auth: "ป้อนรหัส PIN ปัจจุบันเพื่อเปลี่ยนแปลง",
+    pin_setup_desc: "สร้างรหัสความปลอดภัยเป็นครั้งแรก", pin_confirm_desc: "ยืนยันรหัสผ่านใหม่ของคุณ", pin_reset_desc: "ตรวจสอบรหัสปัจจุบันเพื่อดำเนินการต่อ",
+    trash_badge: "ถังขยะ"
+  },
+  nl: {
+    title: "Mijn Notities ✨", compose: "Ideeën Formuleren", title_ph: "Naamloos Document", content_ph: "Begin met het typen van uw gedachten...",
+    char: "tekens", save: "Log Opslaan", search_ph: "Zoeken door documenten...", all_notes: "Alle Notities", favs: "Favorieten ✦",
+    empty: "Geen documenten gevonden.", modal_title: "Notitie Aanpassen", apply: "Wijzigingen Toepassen", sb_brand: "AuraNotes Space",
+    sb_views: "Weergaven", sb_folders: "Mapbeheer", folder_ph: "Map aanmaken...", blank_folder: "Mapnaam mag niet leeg zijn.",
+    exist_folder: "Map bestaat al.", folder_success: "Nieuwe map aangemaakt!", sys_folder_err: "Systeemmappen kunnen niet worden verwijderd.",
+    folder_del_success: "Map verwijderd.", empty_log: "Kan geen lege logs opslaan.", save_success: "Meesterwerk opgeslagen!",
+    fav_add: "Toegevoegd aan favorieten ✦", fav_rem: "Verwijderd uit favorieten", doc_del: "Verplaatst naar de prullenbak.", doc_up: "Document bijgewerkt.", coll: "Collectie", no_text: "Geen tekstinhoud.",
+    secret_notes: "Geheime Notities 🔒", trash_bin: "Prullenbak 🗑️", select_theme: "Selecteer Aura Thema", secure_activated: "Veilige versleuteling ingeschakeld!",
+    secure_deactivated: "Standaardmodus actief", pin_title: "Voer Beveiligings-PIN in", pin_desc: "Toegang tot verificatie van veilige zone",
+    pin_incorrect: "Onjuiste PIN-code!", pin_success: "Identiteit geautoriseerd!", trash_empty: "Prullenbak volledig geleegd.", doc_restored: "Notitie volledig hersteld.",
+    empty_trash_btn: "Prullenbak Legen", bio_err: "Biometrie nicht unterstützt.",
+    setup_pin: "Stel uw eigen 4-cijferige PIN in", confirm_pin: "Bevestig uw 4-cijferige PIN", pin_mismatch: "PIN-codes komen niet overeen!", pin_saved: "Nieuwe PIN succesvol opgeslagen!", change_pin_auth: "Voer huidige PIN in om te wijzigen",
+    pin_setup_desc: "Maak voor de eerste keer een beveiligingscode aan", pin_confirm_desc: "Bevestig uw nieuwe wachtwoordcode", pin_reset_desc: "Verifieer de huidige code om door te gaan",
+    trash_badge: "Prullenbak"
+  },
+  pt: {
+    title: "Minhas Notas ✨", compose: "Compor Ideias", title_ph: "Documento Sem Título", content_ph: "Comece a digitar seus pensamentos...",
+    char: "caracteres", save: "Salvar Registro", search_ph: "Pesquisar documentos...", all_notes: "Todas as Notas", favs: "Favoritos ✦",
+    empty: "Nenhum documento encontrado.", modal_title: "Modificar Nota", apply: "Aplicar Alterações", sb_brand: "Espaço AuraNotes",
+    sb_views: "Visualizações", sb_folders: "Gerenciamento de Pastas", folder_ph: "Criar pasta...", blank_folder: "O nome da pasta não pode estar em branco.",
+    exist_folder: "A pasta já existe.", folder_success: "Nova pasta criada!", sys_folder_err: "Pastas do sistema não podem ser removidas.",
+    folder_del_success: "Pasta excluída.", empty_log: "Não é possível salvar registros vazios.", save_success: "Obra-prima salva!",
+    fav_add: "Adicionado aos favoritos ✦", fav_rem: "Removido dos favoritos", doc_del: "Movido para a Lixeira.", doc_up: "Documento atualizado.", coll: "Coleção", no_text: "Sem conteúdo de texto.",
+    secret_notes: "Notas Secretas 🔒", trash_bin: "Lixeira 🗑️", select_theme: "Selecionar Tema", secure_activated: "Criptografia de segurança ativada!",
+    secure_deactivated: "Modo padrão ativo", pin_title: "Digite o PIN de Segurança", pin_desc: "Acesso à verificação da zona segura",
+    pin_incorrect: "Código PIN incorreto!", pin_success: "Identidade autorizada!", trash_empty: "Lixeira totalmente esvaziada.", doc_restored: "Nota totalmente restaurada.",
+    empty_trash_btn: "Esvaziar Lixeira", bio_err: "Biometria não configurada ou não suportada.",
+    setup_pin: "Defina seu PIN de 4 dígitos", confirm_pin: "Confirme seu PIN de 4 dígitos", pin_mismatch: "Os códigos PIN não coincidem!", pin_saved: "Novo PIN salvo com sucesso!", change_pin_auth: "Digite o PIN atual para alterá-lo",
+    pin_setup_desc: "Crie o código de segurança pela primeira vez", pin_confirm_desc: "Confirme o seu novo código de senha", pin_reset_desc: "Verifique o código atual para prosseguir",
+    trash_badge: "Lixeira"
+  }
+};
+
+window.notes = JSON.parse(localStorage.getItem('auraNotes_data') || '[]');
+window.trash = JSON.parse(localStorage.getItem('auraNotes_trash') || '[]');
+const protectedFolders = ["Personal", "Work", "Ideas"];
+window.folders = JSON.parse(localStorage.getItem('auraNotes_folders') || '["Personal", "Work", "Ideas"]');
+let currentView = 'all';
+let editingNoteId = null;
+let isSecretMode = false;
+
+let currentPinDigits = "";
+window.customPin = localStorage.getItem('auraNotes_custom_pin') || ""; 
+let pinSetupMode = window.customPin === "" ? "SETUP" : "AUTH"; 
+let tempNewPin = "";
+let onPinSuccessCallback = null;
+
+const notesGrid = document.getElementById('notesGrid');
+const foldersContainer = document.getElementById('foldersContainer');
+const noteFolderSelect = document.getElementById('noteFolderSelect');
+const editFolderSelect = document.getElementById('editFolderSelect');
+const backToTopBtn = document.getElementById('backToTopBtn');
+
+let currentLang = localStorage.getItem('flowday_app_lang') || 'en';
+const savedTheme = localStorage.getItem('flowday_theme') || 'light';
+let langData = dictionary[currentLang] || dictionary.en;
+
+document.getElementById('langSelect').value = currentLang;
+if (currentLang === 'ar' || currentLang === 'fa' || currentLang === 'ur') {
+  document.body.classList.add('rtl');
+} else {
+  document.body.classList.remove('rtl');
+}
+setTheme(savedTheme);
+
+function changeLanguage(langCode) {
+  currentLang = langCode;
+  localStorage.setItem('flowday_app_lang', langCode);
+  langData = dictionary[langCode] || dictionary.en;
+  
+  if (langCode === 'ar' || langCode === 'fa' || langCode === 'ur') {
+    document.body.classList.add('rtl');
+  } else {
+    document.body.classList.remove('rtl');
+  }
+  
+  applyLocalization();
+  renderFolders();
+  renderNotes();
+  proceedSwitchView(currentView);
+}
+
+function applyLocalization() {
+  document.getElementById('mainHeaderTitle').textContent = langData.title;
+  document.getElementById('lblCompose').textContent = langData.compose;
+  document.getElementById('noteTitle').placeholder = langData.title_ph;
+  document.getElementById('noteContent').placeholder = langData.content_ph;
+  document.getElementById('btnSave').textContent = langData.save;
+  document.getElementById('searchInput').placeholder = langData.search_ph;
+  document.getElementById('newFolderInput').placeholder = langData.folder_ph;
+  document.getElementById('sbBrand').textContent = langData.sb_brand;
+  document.getElementById('sbViewsTitle').textContent = langData.sb_views;
+  document.getElementById('sbFoldersTitle').textContent = langData.sb_folders;
+  document.getElementById('sbAllNotes').textContent = langData.all_notes;
+  document.getElementById('sbFavs').textContent = langData.favs;
+  document.getElementById('sbSecretNotes').textContent = langData.secret_notes;
+  document.getElementById('sbTrashBin').textContent = langData.trash_bin;
+  document.getElementById('sbThemeTitle').textContent = langData.select_theme;
+  document.getElementById('lblModify').textContent = langData.modal_title;
+  document.getElementById('btnApply').textContent = langData.apply;
+  document.getElementById('emptyTrashBtn').textContent = langData.empty_trash_btn;
+  document.getElementById('btnResetPin').textContent = langData.change_pin_auth.split(' ')[0] + " PIN";
+  updateCharCount(0);
+}
+
+function updateCharCount(len) {
+  document.getElementById('charCount').innerText = `${len} ${langData.char}`;
+}
+
+function setTheme(themeName) {
+  document.body.className = '';
+  if(currentLang === 'ar' || currentLang === 'fa' || currentLang === 'ur') document.body.classList.add('rtl');
+  if(themeName !== 'light') document.body.classList.add('theme-' + themeName);
+  localStorage.setItem('flowday_theme', themeName);
+  
+  document.querySelectorAll('.theme-dot').forEach(dot => {
+    if(dot.getAttribute('data-theme') === themeName) {
+      dot.classList.add('active');
+    } else {
+      dot.classList.remove('active');
+    }
+  });
+}
+
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 300) backToTopBtn.classList.add('show');
+  else backToTopBtn.classList.remove('show');
+});
+backToTopBtn.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+document.getElementById('noteContent').addEventListener('input', function() {
+  updateCharCount(this.value.length);
+});
+
+function toggleSidebar(open) {
+  const overlay = document.getElementById('sidebarOverlay');
+  if(open) overlay.classList.add('active');
+  else overlay.classList.remove('active');
+}
+
+function toggleSecretMode() {
+  isSecretMode = !isSecretMode;
+  const btn = document.getElementById('secretToggleBtn');
+  if(isSecretMode) {
+    btn.classList.add('active');
+    triggerToast(langData.secure_activated);
+  } else {
+    btn.classList.remove('active');
+    triggerToast(langData.secure_deactivated);
+  }
+}
+
+function switchView(viewType) {
+  if (viewType === 'secret' || viewType === 'trash') {
+    openPinModal(() => { proceedSwitchView(viewType); });
+  } else {
+    proceedSwitchView(viewType);
+  }
+}
+
+function proceedSwitchView(viewType) {
+  currentView = viewType;
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  document.getElementById('emptyTrashBtn').style.display = (viewType === 'trash') ? 'block' : 'none';
+  document.getElementById('mainEditorBox').style.display = (viewType === 'trash') ? 'none' : 'block';
+  
+  if(viewType === 'all') {
+    document.getElementById('viewAll').classList.add('active');
+    document.getElementById('currentViewTitle').innerText = langData.all_notes;
+  } else if(viewType === 'fav') {
+    document.getElementById('viewFav').classList.add('active');
+    document.getElementById('currentViewTitle').innerText = langData.favs;
+  } else if(viewType === 'secret') {
+    document.getElementById('viewSecret').classList.add('active');
+    document.getElementById('currentViewTitle').innerText = langData.secret_notes;
+  } else if(viewType === 'trash') {
+    document.getElementById('viewTrash').classList.add('active');
+    document.getElementById('currentViewTitle').innerText = langData.trash_bin;
+  } else {
+    const folderEl = document.getElementById(`folder-${viewType}`);
+    if(folderEl) folderEl.classList.add('active');
+    document.getElementById('currentViewTitle').innerText = `${viewType} ${langData.coll}`;
+  }
+  toggleSidebar(false);
+  renderNotes();
+}
+
+function openPinModal(successCallback) {
+  currentPinDigits = "";
+  onPinSuccessCallback = successCallback;
+  
+  window.customPin = localStorage.getItem('auraNotes_custom_pin') || "";
+  if(window.customPin === "") {
+    pinSetupMode = "SETUP";
+  } else {
+    pinSetupMode = "AUTH";
+  }
+  
+  updatePinModalText();
+  updatePinDots();
+  document.getElementById('pinModal').classList.add('active');
+}
+
+function closePinModal() { 
+  document.getElementById('pinModal').classList.remove('active'); 
+}
+
+function updatePinModalText() {
+  const titleEl = document.getElementById('pinModalTitle');
+  const descEl = document.getElementById('pinModalDesc');
+  
+  if(pinSetupMode === "SETUP") {
+    titleEl.textContent = langData.setup_pin;
+    descEl.textContent = langData.pin_setup_desc;
+  } else if(pinSetupMode === "CONFIRM") {
+    titleEl.textContent = langData.confirm_pin;
+    descEl.textContent = langData.pin_confirm_desc;
+  } else if(pinSetupMode === "RESET_AUTH") {
+    titleEl.textContent = langData.change_pin_auth;
+    descEl.textContent = langData.pin_reset_desc;
+  } else {
+    titleEl.textContent = langData.pin_title;
+    descEl.textContent = langData.pin_desc;
+  }
+}
+
+function pressPin(digit) {
+  if (currentPinDigits.length < 4) {
+    currentPinDigits += digit;
+    updatePinDots();
+  }
+  if (currentPinDigits.length === 4) {
+    setTimeout(() => { processPinValidation(); }, 150);
+  }
+}
+
+function processPinValidation() {
+  if (pinSetupMode === "SETUP") {
+    tempNewPin = currentPinDigits;
+    currentPinDigits = "";
+    pinSetupMode = "CONFIRM";
+    updatePinModalText();
+    updatePinDots();
+  } 
+  else if (pinSetupMode === "CONFIRM") {
+    if (currentPinDigits === tempNewPin) {
+      localStorage.setItem('auraNotes_custom_pin', currentPinDigits);
+      window.customPin = currentPinDigits;
+      if (window.saveToFirebase) window.saveToFirebase(); 
+      triggerToast(langData.pin_saved);
+      pinSetupMode = "AUTH";
+      closePinModal();
+      if(onPinSuccessCallback) onPinSuccessCallback();
+    } else {
+      triggerToast(langData.pin_mismatch);
+      currentPinDigits = "";
+      pinSetupMode = "SETUP";
+      updatePinModalText();
+      updatePinDots();
+    }
+  } 
+  else if (pinSetupMode === "RESET_AUTH") {
+    if (currentPinDigits === window.customPin) {
+      currentPinDigits = "";
+      pinSetupMode = "SETUP";
+      updatePinModalText();
+      updatePinDots();
+    } else {
+      triggerToast(langData.pin_incorrect);
+      currentPinDigits = "";
+      updatePinDots();
+    }
+  }
+  else {
+    if (currentPinDigits === window.customPin) {
+      triggerToast(langData.pin_success);
+      closePinModal();
+      if(onPinSuccessCallback) onPinSuccessCallback();
+    } else {
+      triggerToast(langData.pin_incorrect);
+      currentPinDigits = "";
+      updatePinDots();
+    }
+  }
+}
+
+function initiatePinReset() {
+  currentPinDigits = "";
+  updatePinDots();
+  window.customPin = localStorage.getItem('auraNotes_custom_pin') || "";
+  if (window.customPin === "") {
+    pinSetupMode = "SETUP";
+  } else {
+    pinSetupMode = "RESET_AUTH";
+  }
+  updatePinModalText();
+}
+
+function clearPin() {
+  currentPinDigits = currentPinDigits.slice(0, -1);
+  updatePinDots();
+}
+
+function updatePinDots() {
+  for (let i = 0; i < 4; i++) {
+    const dot = document.getElementById(`dot-${i}`);
+    if (i < currentPinDigits.length) dot.classList.add('filled');
+    else dot.classList.remove('filled');
+  }
+}
+
+function biometricAuth() {
+  if (navigator.credentials && pinSetupMode === "AUTH") {
+    triggerToast(langData.pin_success);
+    closePinModal();
+    if(onPinSuccessCallback) onPinSuccessCallback();
+  } else {
+    triggerToast(langData.bio_err);
+  }
+}
+
+function createNewFolder() {
+  const input = document.getElementById('newFolderInput');
+  const name = input.value.trim();
+  if(!name) return triggerToast(langData.blank_folder);
+  if(window.folders.includes(name)) return triggerToast(langData.exist_folder);
+  
+  window.folders.push(name);
+  input.value = '';
+  saveState();
+  renderFolders();
+  triggerToast(langData.folder_success);
+}
+
+function removeFolder(folderName, event) {
+  event.stopPropagation();
+  if(protectedFolders.includes(folderName)) return triggerToast(langData.sys_folder_err);
+  window.notes.forEach(note => { if(note.folder === folderName) note.folder = "Personal"; });
+  window.folders = window.folders.filter(f => f !== folderName);
+  if(currentView === folderName) currentView = 'all';
+  saveState();
+  renderFolders();
+  renderNotes();
+  triggerToast(langData.folder_del_success);
+}
+
+function addNote() {
+  const title = document.getElementById('noteTitle').value.trim();
+  const content = document.getElementById('noteContent').value.trim();
+  const folder = noteFolderSelect.value;
+
+  if(!title && !content) return triggerToast(langData.empty_log);
+
+  window.notes.unshift({
+    id: Date.now(),
+    title: title || langData.title_ph,
+    content,
+    folder,
+    isFav: false,
+    isSecret: isSecretMode,
+    date: new Date().toLocaleDateString(currentLang, { month: 'short', day: 'numeric' })
+  });
+
+  document.getElementById('noteTitle').value = '';
+  document.getElementById('noteContent').value = '';
+  isSecretMode = false;
+  document.getElementById('secretToggleBtn').classList.remove('active');
+  updateCharCount(0);
+  
+  saveState();
+  renderNotes();
+  triggerToast(langData.save_success);
+}
+
+function toggleFav(id) {
+  const note = window.notes.find(n => n.id === id);
+  if(note) {
+    note.isFav = !note.isFav;
+    saveState();
+    renderNotes();
+    triggerToast(note.isFav ? langData.fav_add : langData.fav_rem);
+  }
+}
+
+function deleteNoteToTrash(id) {
+  const index = window.notes.findIndex(n => n.id === id);
+  if (index !== -1) {
+    window.trash.unshift(window.notes[index]);
+    window.notes.splice(index, 1);
+    saveState();
+    renderNotes();
+    triggerToast(langData.doc_del);
+  }
+}
+
+function restoreNoteFromTrash(id) {
+  const index = window.trash.findIndex(t => t.id === id);
+  if (index !== -1) {
+    window.notes.unshift(window.trash[index]);
+    window.trash.splice(index, 1);
+    saveState();
+    renderNotes();
+    triggerToast(langData.doc_restored);
+  }
+}
+
+function hardDeleteFromTrash(id) {
+  window.trash = window.trash.filter(t => t.id !== id);
+  saveState();
+  renderNotes();
+}
+
+function emptyTrashAll() {
+  window.trash = [];
+  saveState();
+  renderNotes();
+  triggerToast(langData.trash_empty);
+}
+
+function openEditModal(id) {
+  const note = window.notes.find(n => n.id === id);
+  if(!note) return;
+  editingNoteId = id;
+  document.getElementById('editTitle').value = note.title;
+  document.getElementById('editContent').value = note.content;
+  editFolderSelect.value = note.folder;
+  document.getElementById('editModal').classList.add('active');
+}
+
+function saveEdit() {
+  const note = window.notes.find(n => n.id === editingNoteId);
+  if(note) {
+    note.title = document.getElementById('editTitle').value.trim() || langData.title_ph;
+    note.content = document.getElementById('editContent').value.trim();
+    note.folder = editFolderSelect.value;
+    saveState();
+    renderNotes();
+    closeModal();
+    triggerToast(langData.doc_up);
+  }
+}
+
+function closeModal() { document.getElementById('editModal').classList.remove('active'); }
+
+function renderFolders() {
+  foldersContainer.innerHTML = '';
+  noteFolderSelect.innerHTML = '';
+  editFolderSelect.innerHTML = '';
+
+  window.folders.forEach(folder => {
+    const isProtected = protectedFolders.includes(folder);
+    
+    const navItem = document.createElement('div');
+    navItem.className = 'nav-item';
+    navItem.id = `folder-${folder}`;
+    navItem.onclick = () => switchView(folder);
+    
+    const navLeft = document.createElement('div');
+    navLeft.className = 'nav-left';
+    navLeft.innerHTML = `<i class='bx bx-folder main-icon'></i>`;
+    
+    const spanName = document.createElement('span');
+    spanName.textContent = folder;
+    navLeft.appendChild(spanName);
+    navItem.appendChild(navLeft);
+    
+    if(!isProtected) {
+      const delBtn = document.createElement('button');
+      delBtn.className = 'remove-folder-btn';
+      delBtn.innerHTML = `<i class='bx bx-trash-alt'></i>`;
+      delBtn.onclick = (e) => removeFolder(folder, e);
+      navItem.appendChild(delBtn);
+    }
+    
+    foldersContainer.appendChild(navItem);
+
+    const option1 = document.createElement('option');
+    option1.value = folder;
+    option1.textContent = folder;
+    noteFolderSelect.appendChild(option1);
+
+    const option2 = document.createElement('option');
+    option2.value = folder;
+    option2.textContent = folder;
+    editFolderSelect.appendChild(option2);
+  });
+}
+
+function renderNotes() {
+  const query = document.getElementById('searchInput').value.toLowerCase();
+  notesGrid.innerHTML = '';
+  
+  if (currentView === 'trash') {
+    let filteredTrash = window.trash.filter(t => t.title.toLowerCase().includes(query) || t.content.toLowerCase().includes(query));
+    if(filteredTrash.length === 0) {
+      notesGrid.innerHTML = `<div class="empty-state"><i class='bx bx-trash' style='font-size:2.5rem; color:var(--text-muted); display:block; margin-bottom:8px;'></i>${langData.empty}</div>`;
+      return;
+    }
+    
+    filteredTrash.forEach(note => {
+      const card = document.createElement('div');
+      card.className = 'note-card animate__animated animate__fadeInUp';
+      
+      const contentWrapper = document.createElement('div');
+      const header = document.createElement('div');
+      header.className = 'note-header';
+      const h3 = document.createElement('h3');
+      h3.className = 'note-title';
+      h3.textContent = note.title;
+      header.appendChild(h3);
+      
+      const p = document.createElement('p');
+      p.className = 'note-body';
+      p.textContent = note.content || langData.no_text;
+      
+      contentWrapper.appendChild(header);
+      contentWrapper.appendChild(p);
+      
+      const footer = document.createElement('div');
+      footer.className = 'note-footer';
+      footer.innerHTML = `<span class="folder-badge"><i class='bx bx-trash'></i> ${langData.trash_badge}</span>`;
+      
+      const actions = document.createElement('div');
+      actions.className = 'card-actions';
+      
+      const restoreBtn = document.createElement('button');
+      restoreBtn.className = 'card-icon-btn';
+      restoreBtn.innerHTML = `<i class='bx bx-undo'></i>`;
+      restoreBtn.onclick = () => restoreNoteFromTrash(note.id);
+      
+      const hardDelBtn = document.createElement('button');
+      hardDelBtn.className = 'card-icon-btn delete';
+      hardDelBtn.innerHTML = `<i class='bx bx-x-circle'></i>`;
+      hardDelBtn.onclick = () => hardDeleteFromTrash(note.id);
+      
+      actions.appendChild(restoreBtn);
+      actions.appendChild(hardDelBtn);
+      footer.appendChild(actions);
+      
+      card.appendChild(contentWrapper);
+      card.appendChild(footer);
+      notesGrid.appendChild(card);
+    });
+    return;
+  }
+
+  let filtered = window.notes;
+  if (currentView === 'secret') {
+    filtered = filtered.filter(n => n.isSecret);
+  } else {
+    filtered = filtered.filter(n => !n.isSecret);
+    if(currentView === 'fav') filtered = filtered.filter(n => n.isFav);
+    else if(currentView !== 'all') filtered = filtered.filter(n => n.folder === currentView);
+  }
+
+  if(query) {
+    filtered = filtered.filter(n => n.title.toLowerCase().includes(query) || n.content.toLowerCase().includes(query));
+  }
+
+  if(filtered.length === 0) {
+    notesGrid.innerHTML = `<div class="empty-state"><i class='bx bx-folder-open' style='font-size:2.5rem; color:var(--text-muted); display:block; margin-bottom:8px;'></i>${langData.empty}</div>`;
+    return;
+  }
+
+  filtered.forEach(note => {
+    const card = document.createElement('div');
+    card.className = `note-card ${note.isFav ? 'favorite-style' : ''} animate__animated animate__fadeInUp`;
+    
+    const contentWrapper = document.createElement('div');
+    const header = document.createElement('div');
+    header.className = 'note-header';
+    
+    const h3 = document.createElement('h3');
+    h3.className = 'note-title';
+    h3.textContent = note.title;
+    header.appendChild(h3);
+    
+    if(!note.isSecret) {
+      const starBtn = document.createElement('button');
+      starBtn.className = `star-btn ${note.isFav ? 'active' : ''}`;
+      starBtn.innerHTML = `<i class='bx ${note.isFav ? 'bxs-star animate__animated animate__bounceIn' : 'bx-star'}'></i>`;
+      starBtn.onclick = () => toggleFav(note.id);
+      header.appendChild(starBtn);
+    } else {
+      header.innerHTML += `<i class='bx bx-lock' style='color:#EF4444; font-size:20px;'></i>`;
+    }
+    
+    const p = document.createElement('p');
+    p.className = 'note-body';
+    p.textContent = note.content || langData.no_text;
+    
+    contentWrapper.appendChild(header);
+    contentWrapper.appendChild(p);
+    
+    const footer = document.createElement('div');
+    footer.className = 'note-footer';
+    
+    const badge = document.createElement('span');
+    if(note.isSecret) {
+      badge.className = 'folder-badge secret-badge';
+      badge.innerHTML = `<i class='bx bx-lock-alt'></i> Secret`;
+    } else {
+      badge.className = 'folder-badge';
+      badge.innerHTML = `<i class='bx bx-purchase-tag-alt'></i> ${note.folder}`;
+    }
+    footer.appendChild(badge);
+    
+    const actions = document.createElement('div');
+    actions.className = 'card-actions';
+    
+    const dateSpan = document.createElement('span');
+    dateSpan.style.fontSize = '11px';
+    dateSpan.style.color = 'var(--text-muted)';
+    dateSpan.textContent = note.date;
+    
+    const editBtn = document.createElement('button');
+    editBtn.className = 'card-icon-btn';
+    editBtn.innerHTML = `<i class='bx bx-pencil'></i>`;
+    editBtn.onclick = () => openEditModal(note.id);
+    
+    const delBtn = document.createElement('button');
+    delBtn.className = 'card-icon-btn delete';
+    delBtn.innerHTML = `<i class='bx bx-trash'></i>`;
+    delBtn.onclick = () => deleteNoteToTrash(note.id);
+    
+    actions.appendChild(dateSpan);
+    actions.appendChild(editBtn);
+    actions.appendChild(delBtn);
+    footer.appendChild(actions);
+    
+    card.appendChild(contentWrapper);
+    card.appendChild(footer);
+    notesGrid.appendChild(card);
+  });
+}
+
+function triggerToast(msg) {
+  const toast = document.getElementById('toastBar');
+  document.getElementById('toastMessage').innerText = msg;
+  toast.classList.add('active');
+  setTimeout(() => toast.classList.remove('active'), 2200);
+}
+
+window.saveState = function(shouldSyncFirebase = true) {
+  localStorage.setItem('auraNotes_data', JSON.stringify(window.notes));
+  localStorage.setItem('auraNotes_trash', JSON.stringify(window.trash));
+  localStorage.setItem('auraNotes_folders', JSON.stringify(window.folders));
+  
+  if (shouldSyncFirebase && window.saveToFirebase) {
+    window.saveToFirebase();
+  }
+}
+
+// Global exposure for event handlers
+window.toggleSidebar = toggleSidebar;
+window.switchView = switchView;
+window.createNewFolder = createNewFolder;
+window.addNote = addNote;
+window.pressPin = pressPin;
+window.clearPin = clearPin;
+window.biometricAuth = biometricAuth;
+window.initiatePinReset = initiatePinReset;
+window.closePinModal = closePinModal;
+window.toggleSecretMode = toggleSecretMode;
+window.changeLanguage = changeLanguage;
+window.setTheme = setTheme;
+window.emptyTrashAll = emptyTrashAll;
+window.closeModal = closeModal;
+window.saveEdit = saveEdit;
+window.renderFolders = renderFolders;
+window.renderNotes = renderNotes;
+
+// Run initial configurations
+applyLocalization();
+renderFolders();
+renderNotes();
+</script>
+</body>
+</html>

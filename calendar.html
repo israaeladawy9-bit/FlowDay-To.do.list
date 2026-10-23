@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Activity Calendar - FlowDay Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-base: linear-gradient(135deg, #FDF8F9 0%, #F5EEF0 100%);
+            --container-bg: rgba(255, 255, 255, 0.82);
+            --card-surface: #FFFFFF;
+            --text-main: #1E1B4B;
+            --text-muted: #7C7E8B;
+            --purple-main: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%);
+            --pink-main: linear-gradient(135deg, #EC4899 0%, #F472B6 100%);
+            --gray-empty: #F3F4F6;
+            --border-glass: rgba(255, 255, 255, 0.7);
+        }
+
+        body.theme-light { }
+        
+        body.theme-dark {
+            --bg-base: linear-gradient(135deg, #0F0A1C 0%, #1A0B1A 100%);
+            --container-bg: rgba(31, 23, 49, 0.7);
+            --card-surface: #1E1530;
+            --text-main: #F3E8FF;
+            --text-muted: #C084FC;
+            --gray-empty: #271E3A;
+            --border-glass: rgba(255, 255, 255, 0.05);
+        }
+
+        body.theme-pink {
+            --bg-base: linear-gradient(135deg, #FFF1F2 0%, #FFE4E6 100%);
+            --container-bg: rgba(255, 255, 255, 0.8);
+            --card-surface: #FFFFFF;
+            --text-main: #4C0519;
+            --text-muted: #9F1239;
+            --gray-empty: #FFE4E6;
+            --border-glass: #FFE4E6;
+        }
+
+        body.theme-purple {
+            --bg-base: linear-gradient(135deg, #FAF5FF 0%, #F3E8FF 100%);
+            --container-bg: rgba(255, 255, 255, 0.8);
+            --card-surface: #FFFFFF;
+            --text-main: #3B0764;
+            --text-muted: #701A75;
+            --gray-empty: #F3E8FF;
+            --border-glass: #F3E8FF;
+        }
+
+        body.theme-yellow {
+            --bg-base: linear-gradient(135deg, #FEFCE8 0%, #FEF08A 100%);
+            --container-bg: rgba(255, 255, 255, 0.85);
+            --card-surface: #FFFFFF;
+            --text-main: #713F12;
+            --text-muted: #A16207;
+            --gray-empty: #FEF9C3;
+            --border-glass: #FEF08A;
+        }
+
+        body.theme-brown {
+            --bg-base: linear-gradient(135deg, #FDF6F0 0%, #E7D4C1 100%);
+            --container-bg: rgba(255, 255, 255, 0.85);
+            --card-surface: #FFFFFF;
+            --text-main: #451A03;
+            --text-muted: #78350F;
+            --gray-empty: #F5EBE0;
+            --border-glass: #E7D4C1;
+        }
+
+        body.theme-forest {
+            --bg-base: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
+            --container-bg: rgba(255, 255, 255, 0.85);
+            --card-surface: #FFFFFF;
+            --text-main: #14532D;
+            --text-muted: #166534;
+            --gray-empty: #E2F0D9;
+            --border-glass: #DCFCE7;
+        }
+
+        body.theme-ocean {
+            --bg-base: linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 100%);
+            --container-bg: rgba(255, 255, 255, 0.85);
+            --card-surface: #FFFFFF;
+            --text-main: #0369A1;
+            --text-muted: #0284C7;
+            --gray-empty: #E0F2FE;
+            --border-glass: #BAE6FD;
+        }
+
+        body.theme-sunset {
+            --bg-base: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%);
+            --container-bg: rgba(255, 255, 255, 0.85);
+            --card-surface: #FFFFFF;
+            --text-main: #7C2D12;
+            --text-muted: #9A3412;
+            --gray-empty: #FFEDD5;
+            --border-glass: #FFEDD5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            background: var(--bg-base);
+            color: var(--text-main);
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        body.rtl { direction: rtl; }
+
+        .art-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; overflow: hidden;
+        }
+        
+        .art-circle-1 {
+            position: absolute; width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.12) 0%, transparent 70%);
+            bottom: -10%; right: -10%; filter: blur(60px);
+        }
+
+        .art-circle-2 {
+            position: absolute; width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+            top: -10%; left: -10%; filter: blur(60px);
+        }
+
+        .app-container {
+            background: var(--container-bg);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            width: 100%; height: 100%; max-width: 430px;
+            padding: 50px 24px 40px; position: relative;
+            z-index: 1; display: flex; flex-direction: column;
+            border: 1px solid var(--border-glass);
+            box-shadow: 0 40px 80px rgba(139, 92, 246, 0.04);
+        }
+
+        .calendar-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 24px; position: relative; z-index: 20;
+        }
+
+        .btn-back {
+            width: 46px; height: 46px; border-radius: 16px;
+            background: var(--card-surface); border: 1px solid rgba(139, 92, 246, 0.08);
+            color: var(--text-main); display: flex; align-items: center; justify-content: center;
+            font-size: 15px; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.03);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer; outline: none;
+        }
+
+        body.rtl .btn-back i { transform: rotate(180deg); }
+        .btn-back:hover { transform: translateY(-2px); color: #EC4899; }
+
+        .header-title { text-align: center; }
+        .header-title h1 { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.5px; color: var(--text-main); }
+        .header-title p { font-size: 11px; color: var(--text-muted); font-weight: 600; margin-top: 1px; }
+
+        .search-container {
+            display: none; align-items: center; background: var(--card-surface);
+            border-radius: 14px; padding: 2px 10px; border: 1px solid rgba(139, 92, 246, 0.25);
+            width: 130px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+        .search-container input { border: none; outline: none; background: transparent; font-size: 13px; color: var(--text-main); width: 100%; padding: 6px 0; }
+
+        .btn-action-icon {
+            width: 46px; height: 46px; border-radius: 16px; background: var(--card-surface);
+            border: 1px solid rgba(139, 92, 246, 0.08); color: var(--text-muted);
+            display: flex; align-items: center; justify-content: center; font-size: 15px;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.03); cursor: pointer; transition: all 0.2s ease;
+        }
+        .btn-action-icon.active { color: #EC4899; border-color: #EC4899; }
+
+        .month-switcher-card {
+            background: var(--card-surface); border-radius: 20px; padding: 14px 20px;
+            display: flex; align-items: center; justify-content: space-between;
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.02); border: 1px solid var(--border-glass);
+            margin-bottom: 20px; position: relative; z-index: 10;
+        }
+
+        .arrow-btn {
+            background: transparent; border: none; color: var(--text-muted); font-size: 16px;
+            cursor: pointer; width: 36px; height: 36px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;
+        }
+        body.rtl .arrow-btn i { transform: rotate(180deg); }
+        .arrow-btn:hover { background: rgba(139, 92, 246, 0.08); color: var(--text-main); transform: scale(1.05); }
+
+        .month-year-text { font-size: 18px; font-weight: 800; color: var(--text-main); letter-spacing: -0.3px; }
+
+        .calendar-box { background: rgba(255, 255, 255, 0.15); border-radius: 24px; padding: 20px; border: 1px solid var(--border-glass); position: relative; z-index: 10; }
+        .weekdays-grid { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; margin-bottom: 16px; }
+        .weekday-label { font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        .days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; text-align: center; }
+
+        .day-cell {
+            aspect-ratio: 1; border-radius: 50%; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; font-size: 13px; font-weight: 700;
+            color: var(--text-main); background-color: var(--gray-empty); cursor: pointer;
+            user-select: none; transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); position: relative;
+        }
+
+        .day-cell:hover:not(.empty-slot):not(.active-study):not(.is-today) { background-color: rgba(139, 92, 246, 0.15); transform: translateY(-2px); }
+
+        .day-cell.active-study {
+            background: var(--pink-main) !important; color: #FFFFFF !important;
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.25) !important; border: none !important;
+        }
+        .day-cell.active-study::before { content: '✓'; font-size: 9px; position: absolute; top: 3px; font-weight: 800; display: block !important; }
+        .day-cell.active-study::after { content: attr(data-mood-emoji); font-size: 9px; position: absolute; bottom: 2px; display: block !important; }
+
+        .day-cell.is-today { background: var(--purple-main); color: #FFFFFF; box-shadow: 0 4px 14px rgba(139, 92, 246, 0.3); font-weight: 800; border: 2px solid #FFFFFF; }
+        .day-cell.has-tasks::after { content: '•'; color: #EC4899; font-size: 16px; position: absolute; bottom: -2px; }
+        .day-cell.empty-slot { background: transparent; pointer-events: none; }
+
+        .calendar-legend {
+            margin-top: auto; display: flex; justify-content: space-around; background: var(--card-surface);
+            padding: 14px; border-radius: 18px; box-shadow: 0 6px 20px rgba(0,0,0,0.015); border: 1px solid var(--border-glass); position: relative; z-index: 10;
+        }
+
+        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; color: var(--text-main); }
+        .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+        .legend-dot.purple { background: var(--purple-main); }
+        .legend-dot.pink { background: var(--pink-main); }
+        .legend-dot.gray { background: var(--gray-empty); }
+
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 10, 28, 0.4);
+            backdrop-filter: blur(8px); z-index: 100; display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-card {
+            background: var(--card-surface); width: 90%; max-width: 360px; border-radius: 24px; padding: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15); border: 1px solid var(--border-glass); color: var(--text-main);
+        }
+        .modal-card h3 { font-size: 16px; margin-bottom: 12px; font-weight: 800; }
+        .modal-card textarea {
+            width: 100%; height: 80px; border-radius: 12px; padding: 10px; border: 1px solid rgba(139, 92, 246, 0.2);
+            background: rgba(0,0,0,0.02); color: var(--text-main); outline: none; font-size: 13px; resize: none; margin-bottom: 16px;
+        }
+        .mood-select-box { display: flex; gap: 8px; margin-bottom: 20px; justify-content: space-between; }
+        .mood-btn {
+            font-size: 20px; padding: 8px; border-radius: 10px; border: 1px solid transparent;
+            cursor: pointer; background: rgba(0,0,0,0.02); transition: all 0.2s;
+        }
+        .mood-btn.selected { background: rgba(236, 72, 153, 0.15); border-color: #EC4899; }
+        .modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
+        .modal-actions button { padding: 8px 16px; border-radius: 10px; border: none; font-weight: 700; cursor: pointer; }
+        .btn-save { background: var(--purple-main); color: #fff; }
+        .btn-cancel { background: transparent; color: var(--text-muted); }
+    </style>
+</head>
+<body>
+
+    <div class="art-bg">
+        <div class="art-circle-1"></div>
+        <div class="art-circle-2"></div>
+    </div>
+
+    <div class="app-container">
+        <div class="calendar-header">
+            <button class="btn-back" id="backToMainBtn" type="button">
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <div class="header-title">
+                <h1 id="titleText">Calendar</h1>
+                <p id="subtitleText">Track your journey ✨</p>
+            </div>
+            
+            <div style="display: flex; align-items: center; gap: 6px;">
+                <div class="search-container" id="searchContainer">
+                    <input type="number" id="searchInput" placeholder="Day eg. 15" min="1" max="31">
+                </div>
+                <div class="btn-action-icon" id="searchToggleBtn">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="month-switcher-card">
+            <button class="arrow-btn" id="prevMonthBtn">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <div class="month-year-text" id="monthYearDisplay">June 2026</div>
+            <button class="arrow-btn" id="nextMonthBtn">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+
+        <div class="calendar-box">
+            <div class="weekdays-grid" id="weekdaysGrid"></div>
+            <div class="days-grid" id="daysGrid"></div>
+        </div>
+
+        <div class="calendar-legend">
+            <div class="legend-item">
+                <div class="legend-dot purple"></div>
+                <span id="legendToday">Today</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot pink"></div>
+                <span id="legendCompleted">Completed ✓</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot gray"></div>
+                <span id="legendRest">Rest Day</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="taskModal">
+        <div class="modal-card">
+            <h3 id="modalTitle">Day Details</h3>
+            <textarea id="taskTextArea" placeholder="Write your tasks for today..."></textarea>
+            
+            <h3 id="moodTitle">Your Mood</h3>
+            <div class="mood-select-box">
+                <button class="mood-btn" data-emoji="🔥">🔥</button>
+                <button class="mood-btn" data-emoji="😊">😊</button>
+                <button class="mood-btn" data-emoji="😴">😴</button>
+                <button class="mood-btn" data-emoji="😔">😔</button>
+                <button class="mood-btn" data-emoji="☕">☕</button>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-cancel" id="closeModalBtn">Cancel</button>
+                <button class="btn-save" id="saveModalBtn">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyB1gI-OSbGCGPIMA5NCnuB2K_-IyrMWFHs",
+            authDomain: "flowday-81f42.firebaseapp.com",
+            projectId: "flowday-81f42",
+            storageBucket: "flowday-81f42.firebasestorage.app",
+            messagingSenderId: "854763403133",
+            appId: "1:854763403133:web:13f5eafb11422d89787e14",
+            measurementId: "G-W5Q0QYEGEG"
+        };
+
+        // Initialize Firebase & Firestore
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Dictionary definitions
+        const dictionary = {
+            en: { calendar_title: "Calendar", calendar_subtitle: "Track your journey ✨", today: "Today", done: "Completed ✓", rest: "Rest Day", months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], weekdays: ["S", "M", "T", "W", "T", "F", "S"], details: "Day Details", mood: "Your Mood" },
+            ar: { calendar_title: "التقويم", calendar_subtitle: "تتبع رحلة إنجازك ✨", today: "اليوم", done: "مكتمل ✓", rest: "يوم راحة", months: ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"], weekdays: ["ح", "ن", "ث", "ر", "خ", "ج", "س"], details: "تفاصيل اليوم", mood: "المود والمزاج" }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const daysGrid = document.getElementById('daysGrid');
+            const weekdaysGrid = document.getElementById('weekdaysGrid');
+            const monthYearDisplay = document.getElementById('monthYearDisplay');
+            const prevMonthBtn = document.getElementById('prevMonthBtn');
+            const nextMonthBtn = document.getElementById('nextMonthBtn');
+            const backToMainBtn = document.getElementById('backToMainBtn');
+            
+            const searchToggleBtn = document.getElementById('searchToggleBtn');
+            const searchContainer = document.getElementById('searchContainer');
+            const searchInput = document.getElementById('searchInput');
+
+            const taskModal = document.getElementById('taskModal');
+            const taskTextArea = document.getElementById('taskTextArea');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            const saveModalBtn = document.getElementById('saveModalBtn');
+            const moodButtons = document.querySelectorAll('.mood-btn');
+
+            let activeModalDay = null;
+            let activeSelectedMood = '🔥';
+
+            const savedTheme = localStorage.getItem('flowday_theme') || 'light';
+            document.body.className = ''; 
+            if (savedTheme !== 'light') document.body.classList.add('theme-' + savedTheme);
+
+            const currentLang = localStorage.getItem('flowday_app_lang') || 'en';
+            if (currentLang === 'ar') document.body.classList.add('rtl');
+
+            const langData = dictionary[currentLang] || dictionary.en;
+
+            document.getElementById('titleText').textContent = langData.calendar_title;
+            document.getElementById('subtitleText').textContent = langData.calendar_subtitle;
+            document.getElementById('legendToday').textContent = langData.today;
+            document.getElementById('legendCompleted').textContent = langData.done;
+            document.getElementById('legendRest').textContent = langData.rest;
+            document.getElementById('modalTitle').textContent = langData.details;
+            document.getElementById('moodTitle').textContent = langData.mood;
+
+            weekdaysGrid.innerHTML = '';
+            langData.weekdays.forEach(day => {
+                const label = document.createElement('div');
+                label.classList.add('weekday-label');
+                label.textContent = day;
+                weekdaysGrid.appendChild(label);
+            });
+
+            if (backToMainBtn) {
+                backToMainBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.replace("main.html");
+                });
+            }
+
+            const realToday = new Date();
+            let displayedMonth = realToday.getMonth(); 
+            let displayedYear = realToday.getFullYear();
+
+            searchToggleBtn.addEventListener('click', () => {
+                if(searchContainer.style.display === 'flex') {
+                    searchContainer.style.display = 'none';
+                    searchToggleBtn.classList.remove('active');
+                    resetSearchHighlight();
+                } else {
+                    searchContainer.style.display = 'flex';
+                    searchToggleBtn.classList.add('active');
+                    searchInput.focus();
+                }
+            });
+
+            searchInput.addEventListener('input', () => {
+                resetSearchHighlight();
+                const targetDay = parseInt(searchInput.value, 10);
+                if (isNaN(targetDay) || targetDay < 1 || targetDay > 31) return;
+
+                const cells = daysGrid.querySelectorAll('.day-cell:not(.empty-slot)');
+                cells.forEach(cell => {
+                    if (parseInt(cell.textContent, 10) === targetDay) {
+                        cell.style.transform = 'scale(1.25)';
+                        cell.style.boxShadow = '0 0 15px rgba(236, 72, 153, 0.6)';
+                        cell.style.border = '2px dashed #EC4899';
+                        cell.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                });
+            });
+
+            function resetSearchHighlight() {
+                const cells = daysGrid.querySelectorAll('.day-cell:not(.empty-slot)');
+                cells.forEach(cell => {
+                    cell.style.transform = ''; cell.style.boxShadow = ''; cell.style.border = '';
+                });
+            }
+
+            moodButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    moodButtons.forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    activeSelectedMood = btn.getAttribute('data-emoji');
+                });
+            });
+
+            // دالة جلب البيانات وحفظها من Firestore سحابيًا بدلاً من الـ LocalStorage
+            async function renderCalendar(month, year) {
+                daysGrid.innerHTML = '';
+                monthYearDisplay.textContent = `${langData.months[month]} ${year}`;
+
+                const firstDayIndex = new Date(year, month, 1).getDay(); 
+                const totalDays = new Date(year, month + 1, 0).getDate(); 
+
+                // مراجع Firestore الخاصة بالشهر الحالي
+                const docRef = doc(db, "users", "default_user", "calendar", `${year}_${month}`);
+                let completedDays = [];
+                let dayMeta = {};
+
+                try {
+                    const docSnap = await getDoc(docRef);
+                    if (docSnap.exists()) {
+                        const data = docSnap.data();
+                        completedDays = data.completedDays || [];
+                        dayMeta = data.dayMeta || {};
+                    }
+                } catch (error) {
+                    console.error("Error fetching data from Firestore: ", error);
+                }
+
+                for (let i = 0; i < firstDayIndex; i++) {
+                    const emptyCell = document.createElement('div');
+                    emptyCell.classList.add('day-cell', 'empty-slot');
+                    daysGrid.appendChild(emptyCell);
+                }
+
+                for (let day = 1; day <= totalDays; day++) {
+                    const dayCell = document.createElement('div');
+                    dayCell.classList.add('day-cell');
+                    dayCell.textContent = day;
+
+                    let savedMood = (dayMeta[day] && dayMeta[day].mood) ? dayMeta[day].mood : '🔥';
+                    dayCell.setAttribute('data-mood-emoji', savedMood);
+
+                    if (day === realToday.getDate() && month === realToday.getMonth() && year === realToday.getFullYear()) {
+                        dayCell.classList.add('is-today');
+                    }
+
+                    if (completedDays.includes(day)) {
+                        dayCell.classList.add('active-study');
+                    }
+
+                    if (dayMeta[day] && dayMeta[day].tasks) {
+                        dayCell.classList.add('has-tasks');
+                    }
+
+                    // عند الضغط ضغطة عادية (تغيير حالة الإنجاز) يتم التحديث فورًا على السحابة
+                    dayCell.addEventListener('click', async (e) => {
+                        e.stopPropagation();
+                        if (dayCell.classList.contains('active-study')) {
+                            dayCell.classList.remove('active-study');
+                            completedDays = completedDays.filter(d => d !== day);
+                        } else {
+                            dayCell.classList.add('active-study');
+                            completedDays.push(day);
+                        }
+                        await setDoc(docRef, { completedDays, dayMeta }, { merge: true });
+                    });
+
+                    let pressTimer;
+                    const startPress = () => {
+                        pressTimer = setTimeout(() => {
+                            activeModalDay = day;
+                            taskTextArea.value = (dayMeta[day] && dayMeta[day].tasks) ? dayMeta[day].tasks : '';
+                            
+                            activeSelectedMood = (dayMeta[day] && dayMeta[day].mood) ? dayMeta[day].mood : '🔥';
+                            moodButtons.forEach(b => {
+                                b.classList.remove('selected');
+                                if(b.getAttribute('data-emoji') === activeSelectedMood) b.classList.add('selected');
+                            });
+
+                            taskModal.classList.add('active');
+                        }, 600);
+                    };
+
+                    const cancelPress = () => clearTimeout(pressTimer);
+
+                    dayCell.addEventListener('mousedown', startPress);
+                    dayCell.addEventListener('mouseup', cancelPress);
+                    dayCell.addEventListener('mouseleave', cancelPress);
+                    dayCell.addEventListener('touchstart', startPress);
+                    dayCell.addEventListener('touchend', cancelPress);
+
+                    daysGrid.appendChild(dayCell);
+                }
+
+                // حفظ الدالة محليًا للوصول لها عبر الأزرار الأخرى
+                window.currentCompletedDays = completedDays;
+                window.currentDayMeta = dayMeta;
+            }
+
+            closeModalBtn.addEventListener('click', () => taskModal.classList.remove('active'));
+            
+            // عند الضغط على حفظ في النافذة المنبثقة
+            saveModalBtn.addEventListener('click', async () => {
+                const docRef = doc(db, "users", "default_user", "calendar", `${displayedYear}_${displayedMonth}`);
+                let dayMeta = window.currentDayMeta || {};
+                let completedDays = window.currentCompletedDays || [];
+                
+                if (!dayMeta[activeModalDay]) dayMeta[activeModalDay] = {};
+                
+                dayMeta[activeModalDay].tasks = taskTextArea.value;
+                dayMeta[activeModalDay].mood = activeSelectedMood;
+                
+                await setDoc(docRef, { completedDays, dayMeta }, { merge: true });
+                taskModal.classList.remove('active');
+                renderCalendar(displayedMonth, displayedYear);
+            });
+
+            prevMonthBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (displayedMonth === 0) { displayedMonth = 11; displayedYear--; } else { displayedMonth--; }
+                renderCalendar(displayedMonth, displayedYear);
+            });
+
+            nextMonthBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (displayedMonth === 11) { displayedMonth = 0; displayedYear++; } else { displayedMonth++; }
+                renderCalendar(displayedMonth, displayedYear);
+            });
+
+            renderCalendar(displayedMonth, displayedYear);
+        });
+    </script>
+</body>
+</html>

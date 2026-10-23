@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Mood Tracker - FlowDay Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cairo:wght@400;600;700;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* 🔵 1. الثيم الافتراضي الفاتح (Light Theme) */
+        :root {
+            --bg-base: #F6F8FA; 
+            --container-bg: #FFFFFF;
+            --card-bg: #F1F5F9;
+            --border-color: #E2E8F0;
+            --text-main: #0F172A;     
+            --text-muted: #64748B;    
+            --prime-mood: #4F46E5;
+        }
+
+        /* 🟤 2. الثيم البني الفاخر والدافئ (Brown Theme) */
+        body.theme-brown {
+            --bg-base: #F7F2EE;
+            --container-bg: #FFFFFF;
+            --card-bg: #F3EAE3;
+            --border-color: #E6D5CB;
+            --text-main: #3E1B0A;
+            --text-muted: #855843;
+            --prime-mood: #8C4F2B;
+        }
+
+        /* 🌸 3. الثيم الوردي الناعم (Pink Theme) */
+        body.theme-pink {
+            --bg-base: #FFF0F2;
+            --container-bg: #FFFFFF;
+            --card-bg: #FFE4E8;
+            --border-color: rgba(244, 63, 94, 0.15);
+            --text-main: #4C0519;
+            --text-muted: #A21CAF;
+            --prime-mood: #E11D48;
+        }
+
+        /* 🔮 4. الثيم البنفسجي الملكي (Purple Theme) */
+        body.theme-purple {
+            --bg-base: #F5F3FF;
+            --container-bg: #FFFFFF;
+            --card-bg: #EDE9FE;
+            --border-color: #DDD6FE;
+            --text-main: #2E1065;
+            --text-muted: #6D28D9;
+            --prime-mood: #7C3AED;
+        }
+
+        /* 🌑 5. الثيم الداكن الاحترافي (Dark Theme) */
+        body.theme-dark {
+            --bg-base: #0B0F17;
+            --container-bg: #121824;
+            --card-bg: #1E2640;
+            --border-color: #334155;
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+            --prime-mood: #6366F1;
+        }
+
+        /* 🟢 6. الثيم الأخضر الحيوي والمريح (Green Theme) */
+        body.theme-green {
+            --bg-base: #F0FDF4;
+            --container-bg: #FFFFFF;
+            --card-bg: #DCFCE7;
+            --border-color: #BBF7D0;
+            --text-main: #14532D;
+            --text-muted: #16A34A;
+            --prime-mood: #15803D;
+        }
+
+        /* 🟡 7. الثيم الأصفر المشرق (Yellow Theme) */
+        body.theme-yellow {
+            --bg-base: #FEFCE8;
+            --container-bg: #FFFFFF;
+            --card-bg: #FEF9C3;
+            --border-color: #FEF08A;
+            --text-main: #713F12;
+            --text-muted: #CA8A04;
+            --prime-mood: #B45309;
+        }
+
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Plus Jakarta Sans', 'Outfit', 'Cairo', sans-serif;
+            transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                        background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                        color 0.4s ease, 
+                        border-color 0.4s ease, 
+                        transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        box-shadow 0.3s ease;
+        }
+
+        html, body { height: 100%; overflow: hidden; background-color: var(--bg-base); color: var(--text-main); }
+        body { display: flex; justify-content: center; align-items: center; position: relative; }
+        body.rtl { direction: rtl; }
+
+        .app-container {
+            background: var(--container-bg);
+            width: 100%; height: 100%; max-width: 460px; padding: 32px 24px 40px;
+            position: relative; z-index: 1; display: flex; flex-direction: column;
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.06);
+        }
+
+        .header-navigation { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
+        .back-btn {
+            width: 46px; height: 46px; border-radius: 16px; background: var(--card-bg);
+            border: 1px solid var(--border-color); display: flex; align-items: center;
+            justify-content: center; color: var(--text-main); font-size: 15px; text-decoration: none;
+        }
+        .back-btn:hover { transform: scale(1.05); }
+        body.rtl .back-btn i { transform: rotate(180deg); }
+        
+        .header-title h1 { font-size: 1.35rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; }
+
+        /* منطقة اختيار المزاج */
+        .mood-selector-card {
+            background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 26px;
+            padding: 24px; text-align: center; margin-bottom: 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.02);
+        }
+        .mood-selector-card h3 { font-size: 15px; font-weight: 800; margin-bottom: 18px; color: var(--text-main); }
+        .mood-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .mood-btn {
+            border: 1px solid var(--border-color); background: var(--container-bg);
+            border-radius: 18px; padding: 14px 0; font-size: 24px; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; gap: 6px;
+        }
+        .mood-btn span { font-size: 11px; font-weight: 700; color: var(--text-muted); }
+        .mood-btn:hover { transform: translateY(-2px); }
+        .mood-btn.active { border-color: var(--prime-mood); background: var(--card-bg); box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+        
+        /* تحسين حالة التجميد والتعطيل بعد الاختيار */
+        .mood-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .mood-btn.active:disabled { opacity: 1; border-color: var(--prime-mood); background: var(--container-bg); font-weight: 800; }
+
+        /* إشعار التنبيه */
+        .alert-toast {
+            background: #EF4444; color: #FFFFFF; font-size: 12px; font-weight: 700;
+            padding: 8px 16px; border-radius: 12px; margin-top: 12px; display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        body.theme-dark .alert-toast { background: #DC2626; }
+
+        /* منطقة الإحصائيات */
+        .stats-card {
+            background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 26px;
+            padding: 24px; margin-bottom: 20px; flex: 1; display: flex; flex-direction: column;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.02);
+        }
+        .stats-card h3 { font-size: 15px; font-weight: 800; margin-bottom: 20px; color: var(--text-main); }
+        .stats-list { display: flex; flex-direction: column; gap: 16px; }
+        .stat-row { display: flex; align-items: center; gap: 14px; }
+        .stat-label { font-size: 20px; display: flex; align-items: center; }
+        .stat-bar-container { flex: 1; background: var(--container-bg); height: 12px; border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); position: relative; }
+        .stat-bar { background: var(--prime-mood); height: 100%; width: 0%; border-radius: 6px; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); position: absolute; left: 0; top: 0; }
+        body.rtl .stat-bar { left: auto; right: 0; }
+        
+        .stat-count { font-size: 13px; font-weight: 800; width: 28px; text-align: right; color: var(--text-main); z-index: 2; }
+        body.rtl .stat-count { text-align: left; }
+
+        /* كارت الحكمة والنصائح التفاعلية */
+        .quote-card {
+            background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 22px;
+            padding: 18px 20px; display: flex; align-items: center; gap: 14px; margin-top: auto;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.01);
+        }
+        .quote-icon { color: var(--prime-mood); font-size: 18px; }
+        .quote-details { flex: 1; }
+        .quote-details h5 { font-size: 10.5px; color: var(--text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px; }
+        .quote-details p { font-size: 13px; font-weight: 700; color: var(--text-main); margin-top: 2px; line-height: 1.4; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('flowday_theme') || 'light';
+            if (savedTheme !== 'light') {
+                document.documentElement.className = 'theme-' + savedTheme;
+                document.addEventListener("DOMContentLoaded", () => { document.body.classList.add('theme-' + savedTheme); });
+            }
+            const savedLang = localStorage.getItem('flowday_app_lang') || 'en';
+            const rtlLanguages = ['ar', 'fa', 'ur'];
+            if (rtlLanguages.includes(savedLang)) {
+                document.documentElement.dir = 'rtl';
+                document.addEventListener("DOMContentLoaded", () => { document.body.classList.add('rtl'); });
+            }
+        })();
+    </script>
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="header-navigation">
+            <a href="./main.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+            <div class="header-title"><h1 data-key="mood_tracker">Mood Tracker</h1></div>
+            <div style="width:46px;"></div>
+        </div>
+
+        <div class="mood-selector-card">
+            <h3 data-key="how_feel">How do you feel today?</h3>
+            <div class="mood-buttons">
+                <button class="mood-btn" id="btn-great" onclick="selectMood('great')">😍<span data-key="great">Great</span></button>
+                <button class="mood-btn" id="btn-good" onclick="selectMood('good')">🙂<span data-key="good">Good</span></button>
+                <button class="mood-btn" id="btn-okay" onclick="selectMood('okay')">😐<span data-key="okay">Okay</span></button>
+                <button class="mood-btn" id="btn-bad" onclick="selectMood('bad')">😔<span data-key="bad">Bad</span></button>
+            </div>
+            <div id="alert-toast" class="alert-toast" data-key="already_logged">You have already logged your mood today!</div>
+        </div>
+
+        <div class="stats-card">
+            <h3 data-key="monthly_stats">Monthly Mood Stats</h3>
+            <div class="stats-list">
+                <div class="stat-row">
+                    <div class="stat-label">😍</div>
+                    <div class="stat-bar-container"><div class="stat-bar" id="bar-great"></div></div>
+                    <div class="stat-count" id="count-great">0</div>
+                </div>
+                <div class="stat-row">
+                    <div class="stat-label">🙂</div>
+                    <div class="stat-bar-container"><div class="stat-bar" id="bar-good"></div></div>
+                    <div class="stat-count" id="count-good">0</div>
+                </div>
+                <div class="stat-row">
+                    <div class="stat-label">😐</div>
+                    <div class="stat-bar-container"><div class="stat-bar" id="bar-okay"></div></div>
+                    <div class="stat-count" id="count-okay">0</div>
+                </div>
+                <div class="stat-row">
+                    <div class="stat-label">😔</div>
+                    <div class="stat-bar-container"><div class="stat-bar" id="bar-bad"></div></div>
+                    <div class="stat-count" id="count-bad">0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="quote-card">
+            <div class="quote-icon"><i class="fa-solid fa-lightbulb"></i></div>
+            <div class="quote-details">
+                <h5 id="quote-header" data-key="daily_quote">Daily Quote</h5>
+                <p id="quoteText" data-key="quote_val">Small progress is still progress.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        // إعدادات Firebase الخاصة بك
+        const firebaseConfig = {
+          apiKey: "AIzaSyB1gI-OSbGCGPIMA5NCnuB2K_-IyrMWFHs",
+          authDomain: "flowday-81f42.firebaseapp.com",
+          projectId: "flowday-81f42",
+          storageBucket: "flowday-81f42.firebasestorage.app",
+          messagingSenderId: "854763403133",
+          appId: "1:854763403133:web:13f5eafb11422d89787e14",
+          measurementId: "G-W5Q0QYEGEG"
+        };
+
+        // تهيئة الـ SDK والـ Firestore
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        const moodDictionary = {
+            en: { mood_tracker: "Mood Tracker", how_feel: "How do you feel today?", great: "Great", good: "Good", okay: "Okay", bad: "Bad", monthly_stats: "Monthly Mood Stats", daily_quote: "Daily Quote", quote_val: "Small progress is still progress.", already_logged: "You have already logged your mood today!", tip_header: "Today's Tip", tip_great: "Awesome! Share this positive energy with someone close today.", tip_good: "Keep it up! Consistency is the secret to a balanced life.", tip_okay: "Taking it easy is fine. Do something small that makes you smile.", tip_bad: "It's okay to have bad days. Rest up, tomorrow is a brand new start." },
+            ar: { mood_tracker: "مراقب المزاج", how_feel: "كيف تشعر اليوم？", great: "ممتاز", good: "جيد", okay: "مقبول", bad: "سيء", monthly_stats: "إحصائيات المزاج الشهرية", daily_quote: "حكمة اليوم", quote_val: "التقدم الصغير لا يزال تقدماً.", already_logged: "لقد قمت بتسجيل مزاجك اليوم بالفعل!", tip_header: "نصيحة اليوم", tip_great: "رائع جداً! شارك هذه الطاقة الإيجابية مع شخص مقرب منك اليوم.", tip_good: "واصل تقدمك! الاستمرارية هي السر لحياة متوازنة.", tip_okay: "لا بأس بالهدوء اليوم. افعل شيئاً بسيطاً يجعلك تبتسم.", tip_bad: "من الطبيعي أن تمر بأيام سيئة. خذ قسطاً من الراحة، الغد يوم أفضل وجديد." },
+            es: { mood_tracker: "Control de Ánimo", how_feel: "¿Cómo te sientes hoy?", great: "Excelente", good: "Bien", okay: "Regular", bad: "Mal", monthly_stats: "Estadísticas Mensuales", daily_quote: "Frase del Día", quote_val: "Un pequeño progreso sigue siendo progreso.", already_logged: "¡Ya has registrado tu ánimo hoy!", tip_header: "Consejo de Hoy", tip_great: "¡Genial! Comparte esta energía positiva con alguém cercano hoy.", tip_good: "¡Sigue así! La constancia es el secreto de una vida equilibrada.", tip_okay: "Está bien tomarlo con calma. Haz algo pequeño que te haga sonreír.", tip_bad: "Está bien tener días malos. Descansa, mañana es un nuevo comienzo." },
+            fr: { mood_tracker: "Suivi d'Humeur", how_feel: "Comment vous sentez-vous?", great: "Super", good: "Bien", okay: "Assez bien", bad: "Mauvais", monthly_stats: "Stats Mensuelles", daily_quote: "Citation du Jour", quote_val: "Un petit progrès reste un progrès.", already_logged: "Vous avez déjà enregistré votre humeur aujourd'hui !", tip_header: "Conseil du Jour", tip_great: "Génial ! Partagez cette énergie positive avec un proche aujourd'hui.", tip_good: "Continuez comme ça ! La régularité est le secret d'une vie équilibrée.", tip_okay: "C'est normal de ralentir. Faites quelque chose de simple qui vous fait sourire.", tip_bad: "Il est normal d'avoir des mauvais jours. Reposez-vous, demain est un nouveau départ." },
+            de: { mood_tracker: "Stimmungs-Tracker", how_feel: "Wie fühlst du dich heute?", great: "Großartig", good: "Gut", okay: "Okay", bad: "Schlecht", monthly_stats: "Monatliche Statistik", daily_quote: "Zitat des Tages", quote_val: "Kleiner Fortschritt ist immer noch Fortschritt.", already_logged: "Du hast deine Stimmung heute bereits protokolliert!", tip_header: "Tipp des Tages", tip_great: "Großartig! Teile diese positive Energie heute mit jemandem, der dir nahe steht.", tip_good: "Weiter so! Beständigkeit ist das Geheimnis eines ausgeglichenen Lebens.", tip_okay: "Es ist okay, es ruhig angehen zu lassen. Tu etwas Kleines, das dich zum Lächeln bringt.", tip_bad: "Es ist völlig okay, schlechte Tage zu haben. Ruh dich aus, morgen ist ein Neustart." },
+            tr: { mood_tracker: "Ruh Hali Takibi", how_feel: "Bugün nasıl hissediyorsun?", great: "Harika", good: "İyi", okay: "Normal", bad: "Kötü", monthly_stats: "Aylık Ruh Hali İstatistikleri", daily_quote: "Günün Sözü", quote_val: "Küçük bir ilerleme de ilerlemedir.", already_logged: "Bugün ruh halinizi zaten kaydettiniz!", tip_header: "Günün İpucu", tip_great: "Harika! Bugün bu pozitif enerjiyi yakın birinizle paylaşın.", tip_good: "Böyle devam et! İstikrar, dengeli bir yaşamın sırrıdır.", tip_okay: "Ağırdan almakta sorun yok. Yüzünüzü güldürecek küçük bir şey yapın.", tip_bad: "Kötü günler geçirmek normaldir. Dinlenin, yarın yepyeni bir başlangıçtır." },
+            ru: { mood_tracker: "Трекер настроения", how_feel: "Как вы себя чувствуете сегодня?", great: "Отлично", good: "Хорошо", okay: "Нормально", bad: "Плохо", monthly_stats: "Ежемесячная статистика", daily_quote: "Цитата дня", quote_val: "Маленький прогресс — это все равно прогресс.", already_logged: "Вы уже записали свое настроение сегодня!", tip_header: "Совет дня", tip_great: "Отлично! Поделитесь этой позитивной энергией с кем-то близким сегодня.", tip_good: "Так держать! Постоянство — секрет сбалансированной жизни.", tip_okay: "Ничего страшного, если всё идет спокойно. Сделайте что-то маленькое, что вас порадует.", tip_bad: "Плохие дни — это нормально. Отдохните, завтра будет новый день." },
+            zh: { mood_tracker: "心情追踪", how_feel: "今天感觉如何？", great: "棒极了", good: "不错", okay: "一般", bad: "不好", monthly_stats: "月度心情数据", daily_quote: "每日一言", quote_val: "微小的进步也是进步。", already_logged: "您今天已经记录过心情了！", tip_header: "今日建议", tip_great: "太棒了！今天把这份正能量分享给身边的人吧。", tip_good: "坚持下去！持之以恒是平衡生活的秘诀。", tip_okay: "放慢脚步也没关系。做一件能让你微笑的小事吧。", tip_bad: "有糟糕的日子很正常。好好休息，明天是全新的开始。" },
+            ja: { mood_tracker: "気分トラッカー", how_feel: "今日の気分は？", great: "最高", good: "良い", okay: "普通", bad: "悪い", monthly_stats: "月間気分統計", daily_quote: "今日の名言", quote_val: "小さな進歩も進歩です。", already_logged: "今日の気分はすでに記録されています！", tip_header: "今日のヒント", tip_great: "最高ですね！このポジティブなエネルギーを今日、身近な人と共有しましょう。", tip_good: "その調子です！継続こそがバランスの取れた生活の秘訣です。", tip_okay: "のんびり過ごしても大丈夫。笑顔になれる小さなことをしてみましょう。", tip_bad: "悪い日があっても大丈夫。ゆっくり休んで、明日は新しいスタートです。" },
+            ko: { mood_tracker: "감정 트래커", how_feel: "오늘 기분이 어떠신가요?", great: "최고", good: "좋음", okay: "보통", bad: "나쁨", monthly_stats: "월간 감정 통계", daily_quote: "오늘의 한마디", quote_val: "작은 진전이라도 전진이다.", already_logged: "오늘의 감정을 이미 기록하셨습니다!", tip_header: "오늘의 팁", tip_great: "최고예요! 오늘 이 긍정적인 에너지를 가까운 사람과 나눠보세요.", tip_good: "좋은 상태를 유지하세요! 꾸준함이 균형 잡힌 삶의 비밀입니다.", tip_okay: "조금 쉬어가도 괜찮아요. 미소 짓게 만드는 작은 일을 해보세요.", tip_bad: "기분이 안 좋은 날도 있는 법이죠. 푹 쉬고 나면 내일은 새로운 시작일 거예요." },
+            it: { mood_tracker: "Tracciatore Umore", how_feel: "Come ti senti oggi?", great: "Ottimo", good: "Bene", okay: "Così così", bad: "Male", monthly_stats: "Statistiche Mensili", daily_quote: "Citazione del Giorno", quote_val: "Un piccolo progresso è pur sempre un progresso.", already_logged: "Hai già registrato il tuo umore oggi!", tip_header: "Consiglio del Giorno", tip_great: "Fantastico! Condividi questa energia positiva con qualcuno vicino a te oggi.", tip_good: "Continua così! La costanza è il segreto di una vida equilibrata.", tip_okay: "Va bene prendersela comoda. Fai qualcosa di piccolo che ti faccia sorridere.", tip_bad: "È normale avere giornate no. Riposati, domani è un nuovo inizio." },
+            pt: { mood_tracker: "Monitor de Humor", how_feel: "Como se sente hoje?", great: "Excelente", good: "Bem", okay: "Ok", bad: "Mal", monthly_stats: "Estatísticas Mensais", daily_quote: "Citação do Dia", quote_val: "Pequeno progresso continua sendo progresso.", already_logged: "Você já registrou seu humor hoje!", tip_header: "Dica de Hoje", tip_great: "Incrível! Compartilhe essa energia positiva com alguém próximo hoje.", tip_good: "Continue assim! A consistência é o segredo para uma vida equilibrada.", tip_okay: "Tudo bem ir com calma. Faça algo pequeno que te faça sorrir.", tip_bad: "Está tudo bem ter dias ruins. Descanse, amanhã é um recomeço." }
+        };
+
+        const quotesPool = [
+            "Small progress is still progress.",
+            "Believe you can and you're halfway there.",
+            "Your focus determines your reality.",
+            "One day at a time.",
+            "Make today count."
+        ];
+
+        let moodStats = JSON.parse(localStorage.getItem('flowday_mood_stats')) || { great: 0, good: 0, okay: 0, bad: 0 };
+        const savedLang = localStorage.getItem('flowday_app_lang') || 'en';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (moodDictionary[savedLang] && moodDictionary[savedLang][key]) {
+                    el.innerText = moodDictionary[savedLang][key];
+                }
+            });
+
+            const dayOfYear = new Date().getDate();
+            const quoteIndex = dayOfYear % quotesPool.length;
+            if(savedLang === 'en') {
+                document.getElementById('quoteText').innerText = quotesPool[quoteIndex];
+            }
+
+            checkTodayStatus();
+            renderStats();
+        });
+
+        function getTodayDateString() {
+            const today = new Date();
+            return `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+        }
+
+        function checkTodayStatus() {
+            const lastLoggedDate = localStorage.getItem('flowday_last_mood_date');
+            const savedMood = localStorage.getItem('flowday_today_mood');
+            const currentDate = getTodayDateString();
+
+            if (lastLoggedDate === currentDate && savedMood) {
+                document.querySelectorAll('.mood-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.disabled = true; // 🔒 تعطيل الأزرار فوراً لمنع التكرار
+                });
+                
+                const activeBtn = document.getElementById(`btn-${savedMood}`);
+                if (activeBtn) activeBtn.classList.add('active');
+
+                updateAdviceCard(savedMood);
+            }
+        }
+
+        function selectMood(mood) {
+            const lastLoggedDate = localStorage.getItem('flowday_last_mood_date');
+            const currentDate = getTodayDateString();
+            const alertBox = document.getElementById('alert-toast');
+
+            if (lastLoggedDate === currentDate) {
+                alertBox.style.display = 'block';
+                setTimeout(() => { alertBox.style.display = 'none'; }, 3500);
+                return;
+            }
+
+            // قفل فوري للأزرار بصرياً لتجنب النقر المزدوج
+            document.querySelectorAll('.mood-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.disabled = true; 
+            });
+            
+            document.getElementById(`btn-${mood}`).classList.add('active');
+
+            // تحديث الإحصائيات محلياً للحفاظ على سرعة واجهة المستخدم
+            moodStats[mood]++;
+            localStorage.setItem('flowday_mood_stats', JSON.stringify(moodStats));
+            localStorage.setItem('flowday_last_mood_date', currentDate);
+            localStorage.setItem('flowday_today_mood', mood);
+
+            updateAdviceCard(mood);
+            renderStats();
+
+            // ☁️ رفع ومزامنة الاختيار سحابياً في الخلفية داخل Firebase Firestore
+            const savedEmail = localStorage.getItem('profile_saved_email') || 'anonymous';
+            db.collection("moods").add({
+                user_email: savedEmail,
+                mood_type: mood,
+                date_string: currentDate,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            .then(() => {
+                console.log("Mood successfully synced with Firebase.");
+            })
+            .catch((error) => {
+                console.error("Firebase Sync Failed: ", error);
+            });
+        }
+
+        function updateAdviceCard(mood) {
+            const headerEl = document.getElementById('quote-header');
+            const textEl = document.getElementById('quoteText');
+            
+            const tipHeaderKey = 'tip_header';
+            const tipMoodKey = `tip_${mood}`;
+
+            if (moodDictionary[savedLang]) {
+                headerEl.innerText = moodDictionary[savedLang][tipHeaderKey] || "Tip";
+                textEl.innerText = moodDictionary[savedLang][tipMoodKey] || "";
+                
+                const card = document.querySelector('.quote-card');
+                card.style.animation = 'none';
+                card.offsetHeight; 
+                card.style.animation = 'fadeIn 0.4s ease';
+            }
+        }
+
+        function renderStats() {
+            const total = moodStats.great + moodStats.good + moodStats.okay + moodStats.bad || 1;
+            ['great', 'good', 'okay', 'bad'].forEach(mood => {
+                const count = moodStats[mood];
+                const percentage = Math.round((count / total) * 100);
+                document.getElementById(`count-${mood}`).textContent = count;
+                document.getElementById(`bar-${mood}`).style.width = percentage + '%';
+            });
+        }
+    </script>
+</body>
+</html>

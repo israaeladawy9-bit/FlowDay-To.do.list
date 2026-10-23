@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FlowDay - Welcome</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.5;
+            z-index: 0;
+        }
+        .blob-purple {
+            width: 450px;
+            height: 450px;
+            background: #7B2CBF;
+            top: -150px;
+            left: -180px;
+        }
+        .blob-pink {
+            width: 400px;
+            height: 400px;
+            background: #FF6B9D;
+            bottom: -160px;
+            right: -160px;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            max-width: 430px;
+            padding: 60px 32px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 40px;
+            background: linear-gradient(135deg, #7B2CBF 0%, #FF6B9D 100%);
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            box-shadow: 0 12px 32px rgba(123, 44, 191, 0.18);
+        }
+
+        h1 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            color: #151515;
+            margin-bottom: 12px;
+            text-align: center;
+            letter-spacing: -0.5px;
+            line-height: 1.3;
+        }
+
+        .subtitle {
+            font-size: 15px;
+            color: #7a7a7a;
+            text-align: center;
+            margin-bottom: 50px;
+            line-height: 1.6;
+            padding: 0 10px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            border: none;
+            transition: all 0.25s ease;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #7B2CBF 0%, #FF6B9D 100%);
+            color: white;
+            box-shadow: 0 6px 20px rgba(123, 44, 191, 0.25);
+        }
+
+        .btn-social {
+            background: white;
+            color: #333;
+            border: 1.8px solid #f0e8ff;
+            font-weight: 500;
+        }
+
+        .btn-social:hover {
+            border-color: #e5d4ff;
+            background: #faf7ff;
+        }
+
+        .btn-social svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .divider {
+            text-align: center;
+            color: #c0c0c0;
+            font-size: 13px;
+            margin: 24px 0;
+            position: relative;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 38%;
+            height: 1px;
+            background: #f0f0f0;
+        }
+        .divider::before { left: 0; }
+        .divider::after { right: 0; }
+
+        .footer-text {
+            text-align: center;
+            font-size: 12.5px;
+            color: #aaa;
+            margin-top: 30px;
+            line-height: 1.5;
+        }
+        .footer-text a {
+            color: #7B2CBF;
+            text-decoration: none;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="blob blob-purple"></div>
+    <div class="blob blob-pink"></div>
+
+    <div class="container">
+        <div class="logo">FD</div>
+        
+        <h1>Welcome to<br>FlowDay</h1>
+        <p class="subtitle">Your calm space to plan, focus, and grow every day. One step at a time.</p>
+        
+        <button class="btn btn-primary" onclick="location.href='login.html'">Get Started</button>
+        
+        <div class="divider">or continue with</div>
+        
+        <button class="btn btn-social" id="googleBtn">
+            <svg viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.47 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+            </svg>
+            Continue with Google
+        </button>
+        
+        <button class="btn btn-social" id="appleBtn">
+            <svg viewBox="0 0 24 24" fill="#000">
+                <path d="M12.152 6.896c-.948 0-2.485.515-3.646 1.359-1.193.87-2.171 2.246-2.171 4.19 0 2.937 2.056 4.591 4.662 4.591 1.198 0 2.204-.655 3.646-1.359 1.171-.87 2.149-2.216 2.149-4.16 0-2.937-2.056-4.621-4.64-4.621zm3.02-2.446c.515-1.145.07-2.22-.515-2.896-1.193-1.193-3.646-1.193-4.64 0-.948.948-1.193 2.024-.515 2.896 1.193 1.193 3.646 1.193 4.64 0 .948-.948 1.193-2.024.515-2.896z"/>
+            </svg>
+            Continue with Apple
+        </button>
+
+        <p class="footer-text">
+            By continuing, you agree to our <a href="#">Terms</a> & <a href="#">Privacy Policy</a>
+        </p>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, OAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyB1gI-OSbGCGPIMA5NCnuB2K_-IyrMWFHs",
+          authDomain: "flowday-81f42.firebaseapp.com",
+          projectId: "flowday-81f42",
+          storageBucket: "flowday-81f42.firebasestorage.app",
+          messagingSenderId: "854763403133",
+          appId: "1:854763403133:web:13f5eafb11422d89787e14",
+          measurementId: "G-W5Q0QYEGEG"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+
+        // جوجل بعد التعديل لتشغيل الانتقال الفوري لـ bag2.html
+        const googleProvider = new GoogleAuthProvider();
+        document.getElementById("googleBtn").addEventListener("click", () => {
+            signInWithPopup(auth, googleProvider)
+                .then((result) => {
+                    // حفظ البيانات في الـ LocalStorage لتتزامن مع ملفك الشخصي
+                    localStorage.setItem('profile_saved_name', result.user.displayName);
+                    localStorage.setItem('profile_saved_email', result.user.email);
+                    
+                    // التوجيه التلقائي المباشر
+                    window.location.href = 'bag2.html';
+                })
+                .catch((error) => {
+                    alert("Error: " + error.message);
+                });
+        });
+
+        // آبل بعد التعديل لتشغيل الانتقال الفوري لـ bag2.html
+        const appleProvider = new OAuthProvider('apple.com');
+        document.getElementById("appleBtn").addEventListener("click", () => {
+            signInWithPopup(auth, appleProvider)
+                .then((result) => {
+                    window.location.href = 'bag2.html';
+                })
+                .catch((error) => {
+                    alert("Error: " + error.message);
+                });
+        });
+    </script>
+</body>
+</html>
+  

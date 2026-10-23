@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean & Positive Workspace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-aurora-1: #e0c3fc;
+            --bg-aurora-2: #fbc2eb;
+            --bg-aurora-3: #f5eedc;
+            --glass-bg: rgba(255, 255, 255, 0.45);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --text-dark: #4a3f54;
+            --primary-purple: #9b5de5;
+            --secondary-pink: #f15bb5;
+            --gradient-color: #a569bd;
+        }
+
+        /* ─── دعم الأوضاع المختلفة (Themes) ─── */
+        body.theme-dark {
+            --bg-aurora-1: #111827;
+            --bg-aurora-2: #311042;
+            --bg-aurora-3: #1f2937;
+            --glass-bg: rgba(17, 24, 39, 0.6);
+            --glass-border: rgba(155, 93, 229, 0.3);
+            --text-dark: #f3f4f6;
+            --primary-purple: #bb86fc;
+            --secondary-pink: #ff7597;
+            --gradient-color: #c39bd3;
+        }
+        body.theme-pink {
+            --bg-aurora-1: #ffe4e6;
+            --bg-aurora-2: #fbc2eb;
+            --bg-aurora-3: #fff1f2;
+            --glass-bg: rgba(255, 255, 255, 0.5);
+            --glass-border: rgba(251, 113, 133, 0.4);
+            --text-dark: #4c0519;
+            --primary-purple: #db2777;
+            --secondary-pink: #fda4af;
+            --gradient-color: #f472b6;
+        }
+        body.theme-purple {
+            --bg-aurora-1: #f3e8ff;
+            --bg-aurora-2: #e9d5ff;
+            --bg-aurora-3: #fae8ff;
+            --glass-bg: rgba(255, 255, 255, 0.5);
+            --glass-border: rgba(168, 85, 247, 0.4);
+            --text-dark: #3b0764;
+            --primary-purple: #a855f7;
+            --secondary-pink: #d8b4fe;
+            --gradient-color: #c084fc;
+        }
+        body.theme-brown {
+            --bg-aurora-1: #efebe9;
+            --bg-aurora-2: #d7ccc8;
+            --bg-aurora-3: #f5f5f5;
+            --glass-bg: rgba(255, 255, 255, 0.55);
+            --glass-border: rgba(141, 110, 99, 0.4);
+            --text-dark: #4e342e;
+            --primary-purple: #8d6e63;
+            --secondary-pink: #a1887f;
+            --gradient-color: #bcaaa4;
+        }
+        body.theme-yellow {
+            --bg-aurora-1: #fefde8;
+            --bg-aurora-2: #fef08a;
+            --bg-aurora-3: #fffbeb;
+            --glass-bg: rgba(255, 255, 255, 0.6);
+            --glass-border: rgba(234, 179, 8, 0.4);
+            --text-dark: #713f12;
+            --primary-purple: #eab308;
+            --secondary-pink: #fde047;
+            --gradient-color: #facc15;
+        }
+        body.theme-green {
+            --bg-aurora-1: #f0fdf4;
+            --bg-aurora-2: #bbf7d0;
+            --bg-aurora-3: #ecfccb;
+            --glass-bg: rgba(255, 255, 255, 0.5);
+            --glass-border: rgba(34, 197, 94, 0.4);
+            --text-dark: #14532d;
+            --primary-purple: #22c55e;
+            --secondary-pink: #86efac;
+            --gradient-color: #4ade80;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(125deg, var(--bg-aurora-1), var(--bg-aurora-2), var(--bg-aurora-3), var(--bg-aurora-1));
+            background-size: 400% 400%;
+            animation: auroraAnimation 15s ease infinite;
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            transition: all 0.5s ease;
+        }
+
+        body.rtl { direction: rtl; }
+        body.rtl * { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+        @keyframes auroraAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-purple);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        header p {
+            color: var(--secondary-pink);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        @media (max-width: 1024px) { .grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body:not(.rtl) .card.purple-border { border-left: 5px solid var(--primary-purple); }
+        body.rtl .card.purple-border { border-right: 5px solid var(--primary-purple); }
+
+        body:not(.rtl) .card.pink-border { border-left: 5px solid var(--secondary-pink); }
+        body.rtl .card.pink-border { border-right: 5px solid var(--secondary-pink); }
+
+        body:not(.rtl) .card.gradient-border { border-left: 5px solid var(--gradient-color); }
+        body.rtl .card.gradient-border { border-right: 5px solid var(--gradient-color); }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(108, 92, 231, 0.1);
+            background: rgba(255, 255, 255, 0.55);
+        }
+        body.theme-dark .card:hover {
+            background: rgba(17, 24, 39, 0.7);
+        }
+
+        .card h2 {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card.purple-border h2 { color: var(--primary-purple); }
+        .card.pink-border h2 { color: var(--secondary-pink); }
+        .card.gradient-border h2 { color: var(--gradient-color); }
+
+        .card ul { list-style: none; }
+        .card ul li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .card ul li i { font-size: 1.1rem; margin-top: 4px; }
+        .purple-border ul li i { color: var(--primary-purple); }
+        .pink-border ul li i { color: var(--secondary-pink); }
+        .gradient-border ul li i { color: var(--gradient-color); }
+
+        .nav-container { text-align: center; }
+
+        .btn-main {
+            background: var(--glass-bg);
+            color: var(--text-dark);
+            border: 1px solid var(--glass-border);
+            padding: 12px 35px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-main:hover {
+            background-color: var(--primary-purple);
+            color: #fff;
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(155, 93, 229, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1 id="mainTitle">The Clean & Mindful Workspace</h1>
+            <p id="subTitle">Elevate Productivity, Well-being & Positive Energy</p>
+        </header>
+
+        <div class="grid">
+            <div class="card purple-border">
+                <h2 id="t1"><i class="fa-solid fa-lightbulb"></i> Why It Matters</h2>
+                <ul>
+                    <li>
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span id="l1_1"><strong>Boosts Productivity:</strong> A clutter-free desk reduces visual distractions.</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span id="l1_2"><strong>Reduces Stress:</strong> Physical chaos triggers mental anxiety. Organized setups clear your mind.</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span id="l1_3"><strong>Health & Hygiene:</strong> Regular sanitization keeps germs away, ensuring fewer sick days.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card pink-border">
+                <h2 id="t2"><i class="fa-solid fa-hand-sparkles"></i> How to Maintain It</h2>
+                <ul>
+                    <li>
+                        <i class="fa-solid fa-star"></i>
+                        <span id="l2_1"><strong>The 5-Minute Rule:</strong> Take 5 minutes at the end of each day to tidy up for tomorrow.</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-star"></i>
+                        <span id="l2_2"><strong>Digital Cleanups:</strong> Declutter your desktop folders and archive old email threads weekly.</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-star"></i>
+                        <span id="l2_3"><strong>Minimize Paper:</strong> Shift to digital note-taking apps to completely erase paper piles.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card gradient-border">
+                <h2 id="t3"><i class="fa-solid fa-wand-magic-sparkles"></i> Positive Vibes</h2>
+                <ul>
+                    <li>
+                        <i class="fa-solid fa-seedling"></i>
+                        <span id="l3_1"><strong>Add Small Plants:</strong> Greenery like succulents purifies the air and provides a refreshing break.</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-sun"></i>
+                        <span id="l3_2"><strong>Natural Lighting:</strong> Position your desk near a window. Sunlight naturally elevates mood.</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-heart"></i>
+                        <span id="l3_3"><strong>Personal Touch:</strong> Frame an inspirational quote or a meaningful picture to stay motivated.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="nav-container">
+            <a href="main.html" class="btn-main" id="btnBack">
+                <i class="fa-solid fa-arrow-left"></i> <span>Return to Main</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const dict = {
+            en: {
+                main: "The Clean & Mindful Workspace", sub: "Elevate Productivity, Well-being & Positive Energy", back: "Return to Main",
+                t1: "Why It Matters", t2: "How to Maintain It", t3: "Positive Vibes",
+                l1_1: "<strong>Boosts Productivity:</strong> A clutter-free desk reduces visual distractions.",
+                l1_2: "<strong>Reduces Stress:</strong> Physical chaos triggers mental anxiety. Organized setups clear your mind.",
+                l1_3: "<strong>Health & Hygiene:</strong> Regular sanitization keeps germs away, ensuring fewer sick days.",
+                l2_1: "<strong>The 5-Minute Rule:</strong> Take 5 minutes at the end of each day to tidy up for tomorrow.",
+                l2_2: "<strong>Digital Cleanups:</strong> Declutter your desktop folders and archive old email threads weekly.",
+                l2_3: "<strong>Minimize Paper:</strong> Shift to digital note-taking apps to completely erase paper piles.",
+                l3_1: "<strong>Add Small Plants:</strong> Greenery like succulents purifies the air and provides a refreshing break.",
+                l3_2: "<strong>Natural Lighting:</strong> Position your desk near a window. Sunlight naturally elevates mood.",
+                l3_3: "<strong>Personal Touch:</strong> Frame an inspirational quote or a meaningful picture to stay motivated."
+            },
+            ar: {
+                main: "مساحة عمل نظيفة وواعية", sub: "ارفع مستوى الإنتاجية، والراحة، والطاقة الإيجابية", back: "العودة للقائمة الرئيسية",
+                t1: "لماذا يهم ذلك؟", t2: "كيف تحافظ عليها؟", t3: "طاقة إيجابية",
+                l1_1: "<strong>زيادة الإنتاجية:</strong> المكتب الخالي من الفوضى يقلل من التشتت البصري ويحافظ على تركيزك.",
+                l1_2: "<strong>تقليل التوتر:</strong> الفوضى المادية تسبب القلق الذهني. الترتيب ينظف عقلك باستمرار.",
+                l1_3: "<strong>الصحة والنظافة:</strong> التعقيم الدوري يبعد الجراثيم ويضمن لك أيام عمل خالية من الأمراض.",
+                l2_1: "<strong>قاعدة الـ 5 دقائق:</strong> خذ خمس دقائق نهاية كل يوم لترتيب مكتبك من أجل الغد.",
+                l2_2: "<strong>التنظيف الرقمي:</strong> رتب ملفات سطح المكتب وأرشف رسائل البريد القديمة أسبوعياً.",
+                l2_3: "<strong>تقليل الأوراق:</strong> تحول إلى تطبيقات تدوين الملاحظات الرقمية لمحو الأوراق تماماً.",
+                l3_1: "<strong>إضافة نباتات صغيرة:</strong> النباتات مثل الصبار تنقي الهواء وتمنحك فصلاً بصرياً منعشاً.",
+                l3_2: "<strong>الإضاءة الطبيعية:</strong> ضع مكتبك قرب النافذة. ضوء الشمس يرفع المزاج والتركيز طبيعياً.",
+                l3_3: "<strong>لمسة شخصية:</strong> ضع إطاراً لمقولة ملهمة أو صورة دافئة لتبقي حافزك الداخلي مشتعلاً."
+            },
+            fr: {
+                main: "Espace de Travail Propre et Conscient", sub: "Augmentez la productivité, le bien-être et l'énergie positive", back: "Retour au menu",
+                t1: "Pourquoi c'est important", t2: "Comment le maintenir", t3: "Ondes Positives",
+                l1_1: "<strong>Boost la productivité:</strong> Un bureau épuré réduit les distractions visuelles.",
+                l1_2: "<strong>Réduit le stress:</strong> Le chaos physique engendre l'anxiété mentale. L'organisation libère l'esprit.",
+                l1_3: "<strong>Santé & Hygiène:</strong> Une désinfection régulière éloigne les germes.",
+                l2_1: "<strong>La règle des 5 min:</strong> Prenez 5 minutes chaque soir pour ranger pour le lendemain.",
+                l2_2: "<strong>Nettoyage numérique:</strong> Nettoyez vos dossiers et archivez vos e-mails chaque semaine.",
+                l2_3: "<strong>Moins de papier:</strong> Passez aux notes numériques pour éliminer les piles de papier.",
+                l3_1: "<strong>Petites plantes:</strong> Les plantes purifient l'air et offrent une pause rafraîchissante.",
+                l3_2: "<strong>Lumière naturelle:</strong> Placez le bureau près d'une fenêtre pour améliorer l'humeur.",
+                l3_3: "<strong>Touche personnelle:</strong> Cadrez une citation inspirante pour rester motivé."
+            },
+            es: {
+                main: "Espacio de Trabajo Limpio y Consciente", sub: "Eleva la productividad, el bienestar y la energía positiva", back: "Regresar al Menú",
+                t1: "Por qué es importante", t2: "Cómo mantenerlo", t3: "Buenas Vibras",
+                l1_1: "<strong>Aumenta la productividad:</strong> Un escritorio despejado reduce las distracciones.",
+                l1_2: "<strong>Reduce el estrés:</strong> El caos físico provoca ansiedad mental. El orden despeja tu mente.",
+                l1_3: "<strong>Salud e higiene:</strong> La desinfección regular evita gérmenes y enfermedades.",
+                l2_1: "<strong>Regla de los 5 minutos:</strong> Dedica 5 minutos al final del día para ordenar el mañana.",
+                l2_2: "<strong>Limpieza digital:</strong> Organiza tus carpetas y archiva correos semanalmente.",
+                l2_3: "<strong>Minimiza el papel:</strong> Usa aplicaciones de notas digitales para borrar el papel.",
+                l3_1: "<strong>Añade plantas:</strong> Las suculentas purifican el aire y dan un respiro visual.",
+                l3_2: "<strong>Luz natural:</strong> Ubica tu escritorio cerca de la ventana para mejorar el ánimo.",
+                l3_3: "<strong>Toque personal:</strong> Enmarca una frase inspiradora para mantener la motivación."
+            },
+            de: {
+                main: "Der saubere & achtsame Arbeitsplatz", sub: "Produktivität, Wohlbefinden & positive Energie steigern", back: "Hauptmenü",
+                t1: "Warum es wichtig ist", t2: "Wie man es pflegt", t3: "Positive Schwingungen",
+                l1_1: "<strong>Produktivität steigern:</strong> Ein aufgeräumter Schreibtisch reduziert Ablenkungen.",
+                l1_2: "<strong>Stress réduire:</strong> Physisches Chaos führt zu mentaler Unruhe. Ordnung befreit.",
+                l1_3: "<strong>Gesundheit & Hygiene:</strong> Regelmäßiges Desinfizieren hält Keime fern.",
+                l2_1: "<strong>Die 5-Minuten-Regel:</strong> Räumen Sie jeden Abend 5 Minuten für den nächsten Tag auf.",
+                l2_2: "<strong>Digitaler Frühjahrsputz:</strong> Ordnen Sie wöchentlich Desktop-Ordner und E-Mails.",
+                l2_3: "<strong>Papier minimieren:</strong> Nutzen Sie digitale Notizen, um Papierberge zu vermeiden.",
+                l3_1: "<strong>Kleine Pflanzen:</strong> Sukkulenten reinigen die Luft und erfrischen die Sinne.",
+                l3_2: "<strong>Natürliches Licht:</strong> Ein Schreibtisch am Fenster hebt die Stimmung und den Fokus.",
+                l3_3: "<strong>Persönliche Note:</strong> Ein inspirierendes Zitat im Rahmen hält die Motivation hoch."
+            },
+            tr: {
+                main: "Temiz ve Bilinçli Çalışma Alanı", sub: "Verimliliği, Refahı ve Pozitif Enerjiyi Artırın", back: "Ana Menüye Dön",
+                t1: "Neden Önemlidir?", t2: "Nasıl Korunur?", t3: "Pozitif Enerji",
+                l1_1: "<strong>Verimliliği Artırır:</strong> Düzenli bir masa görsel dikkat dağınıklığını azaltır.",
+                l1_2: "<strong>Stresi Azaltır:</strong> Fiziksel karmaşa zihinsel kaygı yaratır. Düzen zihni açar.",
+                l1_3: "<strong>Sağlık ve Hijyen:</strong> Düzenli temizlik mikropları uzak tutar, hastalıktan korur.",
+                l2_1: "<strong>5 Dakika Kuralı:</strong> Her günün sonunda yarın için 5 dakikanızı temizliğe ayırın.",
+                l2_2: "<strong>Dijital Temizlik:</strong> Masaüstü klasörlerini düzenleyin ve e-postaları arşivleyin.",
+                l2_3: "<strong>Kağıdı Azaltın:</strong> Kağıt yığınlarını tamamen silmek için dijital notlara geçin.",
+                l3_1: "<strong>Küçük Bitkiler Ekleyin:</strong> Sukulentler havayı temizler ve taze bir mola sunar.",
+                l3_2: "<strong>Doğal Işık:</strong> Masanızı pencere kenarına koyun. Güneş ışığı modunuzu yükseltir.",
+                l3_3: "<strong>Kişisel Dokunuş:</strong> Motivasyon için ilham verici bir sözü veya fotoğrafı çerçeveleyin."
+            },
+            it: {
+                main: "Spazio di Lavoro Pulito e Consapevole", sub: "Migliora produttività, benessere ed energia positiva", back: "Torna alla Home",
+                t1: "Perché è importante", t2: "Come mantenerlo", t3: "Vibrazioni Positive",
+                l1_1: "<strong>Migliora la produttività:</strong> Una scrivania ordinata riduce le distrazioni visive.",
+                l1_2: "<strong>Riduce lo stress:</strong> Il caos fisico genera ansia. L'organizzazione svuota la mente.",
+                l1_3: "<strong>Salute e igiene:</strong> La sanificazione regolare tiene lontani i germi.",
+                l2_1: "<strong>La regola dei 5 minuti:</strong> Dedica 5 minuti ogni sera a riordinare per l'indomani.",
+                l2_2: "<strong>Pulizia digitale:</strong> Ordina le cartelle del computer e archivia le email settimanalmente.",
+                l2_3: "<strong>Riduci la carta:</strong> Passa alle app di note digitali per eliminare i fogli accumulati.",
+                l3_1: "<strong>Aggiungi piante:</strong> Le piante purificano l'aria e offrono una pausa rilassante.",
+                l3_2: "<strong>Luce naturale:</strong> Posiziona la scrivania vicino alla finestra per migliorare l'umore.",
+                l3_3: "<strong>Tocco personale:</strong> Incornicia una frase ispiratrice per darti la carica."
+            },
+            ru: {
+                main: "Чистое и осознанное рабочее пространство", sub: "Повышайте продуктивность, благополучие и позитивную энергию", back: "На главную",
+                t1: "Почему это важно", t2: "Как поддерживать порядок", t3: "Позитивные вибрации",
+                l1_1: "<strong>Повышает продуктивность:</strong> Стол без лишних вещей снижает визуальный шум.",
+                l1_2: "<strong>Снижает стресс:</strong> Беспорядок вызывает тревогу. Организация очищает разум.",
+                l1_3: "<strong>Здоровье и гигиена:</strong> Регулярная дезинфекция защищает от микробов.",
+                l2_1: "<strong>Правило 5 минут:</strong> Тратьте 5 минут в конце дня на уборку к завтрашнему утру.",
+                l2_2: "<strong>Цифровая уборка:</strong> Разбирайте папки на рабочем столе и архивируйте почту.",
+                l2_3: "<strong>Меньше бумаги:</strong> Перейдите на электронные заметки, чтобы убрать стопки бумаг.",
+                l3_1: "<strong>Добавьте растений:</strong> Суккуленты очищают воздух и дают глазам отдохнуть.",
+                l3_2: "<strong>Естественный свет:</strong> Поставьте стол у окна. Солнечный свет улучшает настроение.",
+                l3_3: "<strong>Личный штрих:</strong> Поставьте цитату в рамку для внутренней мотивации."
+            },
+            zh: {
+                main: "整洁与正念工作空间", sub: "提升生产力、幸福感与正能量", back: "返回主页",
+                t1: "为什么重要", t2: "如何保持", t3: "积极氛围",
+                l1_1: "<strong>提高效率：</strong> 干净整洁的桌面可以减少视觉分心，让焦点更集中。",
+                l1_2: "<strong>减轻压力：</strong> 环境混乱会导致心理焦虑。井井有条能让你理清思绪。",
+                l1_3: "<strong>健康卫生：</strong> 定期消毒可以远离细菌，保证身体健康。",
+                l2_1: "<strong>5分钟原则：</strong> 每天结束时花5分钟收拾干净，为明天做好准备。",
+                l2_2: "<strong>数字化清理：</strong> 每周整理桌面文件夹并归档旧邮件。",
+                l2_3: "<strong>减少纸张：</strong> 转向数字化笔记应用，彻底告别堆积如山的纸张。",
+                l3_1: "<strong>增添小植物：</strong> 多肉等植物能净化空气，带来清新的感官放松。",
+                l3_2: "<strong>自然采光：</strong> 将办公桌靠近窗户。阳光能自然提升情绪与专注力。",
+                l3_3: "<strong>个人特色：</strong> 裱框一句励志名言或温馨照片，保持内在动力。"
+            },
+            ja: {
+                main: "クリーン＆マインドフルなワークスペース", sub: "生産性、幸福感、そしてポジティブなエネルギーを高める", back: "ホームに戻る",
+                t1: "なぜ重要なのか", t2: "維持する方法", t3: "ポジティブな波動",
+                l1_1: "<strong>生産性の向上：</strong> 整理されたデスクは視覚的な散らかりをなくし、集中力を保ちます。",
+                l1_2: "<strong>ストレスの軽減：</strong> 物理的な混乱は精神的な不安を生みます。整えることで心が晴れます。",
+                l1_3: "<strong>健康と衛生：</strong> 定期的な消毒で雑菌を防ぎ、体調不良による欠勤を減らします。",
+                l2_1: "<strong>5分間ルール：</strong> 毎日の終わりに5分間だけ片付けをして、明日に備えましょう。",
+                l2_2: "<strong>デジタル整理：</strong> 週に一度、デスクトップのフォルダを整理し、古いメールをアーカイブします。",
+                l2_3: "<strong>ペーパーレス化：</strong> デジタルノートアプリに移行し、紙の山を完全に失くします。",
+                l3_1: "<strong>小さな植物を置く：</strong> 多肉植物などの緑は空気を清浄にし、心地よいリフレッシュになります。",
+                l3_2: "<strong>自然光の取り込み：</strong> デスクを窓の近くに。太陽光は自然と気分と集中力を高めます。",
+                l3_3: "<strong>パーソナルタッチ：</strong> 励みになる言葉や大切な写真を飾り、モチベーションを維持します。"
+            },
+            ko: {
+                main: "깨끗하고 마음챙김이 있는 업무 공간", sub: "생산성, 웰빙, 그리고 긍정적인 에너지 향상", back: "메인으로 가기",
+                t1: "왜 중요할까요?", t2: "유지하는 방법", t3: "긍정적인 기운",
+                l1_1: "<strong>생산성 향상:</strong> 정돈된 책상은 시각적 방해 요소를 줄여 집중력을 높여줍니다.",
+                l1_2: "<strong>스트레스 완화:</strong> 물리적인 혼란은 정신적 불안을 유발합니다. 정리는 마음을 비워줍니다.",
+                l1_3: "<strong>건강 및 위생:</strong> 정기적인 소독은 세균을 막아주어 건강한 상태를 유지해 줍니다.",
+                l2_1: "<strong>5분 법칙:</strong> 내일을 위해 매일 일과를 마칠 때 5분씩 정돈하는 시간을 가지세요.",
+                l2_2: "<strong>디ジタル 정리:</strong> 매주 바탕화면 폴더를 정리하고 오래된 이메일을 보관 처리하세요.",
+                l2_3: "<strong>종이 최소화:</strong> 디지털 노트 앱으로 전환하여 쌓여있는 종이 더미를 완전히 없애보세요.",
+                l3_1: "<strong>작은 식물 두기:</strong> 다육식물 같은 녹색 식물은 공기를 정화하고 상쾌한 휴식을 줍니다.",
+                l3_2: "<strong>자연 채광:</strong> 책상을 창가 근처에 배치하세요. 햇빛은 자연스럽게 기분과 집중력을 높입니다.",
+                l3_3: "<strong>개인적인 손길:</strong> 영감을 주는 문구나 의미 있는 사진을 액자에 넣어 내적 동기를 유지하세요."
+            },
+            fa: {
+                main: "فضای کاری تمیز و آگاهانه", sub: "افزایش بهره‌وری، رفاه و انرژی مثبت", back: "بازگشت به منوی اصلی",
+                t1: "چرا اهمیت دارد؟", t2: "چگونه آن را حفظ کنیم؟", t3: "حس و حال مثبت",
+                l1_1: "<strong>افزایش بهره‌وری:</strong> یک میز خلوت و بدون انباشتگی، حواس‌پرتی‌های بصری را کاهش می‌دهد.",
+                l1_2: "<strong>کاهش استرس:</strong> هرج‌ومرج فیزیکی باعث اضطراب ذهنی می‌شود. سازماندهی ذهن شما را پاک می‌کند.",
+                l1_3: "<strong>بهداشت و سلامت:</strong> ضدعفونی کردن منظم، میکروب‌ها را دور نگه می‌دارد و بیماری را کاهش می‌دهد.",
+                l2_1: "<strong>قانون ۵ دقیقه:</strong> در پایان هر روز ۵ دقیقه را به مرتب کردن برای فردا اختصاص دهید.",
+                l2_2: "<strong>پاکسازی دیجیتال:</strong> پوشه‌های دسکتاپ را مرتب کرده و ایمیل‌های قدیمی را هفتگی آرشیو کنید.",
+                l2_3: "<strong>کاهش مصرف کاغذ:</strong> برای حذف کامل توده‌های کاغذ، به برنامه‌های یادداشت‌برداری دیجیتال روی آورید.",
+                l3_1: "<strong>افزودن گیاهان کوچک:</strong> گیاهانی مانند ساکولنت‌ها هوا را تصفیه کرده و استراحتی به چشم‌ها می‌دهند.",
+                l3_2: "<strong>نور طبیعی:</strong> میز خود را نزدیک پنجره قرار دهید. نور خورشید به طور طبیعی خلق‌وخو را تقویت می‌کند.",
+                l3_3: "<strong>لمس شخصی:</strong> یک جمله الهام‌بخش یا عکس معنادار را قاب کنید تا انگیزه درونی شما حفظ شود."
+            },
+            ur: {
+                main: "صاف ستھرا اور پرسکون ورک اسپیس", sub: "پیداواری صلاحیت، فلاح و بہبود اور مثبت توانائی کو فروغ دیں", back: "مرکزی مینو پر واپس جائیں",
+                t1: "یہ کیوں ضروری ہے؟", t2: "اسے کیسے برقرار رکھیں؟", t3: "مثبت لہریں",
+                l1_1: "<strong>پیداواری صلاحیت بڑھاتا ہے:</strong> صاف ستھرا ڈیسک بصری خلفشار کو کم کرتا ہے۔",
+                l1_2: "<strong>تناؤ کو کم کرتا ہے:</strong> جسمانی انتشار ذہنی پریشانی کا سبب بنتا ہے۔ ترتیب ذہن کو صاف کرتی ہے۔",
+                l1_3: "<strong>صحت اور صفائی:</strong> باقاعدگی سے صفائی جراثیم کو دور رکھتی ہے اور بیماریوں سے بچاتی ہے۔",
+                l2_1: "<strong>5 منٹ کا اصول:</strong> آنے والے کل کی تیاری کے لیے ہر دن کے آخر میں 5 منٹ صفائی کے لیے نکالیں۔",
+                l2_2: "<strong>ڈیجیٹل صفائی:</strong> ڈیسک ٹاپ فولڈرز کو صاف کریں اور ہفتہ وار پرانی ای میلز کو آرکائیو کریں۔",
+                l2_3: "<strong>کاغذ کا استعمال کم کریں:</strong> کاغذ کے ڈھیروں کو ختم کرنے کے لیے ڈیجیٹل نوٹ ایپس کا استعمال کریں۔",
+                l3_1: "<strong>چھوٹے پودے لگائیں:</strong> سبر جیسے پودے ہوا کو صاف کرتے ہیں اور آنکھوں کو تازگی دیتے ہیں۔",
+                l3_2: "<strong>قدرتی روشنی:</strong> اپنے ڈیسک کو کھڑکی کے قریب رکھیں۔ دھوپ قدرتی طور پر موڈ کو خوشگوار بناتی ہے۔",
+                l3_3: "<strong>ذاتی لمس:</strong> متحرک رہنے کے لیے کسی متاثر کن قول یا تصویر کو فریم کر کے لگائیں۔"
+            },
+            hi: {
+                main: "स्वच्छ और सचेत कार्यक्षेत्र", sub: "उत्पादकता, भलाई और सकारात्मक ऊर्जा को बढ़ावा दें", back: "मुख्य मेनू पर लौटें",
+                t1: "यह क्यों मायने रखता है", t2: "इसे कैसे बनाए रखें", t3: "सकारात्मक वाइब्स",
+                l1_1: "<strong>उत्पादकता बढ़ाता है:</strong> अव्यवस्था मुक्त डेस्क दृश्य विकृतियों को कम करता है।",
+                l1_2: "<strong>तनाव कम करता है:</strong> शारीरिक अराजकता मानसिक चिंता पैदा करती है। संगठन दिमाग साफ करता है।",
+                l1_3: "<strong>स्वास्थ्य और स्वच्छता:</strong> नियमित स्वच्छता कीटाणुओं को दूर रखती है।",
+                l2_1: "<strong>5-मिनट का नियम:</strong> कल की तैयारी के लिए हर दिन के अंत में 5 मिनट का समय लें।",
+                l2_2: "<strong>डिजिटल सफाई:</strong> डेस्कटॉप फ़ोल्डर्स को साफ़ करें और साप्ताहिक ईमेल आर्काइव करें।",
+                l2_3: "<strong>कागज कम करें:</strong> कागज़ के ढेरों को पूरी तरह से मिटाने के लिए डिजिटल ऐप्स अपनाएं।",
+                l3_1: "<strong>छोटे पौधे जोड़ें:</strong> रसीले पौधे हवा को शुद्ध करते हैं और एक ताज़ा ब्रेक देते हैं।",
+                l3_2: "<strong>प्राकृतिक प्रकाश:</strong> अपने डेस्क को खिड़की के पास रखें। धूप मूड को बेहतर बनाती है।",
+                l3_3: "<strong>व्यक्तिगत स्पर्श:</strong> प्रेरित रहने के लिए एक प्रेरक उद्धरण को फ्रेम करें।"
+            },
+            bn: {
+                main: "পরিচ্ছন্ন ও মননশীল কর্মক্ষেত্র", sub: "উৎপাদনশীলতা, সুস্থতা এবং ইতিবাচক শক্তি বৃদ্ধি করুন", back: "মূল মেনুতে ফিরে যান",
+                t1: "কেন এটি গুরুত্বপূর্ণ", t2: "কীভাবে এটি বজায় রাখবেন", t3: "ইতিবাচক তরঙ্গ",
+                l1_1: "<strong>উৎপাদনশীলতা বাড়ায়:</strong> বিশৃঙ্খলামুক্ত ডেস্ক দৃশ্যমান বিভ্রান্তি হ্রাস করে এবং মনোযোগ ধরে রাখে।",
+                l1_2: "<strong>মানসিক চাপ কমায়:</strong> পারিপার্শ্বিক বিশৃঙ্খলা মানসিক উদ্বেগের সৃষ্টি করে। সুবিন্যস্ত পরিবেশ মনকে শান্ত রাখে।",
+                l1_3: "<strong>স্বাস্থ্য ও পরিচ্ছন্নতা:</strong> নিয়মিত জীবাণুমুক্তকরণ রোগবালাই দূরে রাখে এবং সুস্থ কর্মদিবস নিশ্চিত করে।",
+                l2_1: "<strong>৫-মিনিটের নিয়ম:</strong> আগামীকালের প্রস্তুতির জন্য প্রতিদিনের শেষে মাত্র ৫ মিনিট গুছিয়ে রাখার পেছনে ব্যয় করুন।",
+                l2_2: "<strong>ডিজিটাল পরিচ্ছন্নতা:</strong> প্রতি সপ্তাহে আপনার ডেস্কটপ ফোল্ডারগুলো গুছিয়ে রাখুন এবং পুরোনো ইমেল আর্কাইভ করুন।",
+                l2_3: "<strong>কাগজের ব্যবহার কমান:</strong> কাগজের স্তূপ সম্পূর্ণ দূর করতে ডিজিটাল নোট-টেকিং অ্যাপ ব্যবহার শুরু করুন।",
+                l3_1: "<strong>ছোট গাছ যুক্ত করুন:</strong> সাকুলেন্টের মতো ছোট ছোট ইনডোর প্ল্যান্ট বাতাস বিশুদ্ধ করে এবং চোখের আরাম দেয়।",
+                l3_2: "<strong>প্রাকৃতিক আলো:</strong> আপনার ডেস্কটি জানালার কাছে রাখুন। সূর্যের আলো স্বাভাবিকভাবেই মেজাজ ও কাজের শক্তি উন্নত করে।",
+                l3_3: "<strong>ব্যক্তিগত ছোঁয়া:</strong> নিজেকে অনুপ্রাণিত রাখতে একটি অনুপ্রেরণামূলক উক্তি বা পছন্দের ছবি ফ্রেমে বাঁধিয়ে রাখুন।"
+            },
+            id: {
+                main: "Ruang Kerja Bersih & Penuh Kesadaran", sub: "Tingkatkan Produktivitas, Kesejahteraan & Energi Positif", back: "Kembali ke Utama",
+                t1: "Mengapa Ini Penting", t2: "Cara Menjaganya", t3: "Vibe Positif",
+                l1_1: "<strong>Meningkatkan Produktivitas:</strong> Meja yang rapi mengurangi gangguan visual.",
+                l1_2: "<strong>Mengurangi Stres:</strong> Kekacauan fisik memicu kecemasan mental. Penataan membersihkan pikiran.",
+                l1_3: "<strong>Kesehatan & Higiene:</strong> Sanitasi teratur menjauhkan kuman, memastikan hari sakit berkurang.",
+                l2_1: "<strong>Aturan 5 Menit:</strong> Luangkan 5 menit di akhir hari untuk merapikan meja untuk besok.",
+                l2_2: "<strong>Pembersihan Digital:</strong> Rapikan folder desktop dan arsipkan email mingguan.",
+                l2_3: "<strong>Minimalkan Kertas:</strong> Beralih ke aplikasi catatan digital untuk menghapus tumpukan kertas.",
+                l3_1: "<strong>Tambahkan Tanaman Kecil:</strong> Sukulen memurnikan udara dan memberikan jeda menyegarkan.",
+                l3_2: "<strong>Pencahayaan Alami:</strong> Posisikan meja dekat jendela. Cahaya matahari meningkatkan suasana hati.",
+                l3_3: "<strong>Sentuhan Pribadi:</strong> Bingkai kutipan inspiratif untuk menjaga motivasi internal tetap tinggi."
+            },
+            ms: {
+                main: "Ruang Kerja Bersih & Beraspirasi", sub: "Tingkatkan Produktiviti, Kesejahteraan & Tenaga Positif", back: "Kembali ke Menu Utama",
+                t1: "Mengapa Ia Penting", t2: "Cara Mengekalkannya", t3: "Aura Positif",
+                l1_1: "<strong>Meningkatkan Produktiviti:</strong> Meja yang kemas tanpa barangan berselerak mengurangkan gangguan visual.",
+                l1_2: "<strong>Mengurangi Stres:</strong> Kekacauan fizikal mencetuskan kebimbangan mental. Kekemasan membersihkan fikiran.",
+                l1_3: "<strong>Kesihatan & Kebersihan:</strong> Sanitasi secara kerap menjauhkan kuman, mengurangkan hari cuti sakit.",
+                l2_1: "<strong>Peraturan 5 Minit:</strong> Ambil masa 5 minit pada setiap akhir hari untuk mengemas demi hari esok.",
+                l2_2: "<strong>Pembersihan Digital:</strong> Kemaskan folder desktop anda dan arkibkan rantaian e-mel setiap minggu.",
+                l2_3: "<strong>Minimumkan Kertas:</strong> Beralih ke aplikasi nota digital untuk menghapuskan timbunan kertas sepenuhnya.",
+                l3_1: "<strong>Tambah Tumbuhan Kecil:</strong> Tumbuhan seperti sukulen membersihkan udara dan memberi kesegaran visual.",
+                l3_2: "<strong>Pencahayaan Semulajadi:</strong> Letakkan meja anda berhampiran tingkap. Cahaya matahari meningkatkan mood secara semulajadi.",
+                l3_3: "<strong>Sentuhan Peribadi:</strong> Bingkaikan kata-kata hikmat atau gambar bermakna untuk kekal bermotivasi."
+            },
+            vi: {
+                main: "Không Gian Làm Việc Sạch Sẽ & Tỉnh Thức", sub: "Nâng Cao Năng Suất, Sức Khỏe & Năng Lượng Tích Cực", back: "Quay lại Trang Chủ",
+                t1: "Tại Sao Điều Này Quan Trọng", t2: "Cách Duy Trì", t3: "Năng Lượng Tích Cực",
+                l1_1: "<strong>Tăng Năng Suất:</strong> Một chiếc bàn gọn gàng giúp giảm bớt các yếu tố gây xao nhãng thị giác.",
+                l1_2: "<strong>Giảm Căng Thẳng:</strong> Sự bừa bộn vật lý kích hoạt lo âu tinh thần. Sự ngăn nắp giúp làm sạch tâm trí.",
+                l1_3: "<strong>Sức Khỏe & Vệ Sinh:</strong> Khử trùng thường xuyên giúp ngăn ngừa vi khuẩn, đảm bảo ít ngày ốm hơn.",
+                l2_1: "<strong>Quy Tắc 5 Phút:</strong> Dành 5 phút vào cuối mỗi ngày để dọn dẹp không gian chuẩn bị cho ngày mai.",
+                l2_2: "<strong>Dọn Dẹp Kỹ Thuật Số:</strong> Sắp xếp lại các thư mục trên máy tính và lưu trữ các email cũ hàng tuần.",
+                l2_3: "<strong>Hạn Chế Giấy Tờ:</strong> Chuyển sang các ứng dụng ghi chú kỹ thuật số để xóa bỏ hoàn toàn các chồng giấy.",
+                l3_1: "<strong>Thêm Cây Xanh Nhỏ:</strong> Các loại cây như sen đá giúp thanh lọc không khí và mang lại cảm giác thư thái.",
+                l3_2: "<strong>Ánh Sáng Tự Nhiên:</strong> Đặt bàn làm việc gần cửa sổ. Ánh nắng mặt trời giúp cải thiện tâm trạng tự nhiên.",
+                l3_3: "<strong>Dấu Ấn Cá Nhân:</strong> Đặt một câu danh ngôn truyền cảm hứng hoặc bức ảnh ý nghĩa để giữ động lực."
+            },
+            th: {
+                main: "พื้นที่ทำงานที่สะอาดและมีสติ", sub: "ยกระดับประสิทธิภาพการทำงาน สุขภาวะ และพลังงานบวก", back: "กลับสู่หน้าหลัก",
+                t1: "ทำไมสิ่งนี้ถึงสำคัญ", t2: "วิธีดูแลรักษา", t3: "พลังงานบวก",
+                l1_1: "<strong>เพิ่มประสิทธิภาพ:</strong> โต๊ะทำงานที่ไร้ความยุ่งเหยิงช่วยลดการรบกวนทางสายตาและสร้างโฟกัส",
+                l1_2: "<strong>ลดความเครียด:</strong> ความยุ่งเหยิงทางกายภาพส่งผลต่อความวิตกกังวล การจัดระเบียบช่วยให้สมองปลอดโปร่ง",
+                l1_3: "<strong>สุขภาพและสุขอนามัย:</strong> การฆ่าเชื้อเป็นประจำช่วยป้องกันเชื้อโรคและลดการเจ็บป่วย",
+                l2_1: "<strong>กฎ 5 นาที:</strong> ใช้เวลา 5 นาทีเมื่อสิ้นสุดวันเพื่อจัดโต๊ะให้พร้อมสำหรับวันพรุ่งนี้",
+                l2_2: "<strong>จัดระเบียบดิจิทัล:</strong> เคลียร์โฟลเดอร์บนหน้าจอคอมพิวเตอร์และเก็บถาวรอีเมลเก่าทุกสัปดาห์",
+                l2_3: "<strong>ลดการใช้กระดาษ:</strong> เปลี่ยนไปใช้แอปจดบันทึกดิจิทัลเพื่อลดกองกระดาษให้หมดไป",
+                l3_1: "<strong>เพิ่มต้นไม้เล็กๆ:</strong> ต้นไม้ขนาดเล็ก เช่น ไม้อวบน้ำ ช่วยฟอกอากาศและให้การพักสายตาที่สดชื่น",
+                l3_2: "<strong>แสงแดดธรรมชาติ:</strong> ตั้งโต๊ะทำงานใกล้หน้าต่าง แสงแดดจะช่วยยกระดับอารมณ์ของคุณโดยธรรมชาติ",
+                l3_3: "<strong>แต่งแต้มความเป็นตัวเอง:</strong> ใส่กรอบคำคมสร้างแรงบันด่ายใจหรือรูปภาพที่มีความหมายเพื่อรักษาแรงจูงใจภายใน"
+            },
+            nl: {
+                main: "De Schone & Bewuste Werkplek", sub: "Verhoog productiviteit, welzijn & positieve energie", back: "Terug naar Hoofdmenu",
+                t1: "Waarom het uitmaakt", t2: "Hoe het te onderhouden", t3: "Positieve Vibes",
+                l1_1: "<strong>Verhoogt productiviteit:</strong> Een opgeruimd bureau vermindert visuele afleiding.",
+                l1_2: "<strong>Vermindert stress:</strong> Fysieke chaos veroorzaakt mentale angst. Structuur geeft rust.",
+                l1_3: "<strong>Gezondheid & Hygiëne:</strong> Regelmatig desinfecteren houdt bacteriën op afstand.",
+                l2_1: "<strong>De 5-minutenregel:</strong> Ruim aan het einde van de dag 5 minuten op voor morgen.",
+                l2_2: "<strong>Digitale schoonmaak:</strong> Schoon je bureaublad op och archiveer wekelijks e-mails.",
+                l2_3: "<strong>Minimaliseer papier:</strong> Stap over op digitale apps om papierstapels te wissen.",
+                l3_1: "<strong>Voeg planten toe:</strong> Sukkulenten zuiveren de lucht en geven een frisse pauze.",
+                l3_2: "<strong>Natuurlijk licht:</strong> Plaats je bureau bij het raam. Zonlicht verbetert de stemming.",
+                l3_3: "<strong>Persoonlijke touch:</strong> Lijst een inspirerende quote in om gemotiveerd te blijven."
+            },
+            pt: {
+                main: "Espaço de Trabalho Limpio e Consciente", sub: "Eleve a produtividade, bem-estar e energia positiva", back: "Voltar ao Menu",
+                t1: "Por que isso importa", t2: "Como manter", t3: "Boas Vibrações",
+                l1_1: "<strong>Aumenta a produtividade:</strong> Uma mesa sem bagunça reduz distrações visuais.",
+                l1_2: "<strong>Reduz o estresse:</strong> O caos físico gera ansiedade mental. Organização limpa a mente.",
+                l1_3: "<strong>Saúde e Higiene:</strong> A higienização regular afasta germes.",
+                l2_1: "<strong>Regra dos 5 minutos:</strong> Reserve 5 minutos no fim do dia para arrumar para o amanhã.",
+                l2_2: "<strong>Limpeza digital:</strong> Organize pastas e arquive e-mails semanalmente.",
+                l2_3: "<strong>Minimize o papel:</strong> Mude para aplicativos de notas digitais para eliminar papéis.",
+                l3_1: "<strong>Adicione plantas:</strong> Suculentas purificam o ar e dão uma pausa revigorante.",
+                l3_2: "<strong>Luz natural:</strong> Posicione a mesa perto da janela. A luz solar eleva o humor.",
+                l3_3: "<strong>Toque pessoal:</strong> Emoldure uma frase inspiradora para manter a motivação."
+            },
+            pl: {
+                main: "Czyste i Świadome Miejsce Pracy", sub: "Zwiększ produktywność, samopoczucie i pozytywną energię", back: "Powrót do menu",
+                t1: "Dlaczego to ważne", t2: "Jak o nie dbać", t3: "Pozytywne Wibracje",
+                l1_1: "<strong>Zwiększa produktywność:</strong> Biurko bez niepotrzebnych rzeczy zmniejsza rozproszenie.",
+                l1_2: "<strong>Redukuje stres:</strong> Fizyczny chaos wywołuje niepokój. Organizacja oczyszcza umysł.",
+                l1_3: "<strong>Zdrowie i higiena:</strong> Regularna dezynfekcja zapobiega bakteriom.",
+                l2_1: "<strong>Reguła 5 minut:</strong> Poświęć 5 minut pod koniec dnia na sprzątanie na jutro.",
+                l2_2: "<strong>Cyfrowe porządki:</strong> Uporządkuj foldery na pulpicie i archiwizuj wiadomości e-mail.",
+                l2_3: "<strong>Mniej papieru:</strong> Przełącz się na notatki cyfrowe, aby wyeliminować sterty papieru.",
+                l3_1: "<strong>Dodaj małe rośliny:</strong> Sukulenty oczyszczają powietrze i dają chwilę wytchnienia.",
+                l3_2: "<strong>Naturalne światło:</strong> Postaw biurko przy oknie. Światło słoneczne poprawia nastrój.",
+                l3_3: "<strong>Osobisty akcent:</strong> Opraw inspirujący cytat, aby utrzymać motywację."
+            },
+            sv: {
+                main: "Den Rena & Medvetna Arbetsplatsen", sub: "Höj produktivitet, välmående & positiv energi", back: "Tillbaka till Huvudmeny",
+                t1: "Varför det är viktigt", t2: "Hur man underhåller det", t3: "Positiva Vibbar",
+                l1_1: "<strong>Ökar produktiviteten:</strong> Ett skrivbord utan stök minskar visuella distraktioner.",
+                l1_2: "<strong>Minskar stress:</strong> Fysiskt kaos skapar mental oro. Struktur rensar sinnet.",
+                l1_3: "<strong>Hälsa & Hygien:</strong> Regelbunden desinficering håller bakterier borta.",
+                l2_1: "<strong>5-minutersregeln:</strong> Ta 5 minuter i slutet av dagen för att städa inför morgondagen.",
+                l2_2: "<strong>Digital städning:</strong> Rensa dina skrivbordsmappar och arkivera e-post veckovis.",
+                l2_3: "<strong>Minimera papper:</strong> Gå över till digitala anteckningar för att ta bort pappershögar.",
+                l3_1: "<strong>Tillsätt växter:</strong> Sukculenter renar luften och ger en uppfriskande paus.",
+                l3_2: "<strong>Naturligt ljus:</strong> Placera skrivbordet nära ett fönster. Solljus höjer humöret.",
+                l3_3: "<strong>Personlig touch:</strong> Rama in ett inspirerande citat för att hålla motivationen uppe."
+            },
+            da: {
+                main: "Den Rene & Bevidste Arbejdsplads", sub: "Løft produktivitet, trivsel & positiv energi", back: "Tilbage til Hovedmenu",
+                t1: "Hvorfor det er vigtigt", t2: "Hvordan det vedligeholdes", t3: "Positive Vibrationer",
+                l1_1: "<strong>Hæver produktivitet:</strong> Et ryddeligt skrivebord reducerer visuelle distraktioner.",
+                l1_2: "<strong>Reducerer stress:</strong> Fysisk kaos udløser mental angst. Struktur rydder sindet.",
+                l1_3: "<strong>Sundhed & Hygiejne:</strong> Regelmæssig afspritning holder bakterier væk.",
+                l2_1: "<strong>5-minutters reglen:</strong> Brug 5 minutter sidst på dagen på at rydde op til i morgen.",
+                l2_2: "<strong>Digital oprydning:</strong> Ryd op i mapper på skrivebordet og arkiver e-mails ugentligt.",
+                l2_3: "<strong>Minimer papir:</strong> Skift til digitale note-apps for at fjerne papirbunker helt.",
+                l3_1: "<strong>Tilføj små planter:</strong> Sukkulenter renser luften og giver en sanselig pause.",
+                l3_2: "<strong>Naturligt lys:</strong> Placer skrivebordet nær et vindue. Sollys løfter humøret.",
+                l3_3: "<strong>Personligt præg:</strong> Indram et inspirerende citat for at bevare motivationen."
+            },
+            fi: {
+                main: "Puhdas & Tietoinen Työtila", sub: "Nosta tuottavuutta, hyvinvointia & positiivista energiaa", back: "Takaisin päävalikkoon",
+                t1: "Miksi se on tärkeää", t2: "Miten sitä ylläpidetään", t3: "Positiiviset Vibat",
+                l1_1: "<strong>Lisää tuottavuutta:</strong> Selkeä työpöytä vähentää visuaalisia häiriötekijöitä.",
+                l1_2: "<strong>Vähentää stressiä:</strong> Fyysinen kaaos aiheuttaa henkistä ahdistusta. Järjestys selkeyttää mielen.",
+                l1_3: "<strong>Terveys & Hygienia:</strong> Säännöllinen desinfiointi pitää pöpöt loitolla.",
+                l2_1: "<strong>5 minuutin sääntö:</strong> Käytä päivän päätteeksi 5 minuuttia siivoamiseen huomista varten.",
+                l2_2: "<strong>Digitaalinen siivous:</strong> Järjestä työpöydän kansiot ja arkistoi sähköpostit viikoittain.",
+                l2_3: "<strong>Minimoit paperi:</strong> Siirry digitaalisiin muistiinpanoihin poistaaksesi paperipinot.",
+                l3_1: "<strong>Lisää kasveja:</strong> Mehikasvit puhdistavat ilmaa ja tarjoavat virkistävän tauon.",
+                l3_2: "<strong>Luonnonvalo:</strong> Sijoita pöytä ikkunan lähelle. Auringonvalo nostaa mielialaa.",
+                l3_3: "<strong>Henkilökohtainen kosketus:</strong> Kehystä inspiroiva lainaus pitääksesi motivaation korkealla."
+            }
+        };
+
+        const currentLang = localStorage.getItem('flowday_app_lang') || 'en';
+        const savedTheme = localStorage.getItem('flowday_theme') || 'light';
+        const langData = dict[currentLang] || dict.en;
+
+        // تطبيق الأوضاع والاتجاهات
+        if (currentLang === 'ar' || currentLang === 'fa' || currentLang === 'ur') {
+            document.body.classList.add('rtl');
+        }
+        if (savedTheme !== 'light') document.body.classList.add('theme-' + savedTheme);
+
+        // حقن الترجمة المقابلة
+        function loadContent() {
+            document.getElementById('mainTitle').textContent = langData.main;
+            document.getElementById('subTitle').textContent = langData.sub;
+            document.querySelector('#btnBack span').textContent = langData.back;
+            document.getElementById('t1').innerHTML = `<i class="fa-solid fa-lightbulb"></i> ` + langData.t1;
+            document.getElementById('t2').innerHTML = `<i class="fa-solid fa-hand-sparkles"></i> ` + langData.t2;
+            document.getElementById('t3').innerHTML = `<i class="fa-solid fa-wand-magic-sparkles"></i> ` + langData.t3;
+            
+            document.getElementById('l1_1').innerHTML = langData.l1_1;
+            document.getElementById('l1_2').innerHTML = langData.l1_2;
+            document.getElementById('l1_3').innerHTML = langData.l1_3;
+            document.getElementById('l2_1').innerHTML = langData.l2_1;
+            document.getElementById('l2_2').innerHTML = langData.l2_2;
+            document.getElementById('l2_3').innerHTML = langData.l2_3;
+            document.getElementById('l3_1').innerHTML = langData.l3_1;
+            document.getElementById('l3_2').innerHTML = langData.l3_2;
+            document.getElementById('l3_3').innerHTML = langData.l3_3;
+
+            // تحديث اتجاه السهم بناءً على اللغة والـ RTL
+            const arrowIcon = document.querySelector('#btnBack i');
+            if (document.body.classList.contains('rtl')) {
+                arrowIcon.className = 'fa-solid fa-arrow-right';
+            } else {
+                arrowIcon.className = 'fa-solid fa-arrow-left';
+            }
+        }
+
+        loadContent();
+    </script>
+</body>
+</html>

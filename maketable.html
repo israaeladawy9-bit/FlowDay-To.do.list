@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Daily Schedule - FlowDay Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght=400;500;600;700;800;900&family=Cairo:wght=400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // إعدادات Firebase الخاصة بمشروعك
+        const firebaseConfig = {
+            apiKey: "AIzaSyB1gI-OSbGCGPIMA5NCnuB2K_-IyrMWFHs",
+            authDomain: "flowday-81f42.firebaseapp.com",
+            projectId: "flowday-81f42",
+            storageBucket: "flowday-81f42.firebasestorage.app",
+            messagingSenderId: "854763403133",
+            appId: "1:854763403133:web:13f5eafb11422d89787e14",
+            measurementId: "G-W5Q0QYEGEG"
+        };
+
+        // تهيئة الفايربيس وقاعدة البيانات
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // إتاحة الكائنات للنافذة العامة لسهولة الاستخدام داخل السكربت العادي
+        window.db = db;
+        window.dbDoc = doc;
+        window.getDoc = getDoc;
+        window.setDoc = setDoc;
+    </script>
+
+    <style>
+        /* نظام الألوان المتطور والمتوافق مع جميع الثيمات */
+        :root {
+            --purple-primary: #7B2CBF;
+            --purple-light: #F3E8FF;
+            --duo-green: #58CC02;
+            --duo-green-dark: #46A302;
+            --bg-creamy: #FAF6F0;
+            --dark-text: #1F0833;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --border-color: rgba(0, 0, 0, 0.08);
+            --text-main: #2D2533;
+            --glow-color: rgba(123, 44, 191, 0.05);
+        }
+
+        /* الثيم الداكن المطور */
+        [data-theme="dark"] {
+            --purple-primary: #9D4EDD;
+            --purple-light: #241435;
+            --bg-creamy: #0F0A19;
+            --dark-text: #F3E8FF;
+            --card-bg: rgba(30, 22, 45, 0.85);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-main: #E2D9EC;
+            --glow-color: rgba(157, 78, 221, 0.1);
+        }
+
+        /* ثيم ديولينجو المطور */
+        [data-theme="duo"] {
+            --purple-primary: #58CC02;
+            --purple-light: #E8FCD4;
+            --bg-creamy: #FFFDF9;
+            --dark-text: #3C3C3C;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --border-color: rgba(0, 0, 0, 0.06);
+            --text-main: #4B4B4B;
+            --glow-color: rgba(88, 204, 2, 0.1);
+        }
+
+        /* ثيم وردي */
+        [data-theme="pink"] {
+            --purple-primary: #db2777;
+            --purple-light: #ffe4e6;
+            --bg-creamy: #fff1f2;
+            --dark-text: #4c0519;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --border-color: rgba(251, 113, 133, 0.2);
+            --text-main: #5c0620;
+            --glow-color: rgba(219, 39, 119, 0.08);
+        }
+
+        /* ثيم بنفسجي */
+        [data-theme="purple"] {
+            --purple-primary: #a855f7;
+            --purple-light: #f3e8ff;
+            --bg-creamy: #fae8ff;
+            --dark-text: #3b0764;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --border-color: rgba(168, 85, 247, 0.2);
+            --text-main: #4a0e7a;
+            --glow-color: rgba(168, 85, 247, 0.08);
+        }
+
+        /* ثيم بني */
+        [data-theme="brown"] {
+            --purple-primary: #8d6e63;
+            --purple-light: #efebe9;
+            --bg-creamy: #f5f5f5;
+            --dark-text: #4e342e;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --border-color: rgba(141, 110, 99, 0.2);
+            --text-main: #5d4037;
+            --glow-color: rgba(141, 110, 99, 0.08);
+        }
+
+        /* ثيم أصفر */
+        [data-theme="yellow"] {
+            --purple-primary: #eab308;
+            --purple-light: #fefde8;
+            --bg-creamy: #fffbeb;
+            --dark-text: #713f12;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --border-color: rgba(234, 179, 8, 0.2);
+            --text-main: #854d0e;
+            --glow-color: rgba(234, 179, 8, 0.08);
+        }
+
+        /* ثيم أخضر */
+        [data-theme="green"] {
+            --purple-primary: #22c55e;
+            --purple-light: #f0fdf4;
+            --bg-creamy: #ecfccb;
+            --dark-text: #14532d;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --border-color: rgba(34, 197, 94, 0.2);
+            --text-main: #166534;
+            --glow-color: rgba(34, 197, 94, 0.08);
+        }
+
+        * { 
+            margin: 0; padding: 0; box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; 
+        }
+
+        body {
+            font-family: 'Outfit', 'Cairo', sans-serif; background: var(--bg-creamy); color: var(--text-main);
+            display: flex; justify-content: center; align-items: center; min-height: 100vh;
+            padding: 20px; position: relative; overflow-x: hidden;
+            transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s;
+        }
+
+        body.rtl {
+            font-family: 'Cairo', 'Outfit', sans-serif;
+            direction: rtl;
+        }
+
+        body::before {
+            content: ''; position: absolute; width: 500px; height: 500px;
+            background: radial-gradient(circle, var(--purple-light) 0%, var(--glow-color) 60%, transparent 100%);
+            border-radius: 50%; filter: blur(50px); z-index: 0; top: -10%; right: -10%;
+            transition: background 0.4s;
+        }
+
+        .dashboard-container {
+            width: 100%; max-width: 430px; background: var(--card-bg);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1.5px solid rgba(255, 255, 255, 0.4); border-radius: 30px;
+            padding: 24px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            z-index: 1; display: flex; flex-direction: column; gap: 20px;
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        .header { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+        
+        .controls-row { display: flex; gap: 8px; align-items: center; }
+
+        .action-icon-btn {
+            background: rgba(239, 68, 68, 0.08); border: 1.5px solid rgba(239, 68, 68, 0.15);
+            color: #EF4444; width: 40px; height: 40px; border-radius: 14px;
+            display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 15px;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .action-icon-btn:hover { background: #EF4444; color: white; transform: scale(1.05); }
+        .action-icon-btn:active { transform: scale(0.95); }
+
+        .back-btn {
+            display: inline-flex; align-items: center; gap: 6px; background: var(--purple-light);
+            color: var(--purple-primary); border: 1.5px solid transparent; padding: 10px 16px; border-radius: 14px;
+            font-size: 13px; font-weight: 700; cursor: pointer; text-decoration: none; 
+            transition: all 0.2s ease;
+        }
+        .back-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .back-btn:active { transform: translateY(1px); }
+
+        h1 { font-size: 1.3rem; font-weight: 800; color: var(--dark-text); letter-spacing: -0.5px; }
+
+        .quick-add-box {
+            background: rgba(255, 255, 255, 0.4); border: 1px solid var(--border-color);
+            border-radius: 24px; padding: 16px; display: flex; flex-direction: column; gap: 14px;
+        }
+        [data-theme="dark"] .quick-add-box { background: rgba(0, 0, 0, 0.15); }
+
+        .input-field {
+            width: 100%; padding: 14px 16px; border: 1.5px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.6); color: var(--text-main); border-radius: 14px; outline: none;
+            font-family: inherit; font-size: 14px; font-weight: 600; transition: all 0.2s;
+        }
+        [data-theme="dark"] .input-field { background: rgba(0, 0, 0, 0.2); }
+        .input-field:focus { border-color: var(--purple-primary); box-shadow: 0 0 0 3px rgba(123, 44, 191, 0.15); }
+
+        .selector-label { font-size: 11px; font-weight: 800; color: #8C7A99; text-transform: uppercase; margin-bottom: -6px; letter-spacing: 0.5px; }
+        body.rtl .selector-label { text-align: right; }
+
+        .segmented-control { display: flex; background: rgba(0,0,0,0.04); padding: 4px; border-radius: 14px; gap: 4px; border: 1px solid transparent; }
+        [data-theme="dark"] .segmented-control { background: rgba(255,255,255,0.04); }
+        
+        .segment-btn {
+            flex: 1; border: none; background: transparent; padding: 10px 6px; border-radius: 10px;
+            font-family: inherit; font-size: 11px; font-weight: 700; color: var(--text-main); opacity: 0.7; cursor: pointer;
+            transition: all 0.2s;
+        }
+        .segment-btn.active { opacity: 1; font-weight: 800; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        
+        .segment-btn.active[data-value="easy"], .segment-btn.active[data-value="low"] { background: #10B981; color: white; }
+        .segment-btn.active[data-value="medium"], .segment-btn.active[data-value="med-prio"] { background: #F97316; color: white; }
+        .segment-btn.active[data-value="hard"], .segment-btn.active[data-value="high"] { background: #EF4444; color: white; }
+
+        .add-btn-full {
+            background: var(--purple-primary); color: white; border: none;
+            padding: 14px; border-radius: 14px; cursor: pointer; font-family: inherit;
+            font-size: 14px; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 8px;
+            transition: all 0.2s; box-shadow: 0 4px 12px rgba(123, 44, 191, 0.2);
+        }
+        [data-theme="duo"] .add-btn-full { background: var(--duo-green); box-shadow: 0 4px 12px rgba(88, 204, 2, 0.2); }
+        .add-btn-full:hover { transform: translateY(-1px); opacity: 0.95; }
+        .add-btn-full:active { transform: translateY(1px); }
+
+        .ai-alert-box {
+            background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 14px;
+            padding: 12px; display: flex; gap: 10px; align-items: center; font-size: 12px; color: #3B82F6;
+        }
+
+        .schedule-timeline { display: flex; flex-direction: column; gap: 12px; max-height: 380px; overflow-y: auto; padding-right: 2px; scrollbar-width: none; }
+        .schedule-timeline::-webkit-scrollbar { display: none; }
+
+        .schedule-card {
+            background: var(--card-bg); border: 1.5px solid var(--border-color); border-left: 5px solid var(--purple-primary);
+            border-radius: 16px; padding: 14px; display: flex; justify-content: space-between; align-items: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .schedule-card:hover { transform: translateX(2px); box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+        
+        body.rtl .schedule-card { border-left: 1.5px solid var(--border-color); border-right: 5px solid var(--purple-primary); }
+        body.rtl .schedule-card:hover { transform: translateX(-2px); }
+
+        .schedule-card.fixed-sleep { border-left-color: #6366F1; background: rgba(99, 102, 241, 0.06); }
+        body.rtl .schedule-card.fixed-sleep { border-right-color: #6366F1; }
+
+        .schedule-card.fixed-food { border-left-color: #FF8AC8; background: rgba(255, 138, 200, 0.06); }
+        body.rtl .schedule-card.fixed-food { border-right-color: #FF8AC8; }
+
+        .schedule-card.overflow-task { border-left-color: #94A3B8; background: rgba(148, 163, 184, 0.06); opacity: 0.6; }
+        body.rtl .schedule-card.overflow-task { border-right-color: #94A3B8; }
+
+        .schedule-card.optimized-task { border-left-color: #10B981; background: rgba(16, 185, 129, 0.06); }
+        body.rtl .schedule-card.optimized-task { border-right-color: #10B981; }
+
+        .card-details { display: flex; flex-direction: column; gap: 6px; text-align: left; }
+        body.rtl .card-details { text-align: right; }
+        
+        .card-title { font-size: 14px; font-weight: 700; color: var(--dark-text); }
+        .card-meta { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+        
+        .meta-badge { font-size: 10px; padding: 3px 8px; border-radius: 8px; font-weight: 700; text-transform: uppercase; }
+        .meta-badge.high { background: rgba(239, 68, 68, 0.1); color: #EF4444; }
+        .meta-badge.medium, .meta-badge.med-prio { background: rgba(249, 115, 22, 0.1); color: #F97316; }
+        .meta-badge.low { background: rgba(16, 185, 129, 0.1); color: #10B981; }
+        .meta-badge.fixed { background: rgba(0,0,0,0.06); color: var(--text-main); }
+
+        .time-tag { font-size: 11px; color: var(--text-main); opacity: 0.8; font-weight: 700; display: flex; align-items: center; gap: 4px; background: rgba(0,0,0,0.03); padding: 3px 8px; border-radius: 8px; }
+        [data-theme="dark"] .time-tag { background: rgba(255,255,255,0.05); }
+
+        .delete-btn {
+            background: transparent; border: none; color: #EF4444; opacity: 0.4;
+            width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+        }
+        .delete-btn:hover { opacity: 1; background: rgba(239, 68, 68, 0.1); transform: scale(1.1); }
+
+        .notification-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            display: flex; justify-content: center; align-items: center; z-index: 999; padding: 20px;
+            visibility: hidden; opacity: 0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .notification-modal.active { visibility: visible; opacity: 1; }
+        .modal-box { 
+            background: var(--card-bg); border-radius: 28px; padding: 24px; width: 100%; max-width: 360px; 
+            text-align: center; display: flex; flex-direction: column; gap: 16px; 
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2); border: 1.5px solid rgba(255,255,255,0.2);
+            transform: scale(0.9); transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .notification-modal.active .modal-box { transform: scale(1); }
+        
+        .modal-icon { width: 56px; height: 56px; background: var(--purple-light); color: var(--purple-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 22px; }
+        .modal-box h3 { font-size: 17px; color: var(--dark-text); font-weight: 800; }
+        .modal-box p { font-size: 13px; color: var(--text-main); opacity: 0.8; }
+        
+        .modal-actions { display: flex; gap: 8px; }
+        .modal-btn { flex: 1; padding: 12px; border-radius: 12px; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; }
+        .modal-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .modal-btn.confirm { background: #10B981; color: white; }
+        .modal-btn.half { background: #F59E0B; color: white; }
+        .modal-btn.cancel { background: #EF4444; color: white; }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container animate__animated animate__fadeIn">
+        <div class="header">
+            <a href="main.html" class="back-btn" id="backBtnTxt">← Main</a>
+            <h1 id="appTitle">FlowDay Scheduler</h1>
+            
+            <div class="controls-row">
+                <button class="action-icon-btn clear-all" onclick="clearAllTasks()" id="btnClearAll" title="Clear All Tasks">
+                    <i class="fa-solid fa-trash-can"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="quick-add-box">
+            <input type="text" id="newCardName" class="input-field" placeholder="Enter task name...">
+
+            <span class="selector-label" id="lblComplexity">Complexity</span>
+            <div class="segmented-control" id="diffControl">
+                <button class="segment-btn active" data-value="easy" onclick="setSegment('diff', 'easy')" id="btnEasy">Easy (1h)</button>
+                <button class="segment-btn" data-value="medium" onclick="setSegment('diff', 'medium')" id="btnMedium">Medium (2h)</button>
+                <button class="segment-btn" data-value="hard" onclick="setSegment('diff', 'hard')" id="btnHard">Hard (3h)</button>
+            </div>
+
+            <span class="selector-label" id="lblPriority">Priority Level</span>
+            <div class="segmented-control" id="prioControl">
+                <button class="segment-btn active" data-value="low" onclick="setSegment('prio', 'low')" id="btnLow">Low</button>
+                <button class="segment-btn" data-value="med-prio" onclick="setSegment('prio', 'med-prio')" id="btnMedPrio">Medium</button>
+                <button class="segment-btn" data-value="high" onclick="setSegment('prio', 'high')" id="btnHigh">High</button>
+            </div>
+
+            <button class="add-btn-full" onclick="addSmartTask()" id="btnAutoSchedule">Auto-Schedule Task</button>
+        </div>
+
+        <div id="aiAlertContainer"></div>
+        <div class="schedule-timeline" id="scheduleContainer"></div>
+    </div>
+
+    <div class="notification-modal" id="checkInModal">
+        <div class="modal-box">
+            <div class="modal-icon">🔔</div>
+            <h3 id="modalTaskTitle">Task Status</h3>
+            <p id="modalTaskTime">Did you complete this task?</p>
+            <div class="modal-actions">
+                <button class="modal-btn confirm" onclick="closeModal('yes')" id="btnModalYes">Yes</button>
+                <button class="modal-btn half" onclick="closeModal('50%')">50%</button>
+                <button class="modal-btn cancel" onclick="closeModal('no')" id="btnModalNo">No</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            en: {
+                back: "← Main", title: "FlowDay Scheduler", placeholder: "Enter task name...", complexity: "Complexity", priority: "Priority Level", easy: "Easy (1h)", medium: "Medium (2h)", hard: "Hard (3h)", low: "Low", medPrio: "Medium", high: "High", autoSchedule: "Auto-Schedule Task", aiActive: "<strong>AI Auto-Optimization Active:</strong> Compressed task lengths.", sleepName: "Sleep & Rest Time", mealsName: "Lunch & Dinner Break", postponed: "Postponed", modalTitle: "Task Status", modalBody: "Did you complete this task?", yes: "Yes", no: "No", done50: " (50% Done)", clearTitle: "Clear all tasks?", am: "AM", pm: "PM"
+            },
+            ar: {
+                back: "← الرئيسية", title: "مجدول تدفق اليوم", placeholder: "أدخل اسم المهمة...", complexity: "مدى الصعوبة", priority: "مستوى الأهمية", easy: "سهل (ساعة)", medium: "متوسط (ساعتين)", hard: "صعب (3 ساعات)", low: "منخفضة", medPrio: "متوسطة", high: "عالية", autoSchedule: "جدولة تلقائية ذكية", aiActive: "<strong>تحسين الذكاء الاصطناعي نشط:</strong> تم ضغط فترات المهام.", sleepName: "وقت النوم والراحة", mealsName: "استراحة الطعام", postponed: "مؤجل للغد", modalTitle: "حالة المهمة", modalBody: "هل قمت بإنجاز هذه المهمة؟", yes: "نعم", no: "لا", done50: " (تم إنجاز 50%)", clearTitle: "مسح جميع المهام؟", am: "صباحاً", pm: "مساءً"
+            },
+            fr: {
+                back: "← Principal", title: "Planificateur FlowDay", placeholder: "Nom de la tâche...", complexity: "Complexité", priority: "Priorité", easy: "Facile (1h)", medium: "Moyen (2h)", hard: "Difficile (3h)", low: "Basse", medPrio: "Moyenne", high: "Haute", autoSchedule: "Planification Auto", aiActive: "<strong>Optimisation IA Active:</strong> Durées réduites.", sleepName: "Sommeil & Repos", mealsName: "Pause Déjeuner", postponed: "Reporté", modalTitle: "Statut", modalBody: "Tâche terminée?", yes: "Oui", no: "Non", done50: " (50% Fait)", clearTitle: "Effacer tout?", am: "AM", pm: "PM"
+            },
+            es: {
+                back: "← Principal", title: "Planificador FlowDay", placeholder: "Nombre de la tarea...", complexity: "Complejidad", priority: "Prioridad", easy: "Fácil (1h)", medium: "Medio (2h)", hard: "Difícil (3h)", low: "Baja", medPrio: "Media", high: "Alta", autoSchedule: "Auto-Programar", aiActive: "<strong>Optimización IA Activa:</strong> Tiempos reducidos.", sleepName: "Descanso y Sueño", mealsName: "Almuerzo y Cena", postponed: "Pospuesto", modalTitle: "Estado", modalBody: "¿Completaste la tarea?", yes: "Sí", no: "No", done50: " (50% Hecho)", clearTitle: "¿Borrar todo?", am: "AM", pm: "PM"
+            },
+            de: {
+                back: "← Hauptmenü", title: "FlowDay Planer", placeholder: "Aufgabenname...", complexity: "Komplexität", priority: "Priorität", easy: "Einfach (1h)", medium: "Mittel (2h)", hard: "Schwer (3h)", low: "Niedrig", medPrio: "Mittel", high: "Hoch", autoSchedule: "Auto-Zeitplan", aiActive: "<strong>KI-Optimierung Aktiv:</strong> Zeiten komprimiert.", sleepName: "Schlaf & Erholung", mealsName: "Essenspause", postponed: "Aufgeschoben", modalTitle: "Status", modalBody: "Aufgabe erledigt?", yes: "Ja", no: "Nein", done50: " (50% Fertig)", clearTitle: "Alles löschen?", am: "AM", pm: "PM"
+            },
+            it: {
+                back: "← Principale", title: "Pianificatore FlowDay", placeholder: "Nome attività...", complexity: "Complessità", priority: "Priorità", easy: "Facile (1h)", medium: "Medio (2h)", hard: "Difficile (3h)", low: "Bassa", medPrio: "Media", high: "Alta", autoSchedule: "Pianificazione Auto", aiActive: "<strong>Ottimizzazione IA Attiva:</strong> Tempi ridotti.", sleepName: "Sonno e Riposo", mealsName: "Pausa Pranzo", postponed: "Posticipato", modalTitle: "Stato", modalBody: "Compito completato?", yes: "Sì", no: "No", done50: " (50% Fatto)", clearTitle: "Cancella tutto?", am: "AM", pm: "PM"
+            },
+            tr: {
+                back: "← Ana Sayfa", title: "FlowDay Planlayıcı", placeholder: "Görev adı girin...", complexity: "Zorluk", priority: "Öncelik", easy: "Kolay (1s)", medium: "Orta (2s)", hard: "Zor (3s)", low: "Düşük", medPrio: "Orta", high: "Yüksek", autoSchedule: "Otomatik Planla", aiActive: "<strong>Yapay Zeka Aktif:</strong> Görev süreleri optimize edildi.", sleepName: "Uyku & Dinlenme", mealsName: "Yemek Molası", postponed: "Ertelendi", modalTitle: "Durum", modalBody: "Tamamladınız mı?", yes: "Evet", no: "Hayır", done50: " (50% Tamam)", clearTitle: "Hepsini sil?", am: "ÖÖ", pm: "ÖS"
+            },
+            ru: {
+                back: "← Главная", title: "Планировщик FlowDay", placeholder: "Название задачи...", complexity: "Сложность", priority: "Приоритет", easy: "Легко (1ч)", medium: "Средне (2ч)", hard: "Сложно (3ч)", low: "Низкий", medPrio: "Средний", high: "Высокий", autoSchedule: "Автопланирование", aiActive: "<strong>Оптимизация ИИ:</strong> Время сжато.", sleepName: "Сон и отдых", mealsName: "Обед и ужин", postponed: "Отложено", modalTitle: "Статус", modalBody: "Задача выполнена?", yes: "Да", no: "Нет", done50: " (50% Готово)", clearTitle: "Очистить всё?", am: "до полудня", pm: "после полудня"
+            },
+            zh: {
+                back: "← 返回", title: "FlowDay 日程规划", placeholder: "输入任务名称...", complexity: "复杂度", priority: "优先级", easy: "简单 (1小时)", medium: "中等 (2小时)", hard: "困难 (3小时)", low: "低", medPrio: "中", high: "高", autoSchedule: "智能自动排班", aiActive: "<strong>AI 优化已激活：</strong> 任务耗时已压缩。", sleepName: "睡眠与休息时间", mealsName: "午餐与晚餐休息", postponed: "推迟到明天", modalTitle: "任务状态", modalBody: "你完成这项任务了吗？", yes: "是", no: "否", done50: " (完成50%)", clearTitle: "清空所有任务？", am: "上午", pm: "下午"
+            },
+            ja: {
+                back: "← 戻る", title: "FlowDay スケジューラ", placeholder: "タスク名を入力...", complexity: "難易度", priority: "優先度", easy: "簡単 (1時間)", medium: "普通 (2時間)", hard: "困難 (3時間)", low: "低", medPrio: "中", high: "高", autoSchedule: "自動スケジュール", aiActive: "<strong>AI最適化有効：</strong> タスク時間が短縮されました。", sleepName: "睡眠・休憩時間", mealsName: "昼食・夕食休憩", postponed: "明日へ延期", modalTitle: "タスク状態", modalBody: "完了しましたか？", yes: "はい", no: "いいえ", done50: " (50%完了)", clearTitle: "すべて削除しますか？", am: "午前", pm: "午後"
+            },
+            ko: {
+                back: "← 메인", title: "FlowDay 스케줄러", placeholder: "작업 이름 입력...", complexity: "복잡도", priority: "우선순위", easy: "쉬움 (1시간)", medium: "보통 (2시간)", hard: "어려움 (3시간)", low: "낮음", medPrio: "보통", high: "높음", autoSchedule: "자동 스케줄링", aiActive: "<strong>AI 자동 최적화 활성화:</strong> 작업 시간이 단축되었습니다.", sleepName: "수면 및 휴식", mealsName: "식사 시간", postponed: "내일로 연기", modalTitle: "작업 상태", modalBody: "완료하셨습니까?", yes: "예", no: "아니오", done50: " (50% 완료)", clearTitle: "모두 삭제할까요?", am: "오전", pm: "오후"
+            },
+            pt: {
+                back: "← Menu", title: "Planejador FlowDay", placeholder: "Nome da tarefa...", complexity: "Complexidade", priority: "Prioridade", easy: "Fácil (1h)", medium: "Médio (2h)", hard: "Difícil (3h)", low: "Baixa", medPrio: "Média", high: "Alta", autoSchedule: "Agendar Automaticamente", aiActive: "<strong>Otimização IA Ativa:</strong> Duração reduzida.", sleepName: "Tempo de Sono & Descanso", mealsName: "Intervalo de Refeição", postponed: "Adiado", modalTitle: "Status", modalBody: "Concluiu esta tarefa?", yes: "Sim", no: "Não", done50: " (50% Concluído)", clearTitle: "Limpar tarefas?", am: "AM", pm: "PM"
+            },
+            nl: {
+                back: "← Menu", title: "FlowDay Planner", placeholder: "Taaknaam invoeren...", complexity: "Complexiteit", priority: "Prioriteit", easy: "Eenvoudig (1u)", medium: "Gemiddeld (2u)", hard: "Moeilijk (3u)", low: "Laag", medPrio: "Gemiddeld", high: "Hoog", autoSchedule: "Automatisch Plannen", aiActive: "<strong>AI Optimalisatie Actief:</strong> Taakduur verkort.", sleepName: "Slaap & Rusttijd", mealsName: "Eetpauze", postponed: "Uitgesteld", modalTitle: "Status", modalBody: "Taak voltooid?", yes: "Ja", no: "Nee", done50: " (50% Klaar)", clearTitle: "Alles wissen?", am: "AM", pm: "PM"
+            },
+            pl: {
+                back: "← Menu", title: "Planista FlowDay", placeholder: "Nazwa zadania...", complexity: "Złożoność", priority: "Priorytet", easy: "Łatwe (1h)", medium: "Średnie (2h)", hard: "Trudne (3h)", low: "Niski", medPrio: "Średni", high: "Wysoki", autoSchedule: "Automatyczny Harmonogram", aiActive: "<strong>Optymalizacja AI Aktywna:</strong> Skrócono czas.", sleepName: "Sen i Odpoczynek", mealsName: "Przerwa na Posiłek", postponed: "Odłożone", modalTitle: "Status", modalBody: "Czy zadanie wykonane?", yes: "Tak", no: "Nie", done50: " (50% Gotowe)", clearTitle: "Wyczyścić wszystko?", am: "AM", pm: "PM"
+            },
+            sv: {
+                back: "← Meny", title: "FlowDay Planerare", placeholder: "Ange uppgiftsnamn...", complexity: "Komplexitet", priority: "Prioritetsnivå", easy: "Enkel (1h)", medium: "Medium (2h)", hard: "Svår (3h)", low: "Låg", medPrio: "Medium", high: "Hög", autoSchedule: "Automatisera Schema", aiActive: "<strong>AI-Optimering Aktiv:</strong> Uppgiftstider minskade.", sleepName: "Sömn & Vila", mealsName: "Måltidsrast", postponed: "Uppskjuten", modalTitle: "Status", modalBody: "Slutförde du uppgiften?", yes: "Ja", no: "Nej", done50: " (50% Klar)", clearTitle: "Rensa alla?", am: "FM", pm: "EM"
+            },
+            da: {
+                back: "← Menu", title: "FlowDay Planlægger", placeholder: "Indtast opgave...", complexity: "Kompleksitet", priority: "Prioritet", easy: "Nem (1t)", medium: "Medium (2t)", hard: "Svær (3t)", low: "Lav", medPrio: "Medium", high: "Høj", autoSchedule: "Auto-Planlæg", aiActive: "<strong>AI-Optimering Aktiv:</strong> Tider komprimeret.", sleepName: "Søvn & Hvile", mealsName: "Madpause", postponed: "Udskudt", modalTitle: "Status", modalBody: "Er opgaven færdig?", yes: "Ja", no: "Nej", done50: " (50% Færdig)", clearTitle: "Slet alt?", am: "AM", pm: "PM"
+            },
+            fi: {
+                back: "← Valikko", title: "FlowDay Aikataulu", placeholder: "Syötä tehtävä...", complexity: "Monimutkaisuus", priority: "Prioriteetti", easy: "Helppo (1h)", medium: "Keskitaso (2h)", hard: "Vaikea (3h)", low: "Matala", medPrio: "Keskitaso", high: "Korkea", autoSchedule: "Automaattinen Aikataulu", aiActive: "<strong>AI-Optimointi Aktiivinen:</strong> Kestoja lyhennetty.", sleepName: "Uni & Lepoaika", mealsName: "Ruokatauko", postponed: "Siirretty", modalTitle: "Tila", modalBody: "Saitko valmiiksi?", yes: "Kyllä", no: "Ei", done50: " (50% Valmis)", clearTitle: "Tyhjennä kaikki?", am: "ap.", pm: "ip."
+            },
+            no: {
+                back: "← Meny", title: "FlowDay Planlegger", placeholder: "Skriv oppgave...", complexity: "Kompleksitet", priority: "Prioritet", easy: "Enkel (1t)", medium: "Medium (2t)", hard: "Vanskelig (3t)", low: "Lav", medPrio: "Medium", high: "Høy", autoSchedule: "Auto-Planlegg", aiActive: "<strong>AI-Optimalisering Aktiv:</strong> Tider forkortet.", sleepName: "Søvn & Hvile", mealsName: "Matpause", postponed: "Utsatt", modalTitle: "Status", modalBody: "Fullførte du oppgaven?", yes: "Ja", no: "Nej", done50: " (50% Ferdig)", clearTitle: "Slet alle?", am: "AM", pm: "PM"
+            },
+            cs: {
+                back: "← Menu", title: "Plánovač FlowDay", placeholder: "Zadejte úkol...", complexity: "Komplexita", priority: "Priorita", easy: "Snadné (1h)", medium: "Střední (2h)", hard: "Těžké (3h)", low: "Nízká", medPrio: "Střední", high: "Vysoká", autoSchedule: "Auto-Plánování", aiActive: "<strong>Optimalizace AI Aktivní:</strong> Časy zkráceny.", sleepName: "Spánek & Odpočinek", mealsName: "Pauza na Jídlo", postponed: "Odloženo", modalTitle: "Stav", modalBody: "Dokončili jste úkol?", yes: "Ano", no: "Ne", done50: " (50% Hotovo)", clearTitle: "Smazat vše?", am: "Dop.", pm: "Odp."
+            },
+            el: {
+                back: "← Μενού", title: "Πρόγραμμα FlowDay", placeholder: "Όνομα εργασίας...", complexity: "Δυσκολία", priority: "Προτεραιότητα", easy: "Εύκολο (1ώ)", medium: "Μέτριο (2ώ)", hard: "Δύσκολο (3ώ)", low: "Χαμηλή", medPrio: "Μέτρια", high: "Υψηλή", autoSchedule: "Έξυπνος Προγραμματισμός", aiActive: "<strong>Ενεργή Βελτιστοποίηση AI:</strong> Οι διάρκειες μειώθηκαν.", sleepName: "Ύπνος & Ξεκούραση", mealsName: "Διάλειμμα Φαγητού", postponed: "Αναβλήθηκε", modalTitle: "Κατάσταση", modalBody: "Ολοκληρώθηκε η εργασία;", yes: "Ναι", no: "Όχι", done50: " (50% Έτοιμο)", clearTitle: "Διαγραφή όλων;", am: "ΠΜ", pm: "ΜΜ"
+            },
+            hi: {
+                back: "← मुख्य", title: "FlowDay शेड्यूلر", placeholder: "कार्य का नाम...", complexity: "जटिलता", priority: "प्राथमिकता स्तर", easy: "आसान (1घं)", medium: "मध्यम (2घं)", hard: "कठिन (3घं)", low: "कम", medPrio: "मध्यम", high: "उच्च", autoSchedule: "ऑटो-शेड्यूल कार्य", aiActive: "<strong>AI अनुकूलन सक्रिय:</strong> कार्य अवधि कम की गई।", sleepName: "नींद और आराम", mealsName: "भोजन का अवकाश", postponed: "स्थगित", modalTitle: "कार्य की स्थिति", modalBody: "क्या आपने कार्य पूरा किया?", yes: "हाँ", no: "नहीं", done50: " (50% पूर्ण)", clearTitle: "सभी साफ़ करें?", am: "पूर्वाह्न", pm: "अपराह्न"
+            },
+            id: {
+                back: "← Utama", title: "Penjadwal FlowDay", placeholder: "Nama tugas...", complexity: "Kompleksitas", priority: "Tingkat Prioritas", easy: "Mudah (1j)", medium: "Sedang (2j)", hard: "Sulit (3j)", low: "Rendah", medPrio: "Sedang", high: "Tinggi", autoSchedule: "Jadwalkan Otomatis", aiActive: "<strong>Optimasi AI Aktif:</strong> Durasi tugas dipadatkan.", sleepName: "Waktu Tidur & Istirahat", mealsName: "Istirahat Makan", postponed: "Ditunda", modalTitle: "Status Tugas", modalBody: "Selesai dikerjakan?", yes: "Ya", no: "Tidak", done50: " (50% Selesai)", clearTitle: "Hapus semua?", am: "AM", pm: "PM"
+            }
+        };
+
+        let currentLang = localStorage.getItem('flowday_app_lang') || 'en';
+        let currentTheme = localStorage.getItem('flowday_theme') || 'creamy';
+        
+        let activeDifficulty = 'easy';
+        let activePriority = 'low';
+        let userTasks = [];
+        const userId = "current_user_id"; // معرف مستخدم ثابت للمزامنة
+
+        document.addEventListener("DOMContentLoaded", () => {
+            if ("Notification" in window) { Notification.requestPermission(); }
+            applyTheme(currentTheme);
+            
+            // ننتظر قليلاً لضمان تحميل وحدة الـ Firebase بشكل كامل من الـ CDN
+            setTimeout(() => {
+                loadTasksFromFirestore();
+            }, 400);
+        });
+
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+        }
+
+        function applyLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang] || translations['en'];
+            
+            if (lang === 'ar') {
+                document.body.classList.add('rtl');
+            } else {
+                document.body.classList.remove('rtl');
+            }
+            
+            document.getElementById('backBtnTxt').innerText = t.back;
+            document.getElementById('appTitle').innerText = t.title;
+            document.getElementById('newCardName').placeholder = t.placeholder;
+            document.getElementById('lblComplexity').innerText = t.complexity;
+            document.getElementById('lblPriority').innerText = t.priority;
+            
+            document.getElementById('btnEasy').innerText = t.easy;
+            document.getElementById('btnMedium').innerText = t.medium;
+            document.getElementById('btnHard').innerText = t.hard;
+            
+            document.getElementById('btnLow').innerText = t.low;
+            document.getElementById('btnMedPrio').innerText = t.medPrio;
+            document.getElementById('btnHigh').innerText = t.high;
+            
+            document.getElementById('btnAutoSchedule').innerText = t.autoSchedule;
+            document.getElementById('btnModalYes').innerText = t.yes;
+            document.getElementById('btnModalNo').innerText = t.no;
+            document.getElementById('btnClearAll').title = t.clearTitle;
+
+            renderSchedule();
+        }
+
+        function setSegment(type, value) {
+            const containerId = type === 'diff' ? 'diffControl' : 'prioControl';
+            document.querySelectorAll(`#${containerId} .segment-btn`).forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`#${containerId} .segment-btn[data-value="${value}"]`).classList.add('active');
+            if (type === 'diff') activeDifficulty = value;
+            if (type === 'prio') activePriority = value;
+        }
+
+        function minutesToTimeStr(totalMinutes) {
+            totalMinutes = totalMinutes % 1440;
+            let hours = Math.floor(totalMinutes / 60);
+            let minutes = totalMinutes % 60;
+            const t = translations[currentLang] || translations['en'];
+            
+            const ampm = hours >= 12 ? t.pm : t.am;
+            hours = hours % 12 || 12;
+            return `${hours}:${minutes < 10 ? '0' + minutes : minutes} ${ampm}`;
+        }
+
+        function getDuration(diff) {
+            if (diff === 'easy') return 60;
+            if (diff === 'medium') return 120;
+            if (diff === 'hard') return 180;
+            return 60;
+        }
+
+        function checkTotalTimeOverflow() {
+            let totalNeeded = 0;
+            userTasks.forEach(t => totalNeeded += getDuration(t.difficulty));
+            return totalNeeded > 800;
+        }
+
+        // جلب البيانات الأساسية من Firestore بدلاً من localStorage
+        async function loadTasksFromFirestore() {
+            try {
+                const docRef = window.dbDoc(window.db, "schedules", userId);
+                const docSnap = await window.getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    userTasks = docSnap.data().tasks || [];
+                } else {
+                    userTasks = [];
+                }
+            } catch (error) {
+                console.error("Error loading tasks from Firestore:", error);
+                userTasks = [];
+            }
+            applyLanguage(currentLang);
+        }
+
+        // دالة مساعدة لحفظ التحديثات مباشرة إلى Firestore
+        async function saveTasksToFirestore() {
+            try {
+                await window.setDoc(window.dbDoc(window.db, "schedules", userId), {
+                    tasks: userTasks,
+                    lastUpdated: new Date()
+                }, { merge: true });
+            } catch (error) {
+                console.error("Error saving tasks to Firestore:", error);
+            }
+        }
+
+        function renderSchedule() {
+            const container = document.getElementById('scheduleContainer');
+            const alertContainer = document.getElementById('aiAlertContainer');
+            container.innerHTML = ''; alertContainer.innerHTML = '';
+            
+            const t = translations[currentLang] || translations['en'];
+
+            const fixedSchedules = [
+                { id: 'sleep', name: t.sleepName, startMin: 1320, endMin: 300, priority: 'fixed', isFixed: true, type: 'sleep' },
+                { id: 'meals', name: t.mealsName, startMin: 840, endMin: 930, priority: 'fixed', isFixed: true, type: 'food' }
+            ];
+
+            const priorityWeight = { high: 3, 'med-prio': 2, low: 1 };
+            userTasks.sort((a, b) => priorityWeight[b.priority] - priorityWeight[a.priority]);
+
+            let finalTimeline = [];
+            finalTimeline.push({ ...fixedSchedules[0], timeLabel: minutesToTimeStr(1320) + ' - ' + minutesToTimeStr(300) });
+
+            let currentPointer = 420; 
+            let useAIOptimization = checkTotalTimeOverflow();
+
+            userTasks.forEach(task => {
+                let duration = getDuration(task.difficulty);
+                let wasOptimized = false;
+
+                if (useAIOptimization) {
+                    if (task.difficulty === 'hard') { duration = 120; wasOptimized = true; }
+                    else if (task.difficulty === 'medium') { duration = 75; wasOptimized = true; }
+                }
+
+                if (currentPointer < fixedSchedules[1].endMin && (currentPointer + duration) > fixedSchedules[1].startMin) {
+                    finalTimeline.push({ ...fixedSchedules[1], timeLabel: minutesToTimeStr(840) + ' - ' + minutesToTimeStr(930) });
+                    currentPointer = fixedSchedules[1].endMin;
+                }
+
+                let taskStart = currentPointer;
+                let taskEnd = currentPointer + duration;
+
+                if (taskEnd > fixedSchedules[0].startMin) {
+                    task.isOverflow = true;
+                    finalTimeline.push({ ...task, timeLabel: t.postponed });
+                } else {
+                    task.isOverflow = false;
+                    task.calculatedStartMinute = taskStart;
+                    task.calculatedEndMinute = taskEnd;
+                    task.wasOptimized = wasOptimized;
+                    task.durationUsed = duration;
+
+                    finalTimeline.push({
+                        ...task,
+                        timeLabel: minutesToTimeStr(taskStart) + ' - ' + minutesToTimeStr(taskEnd)
+                    });
+                    currentPointer = taskEnd; 
+                }
+            });
+
+            if (useAIOptimization) {
+                alertContainer.innerHTML = `<div class="ai-alert-box"><i class="fa-solid fa-sparkles"></i> ${t.aiActive}</div>`;
+            }
+
+            finalTimeline.forEach(item => {
+                const card = document.createElement('div');
+                card.className = `schedule-card`;
+                if(item.type === 'sleep') card.classList.add('fixed-sleep');
+                if(item.type === 'food') card.classList.add('fixed-food');
+                if(item.isOverflow) card.classList.add('overflow-task');
+                if(item.wasOptimized) card.classList.add('optimized-task');
+
+                let badgeText = item.priority;
+                if (item.priority === 'high') badgeText = t.high;
+                else if (item.priority === 'med-prio' || item.priority === 'medium') badgeText = t.medPrio;
+                else if (item.priority === 'low') badgeText = t.low;
+                else if (item.priority === 'fixed') badgeText = "FIXED";
+
+                card.innerHTML = `
+                    <div class="card-details">
+                        <span class="card-title">${item.name}</span>
+                        <div class="card-meta">
+                            <span class="meta-badge ${item.priority}">${badgeText}</span>
+                            <span class="time-tag">⏱️ ${item.timeLabel}</span>
+                        </div>
+                    </div>
+                    ${!item.isFixed ? `<button class="delete-btn" onclick="deleteCard(${item.id})"><i class="fa-solid fa-xmark"></i></button>` : ''}
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        async function addSmartTask() {
+            const nameInput = document.getElementById('newCardName');
+            if (!nameInput.value.trim()) return;
+
+            userTasks.push({
+                id: Date.now(),
+                name: nameInput.value.trim(),
+                difficulty: activeDifficulty,
+                priority: activePriority,
+                isFixed: false,
+                completed: false,
+                startNotified: false,
+                prompted: false
+            });
+            nameInput.value = '';
+            
+            renderSchedule();
+            await saveTasksToFirestore();
+        }
+
+        async function deleteCard(id) {
+            userTasks = userTasks.filter(t => t.id !== id);
+            renderSchedule();
+            await saveTasksToFirestore();
+        }
+
+        async function clearAllTasks() {
+            userTasks = [];
+            renderSchedule();
+            await saveTasksToFirestore();
+        }
+
+        let currentActiveCheckInId = null;
+        function triggerCheckIn(id, name) {
+            const t = translations[currentLang] || translations['en'];
+            currentActiveCheckInId = id;
+            document.getElementById('modalTaskTitle').innerText = name;
+            document.getElementById('modalTaskTime').innerText = t.modalBody;
+            document.getElementById('checkInModal').classList.add('active');
+        }
+
+        async function closeModal(status) {
+            const t = translations[currentLang] || translations['en'];
+            document.getElementById('checkInModal').classList.remove('active');
+            if (currentActiveCheckInId) {
+                let task = userTasks.find(t => t.id === currentActiveCheckInId);
+                if (task) {
+                    if (status === 'yes') {
+                        task.completed = true;
+                    } else if (status === '50%') {
+                        task.name += t.done50;
+                        task.completed = false;
+                    } else {
+                        task.completed = false;
+                    }
+                }
+                renderSchedule();
+                await saveTasksToFirestore();
+            }
+            currentActiveCheckInId = null;
+        }
+    </script>
+</body>
+</html>

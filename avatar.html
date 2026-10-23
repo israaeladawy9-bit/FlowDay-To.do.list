@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Cute Animal Avatar Maker - FlowDay Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Cairo:wght@600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+<style>
+:root {
+    --purple-primary: #7B2CBF;
+    --purple-light: #F3E8FF;
+    --duo-green: #58CC02;
+    --duo-green-dark: #46A302;
+    --bg-creamy: #FAF6F0;
+    --dark-text: #1F0833;
+    --card-bg: rgba(255, 255, 255, 0.85);
+    --border-color: #E5E5E5;
+    --text-main: #2D1A3C;
+}
+
+body.theme-dark {
+    --purple-primary: #9D4EDD;
+    --purple-light: #241435;
+    --bg-creamy: #120C1F;
+    --dark-text: #F3E8FF;
+    --card-bg: rgba(30, 22, 45, 0.85);
+    --border-color: #3D2E4F;
+    --text-main: #E2D9EC;
+}
+
+body.theme-pink {
+    --purple-primary: #E11D48;
+    --purple-light: #FFF1F2;
+    --bg-creamy: #FFF1F2;
+    --dark-text: #4C0519;
+    --card-bg: rgba(255, 255, 255, 0.9);
+    --border-color: #FFE4E6;
+    --text-main: #4C0519;
+}
+
+body.theme-purple {
+    --purple-primary: #8B5CF6;
+    --purple-light: #F3E8FF;
+    --bg-creamy: #FAF5FF;
+    --dark-text: #3B0764;
+    --card-bg: rgba(255, 255, 255, 0.9);
+    --border-color: #F3E8FF;
+    --text-main: #3B0764;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+    background: var(--bg-creamy);
+    transition: background 0.3s;
+}
+
+body {
+    font-family: 'Outfit', 'Cairo', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    color: var(--text-main);
+}
+
+body.rtl {
+    direction: rtl;
+}
+
+.art-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+}
+.art-circle-1 {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255, 107, 157, 0.3) 0%, rgba(123, 44, 191, 0.15) 60%, transparent 100%);
+    top: -15%;
+    left: -20%;
+    filter: blur(80px);
+}
+.art-circle-2 {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(88, 204, 2, 0.2) 0%, rgba(123, 44, 191, 0.1) 50%, transparent 100%);
+    bottom: -10%;
+    right: -25%;
+    filter: blur(80px);
+}
+
+.app-container {
+    background: var(--card-bg);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    width: 100%;
+    height: 100%;
+    max-width: 430px;
+    padding: 24px 20px;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 30px 60px rgba(123, 44, 191, 0.08);
+}
+
+.header-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    gap: 8px;
+}
+
+.controls-cluster {
+    display: flex;
+    gap: 6px;
+}
+
+.back-btn, .action-tool-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-bottom: 4px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--purple-primary);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.1s;
+    text-decoration: none;
+}
+.back-btn:active, .action-tool-btn:active {
+    border-bottom-width: 2px;
+    transform: translateY(2px);
+}
+
+.header-area h1 {
+    font-size: 1.15rem;
+    font-weight: 900;
+    color: var(--dark-text);
+    letter-spacing: -0.5px;
+}
+.save-btn {
+    padding: 10px 20px;
+    border-radius: 16px;
+    background: var(--duo-green);
+    color: white;
+    border: none;
+    border-bottom: 4px solid var(--duo-green-dark);
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.1s;
+}
+.save-btn:active {
+    border-bottom-width: 2px;
+    transform: translateY(2px);
+}
+
+.preview-box {
+    width: 100%;
+    height: 250px;
+    background: linear-gradient(180deg, #FFF1E6 0%, #E8D8FF 100%);
+    border-radius: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 16px;
+    border: 3px solid white;
+    box-shadow: 0 16px 32px rgba(123, 44, 191, 0.1);
+    overflow: hidden;
+    position: relative;
+}
+.preview-box svg {
+    width: 210px;
+    height: 210px;
+}
+
+.snap-tabs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 4px 0 12px 0;
+    margin-bottom: 8px;
+}
+.snap-tabs::-webkit-scrollbar { display: none; }
+.tab-link {
+    padding: 10px 16px;
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-bottom: 4px solid var(--border-color);
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 800;
+    color: #777;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.1s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+body.theme-dark .tab-link { color: #A89CB8; }
+
+.tab-link.active {
+    background: var(--purple-light);
+    color: var(--purple-primary);
+    border-color: var(--purple-primary);
+    border-bottom: 4px solid var(--purple-primary);
+}
+
+.editor-panel {
+    flex: 1;
+    overflow-y: auto;
+    display: none;
+}
+.editor-panel.active {
+    display: block;
+}
+
+.section-title {
+    font-size: 11px;
+    font-weight: 900;
+    color: #A0A0A0;
+    margin: 12px 0 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.options-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+
+.style-btn {
+    padding: 10px 14px;
+    border-radius: 14px;
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-bottom: 4px solid var(--border-color);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-main);
+    cursor: pointer;
+    transition: all 0.1s;
+}
+.style-btn:active {
+    border-bottom-width: 2px;
+    transform: translateY(2px);
+}
+.style-btn.active {
+    background: var(--purple-primary);
+    color: white;
+    border-color: var(--purple-primary);
+    border-bottom: 4px solid var(--purple-primary);
+}
+
+.color-picker {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 3px solid white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.color-picker:hover {
+    transform: scale(1.1);
+}
+.color-picker.active {
+    transform: scale(1.15);
+    border-color: var(--purple-primary);
+    box-shadow: 0 0 0 3px rgba(123, 44, 191, 0.3);
+}
+</style>
+</head>
+<body>
+
+<div class="art-bg">
+    <div class="art-circle-1"></div>
+    <div class="art-circle-2"></div>
+</div>
+
+<div class="app-container">
+    <div class="header-area">
+        <a href="main.html" class="back-btn"><i class="fa-solid fa-chevron-left"></i></a>
+        <h1 id="appTitle">Cute Animal Maker</h1>
+        
+        <div class="controls-cluster">
+            <button class="action-tool-btn" onclick="toggleLanguage()"><i class="fa-solid fa-language"></i></button>
+            <button class="action-tool-btn" onclick="nextTheme()"><i class="fa-solid fa-palette"></i></button>
+            <button class="save-btn" id="saveAvatar">SAVE</button>
+        </div>
+    </div>
+
+    <div class="preview-box" id="previewBox"></div>
+
+    <div class="snap-tabs">
+        <div class="tab-link active" data-target="tab-animal" id="tabLnkAnimal"><i class="fa-solid fa-paw"></i> <span>Animal</span></div>
+        <div class="tab-link" data-target="tab-expression" id="tabLnkExpression"><i class="fa-solid fa-eye"></i> <span>Expressions</span></div>
+        <div class="tab-link" data-target="tab-accessories" id="tabLnkAccessories"><i class="fa-solid fa-glasses"></i> <span>Accessories</span></div>
+        <div class="tab-link" data-target="tab-style" id="tabLnkStyle"><i class="fa-solid fa-shirt"></i> <span>Style</span></div>
+    </div>
+
+    <div class="editor-panel active" id="tab-animal">
+        <div class="section-title" id="titleSelectAnimal">Select Animal</div>
+        <div class="options-group" id="animalTypes">
+            <button class="style-btn active" data-val="bear" id="optBear">🐻 Bear</button>
+            <button class="style-btn" data-val="cat" id="optCat">🐱 Cat</button>
+            <button class="style-btn" data-val="rabbit" id="optRabbit">🐰 Rabbit</button>
+            <button class="style-btn" data-val="fox" id="optFox">🦊 Fox</button>
+        </div>
+
+        <div class="section-title" id="titleFurColor">Fur Color</div>
+        <div class="options-group" id="furColors">
+            <div class="color-picker active" style="background: #CD7F32;" data-val="CD7F32"></div>
+            <div class="color-picker" style="background: #8B5A2B;" data-val="8B5A2B"></div>
+            <div class="color-picker" style="background: #E5E5E5;" data-val="E5E5E5"></div>
+            <div class="color-picker" style="background: #FF9F43;" data-val="FF9F43"></div>
+            <div class="color-picker" style="background: #4A4A4A;" data-val="4A4A4A"></div>
+        </div>
+    </div>
+
+    <div class="editor-panel" id="tab-expression">
+        <div class="section-title" id="titleEyesStyle">Eyes Style</div>
+        <div class="options-group" id="eyeStyles">
+            <button class="style-btn active" data-val="open" id="optEyeOpen">Happy Shiny</button>
+            <button class="style-btn" data-val="cute" id="optEyeCute">Anime Cute</button>
+            <button class="style-btn" data-val="wink" id="optEyeWink">Wink</button>
+            <button class="style-btn" data-val="sleeping" id="optEyeSleep">Closed</button>
+        </div>
+
+        <div class="section-title" id="titleMouthStyle">Mouth & Smile</div>
+        <div class="options-group" id="mouthStyles">
+            <button class="style-btn active" data-val="smile" id="optMouthSmile">Cute Smile</button>
+            <button class="style-btn" data-val="laugh" id="optMouthLaugh">Open Laugh</button>
+            <button class="style-btn" data-val="tongue" id="optMouthTongue">Playful Tongue</button>
+        </div>
+    </div>
+
+    <div class="editor-panel" id="tab-accessories">
+        <div class="section-title" id="titleGlasses">Glasses</div>
+        <div class="options-group" id="glassesStyles">
+            <button class="style-btn active" data-val="none" id="optGlassNone">None</button>
+            <button class="style-btn" data-val="round" id="optGlassRound">Round Glasses</button>
+            <button class="style-btn" data-val="square" id="optGlassSquare">Square Glasses</button>
+            <button class="style-btn" data-val="cool" id="optGlassCool">Cool Shades</button>
+        </div>
+
+        <div class="section-title" id="titleMustache">Gentleman Mustache</div>
+        <div class="options-group" id="mustacheStyles">
+            <button class="style-btn active" data-val="none" id="optMustacheNone">None</button>
+            <button class="style-btn" data-val="classic" id="optMustacheClassic">Classic Mustache</button>
+            <button class="style-btn" data-val="gentle" id="optMustacheGentle">Curled Mustache</button>
+            <button class="style-btn" data-val="beard" id="optMustacheBeard">French Beard</button>
+        </div>
+    </div>
+
+    <div class="editor-panel" id="tab-style">
+        <div class="section-title" id="titleClothing">Clothing Style</div>
+        <div class="options-group" id="clothingStyles">
+            <button class="style-btn active" data-val="shirt" id="optClothShirt">Bowtie Shirt</button>
+            <button class="style-btn" data-val="hoodie" id="optClothHoodie">Cozy Hoodie</button>
+            <button class="style-btn" data-val="scarf" id="optClothScarf">Winter Scarf</button>
+        </div>
+
+        <div class="section-title" id="titleClothColor">Clothing Color</div>
+        <div class="options-group" id="clothingColors">
+            <div class="color-picker active" style="background: #7b2cbf;" data-val="7b2cbf"></div>
+            <div class="color-picker" style="background: #ff6b9d;" data-val="ff6b9d"></div>
+            <div class="color-picker" style="background: #2196f3;" data-val="2196f3"></div>
+            <div class="color-picker" style="background: #4caf50;" data-val="4caf50"></div>
+            <div class="color-picker" style="background: #ff9800;" data-val="ff9800"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+const AnimalLibrary = {
+    defs: `
+        <defs>
+            <linearGradient id="furGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="var(--fur-color)"/>
+                <stop offset="100%" stop-color="var(--fur-dark)"/>
+            </linearGradient>
+            <linearGradient id="clothGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="var(--cloth-color)"/>
+                <stop offset="100%" stop-color="var(--cloth-dark)"/>
+            </linearGradient>
+            <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+                <feDropShadow dx="0" dy="3" stdDeviation="2" flood-opacity="0.12"/>
+            </filter>
+        </defs>
+    `,
+    animals: {
+        'bear': () => `<circle cx="28" cy="24" r="10" fill="url(#furGrad)" filter="url(#shadow)"/><circle cx="28" cy="24" r="6" fill="#FFB6C1"/><circle cx="72" cy="24" r="10" fill="url(#furGrad)" filter="url(#shadow)"/><circle cx="72" cy="24" r="6" fill="#FFB6C1"/><circle cx="50" cy="50" r="28" fill="url(#furGrad)" filter="url(#shadow)"/><ellipse cx="50" cy="62" rx="12" ry="8" fill="#FFF" opacity="0.9"/>`,
+        'cat': () => `<path d="M22,32 L24,14 L40,28 Z" fill="url(#furGrad)" filter="url(#shadow)"/><path d="M25,30 L26,18 L36,27 Z" fill="#FFB6C1"/><path d="M78,32 L76,14 L60,28 Z" fill="url(#furGrad)" filter="url(#shadow)"/><path d="M75,30 L74,18 L64,27 Z" fill="#FFB6C1"/><circle cx="50" cy="50" r="28" fill="url(#furGrad)" filter="url(#shadow)"/><ellipse cx="50" cy="62" rx="11" ry="7" fill="#FFF" opacity="0.9"/>`,
+        'rabbit': () => `<ellipse cx="34" cy="16" rx="6" ry="14" fill="url(#furGrad)" transform="rotate(-10 34 16)" filter="url(#shadow)"/><ellipse cx="34" cy="16" rx="3" ry="10" fill="#FFB6C1" transform="rotate(-10 34 16)"/><ellipse cx="66" cy="16" rx="6" ry="14" fill="url(#furGrad)" transform="rotate(10 66 16)" filter="url(#shadow)"/><ellipse cx="66" cy="16" rx="3" ry="10" fill="#FFB6C1" transform="rotate(10 66 16)"/><circle cx="50" cy="52" r="26" fill="url(#furGrad)" filter="url(#shadow)"/><ellipse cx="50" cy="63" rx="10" ry="7" fill="#FFF" opacity="0.9"/>`,
+        'fox': () => `<path d="M18,30 L14,10 L36,26 Z" fill="url(#furGrad)" filter="url(#shadow)"/><path d="M21,28 L18,15 L32,24 Z" fill="#FFF"/><path d="M82,30 L86,10 L64,26 Z" fill="url(#furGrad)" filter="url(#shadow)"/><path d="M79,28 L82,15 L68,24 Z" fill="#FFF"/><circle cx="50" cy="50" r="28" fill="url(#furGrad)" filter="url(#shadow)"/><path d="M24,56 Q34,66 50,62 Q66,66 76,56 Q50,76 24,56 Z" fill="#FFF" opacity="0.9"/>`
+    },
+    eyes: {
+        'open': () => `<circle cx="38" cy="46" r="4.5" fill="#1A1323"/><circle cx="62" cy="46" r="4.5" fill="#1A1323"/><circle cx="36.5" cy="44.5" r="1.5" fill="#FFF"/><circle cx="60.5" cy="44.5" r="1.5" fill="#FFF"/>`,
+        'cute': () => `<circle cx="38" cy="46" r="5.5" fill="#1A1323"/><circle cx="62" cy="46" r="5.5" fill="#1A1323"/><circle cx="36" cy="44" r="2" fill="#FFF"/><circle cx="60" cy="44" r="2" fill="#FFF"/><circle cx="40" cy="48" r="1" fill="#FFF"/><circle cx="64" cy="48" r="1" fill="#FFF"/>`,
+        'wink': () => `<circle cx="38" cy="46" r="4.5" fill="#1A1323"/><circle cx="36.5" cy="44.5" r="1.5" fill="#FFF"/><path d="M57,46 Q62,40 67,46" stroke="#1A1323" stroke-width="3.5" fill="none" stroke-linecap="round"/>`,
+        'sleeping': () => `<path d="M33,46 Q38,51 43,46" stroke="#1A1323" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M57,46 Q62,51 67,46" stroke="#1A1323" stroke-width="3.5" fill="none" stroke-linecap="round"/>`
+    },
+    mouth: {
+        'smile': () => `<polygon points="47,56 53,56 50,59" fill="#1A1323"/><path d="M46,62 Q50,66 54,62" stroke="#1A1323" stroke-width="3" fill="none" stroke-linecap="round"/>`,
+        'laugh': () => `<polygon points="47,56 53,56 50,59" fill="#1A1323"/><path d="M44,61 Q50,72 56,61 Z" fill="#1A1323"/><path d="M47,67 Q50,71 53,67" fill="#FF6B9D"/>`,
+        'tongue': () => `<polygon points="47,56 53,56 50,59" fill="#1A1323"/><path d="M46,61 Q50,65 54,61" stroke="#1A1323" stroke-width="2.5" fill="none"/><path d="M48,63 Q50,71 52,63 Z" fill="#FF6B9D"/>`
+    },
+    mustache: {
+        'none': () => ``,
+        'classic': () => `<path d="M36,63 Q46,58 50,63 Q54,58 64,63 Q50,70 36,63 Z" fill="#3A2E2B"/>`,
+        'gentle': () => `<path d="M34,62 Q44,57 50,62 Q56,57 66,62 C68,59 66,55 63,58 Q50,66 37,58 C34,55 32,59 34,62 Z" fill="#222"/>`,
+        'beard': () => `<path d="M42,65 Q50,78 58,65 Q50,84 42,65 Z" fill="#4A3B32" opacity="0.9"/>`
+    },
+    glasses: {
+        'none': () => ``,
+        'round': () => `<circle cx="38" cy="46" r="11" stroke="#FF6B9D" stroke-width="3" fill="none"/><circle cx="62" cy="46" r="11" stroke="#FF6B9D" stroke-width="3" fill="none"/><line x1="49" y1="46" x2="51" y2="46" stroke="#FF6B9D" stroke-width="3"/>`,
+        'square': () => `<rect x="27" y="36" width="20" height="18" rx="4" stroke="#1A1323" stroke-width="3" fill="none"/><rect x="53" y="36" width="20" height="18" rx="4" stroke="#1A1323" stroke-width="3" fill="none"/><line x1="47" y1="44" x2="53" y2="44" stroke="#1A1323" stroke-width="3"/>`,
+        'cool': () => `<path d="M25,38 L48,41 L46,54 Q36,60 26,50 Z" fill="#222"/><path d="M75,38 L52,41 L54,54 Q64,60 74,50 Z" fill="#222"/><line x1="48" y1="41" x2="52" y2="41" stroke="#222" stroke-width="3"/>`
+    },
+    clothing: {
+        'shirt': () => `<path d="M26,76 L74,76 L70,105 L30,105 Z" fill="url(#clothGrad)"/><polygon points="50,86 42,76 58,76" fill="#FFF"/><polygon points="44,80 56,86 56,80 44,86" fill="#FF6B9D"/><circle cx="50" cy="83" r="2" fill="#FFF"/>`,
+        'hoodie': () => `<path d="M24,76 Q50,68 76,76 L70,105 L30,105 Z" fill="url(#clothGrad)"/><circle cx="50" cy="88" r="4" fill="#FFF" opacity="0.3"/>`,
+        'scarf': () => `<path d="M26,76 L74,76 L70,105 L30,105 Z" fill="#E5E5E5"/><rect x="32" y="73" width="36" height="10" rx="5" fill="url(#clothGrad)" filter="url(#shadow)"/><path d="M60,80 L66,100 L56,100 Z" fill="url(#clothGrad)"/>`
+    }
+};
+
+const dictionary = {
+    en: {
+        title: "Cute Animal Maker", save: "SAVE", tabAnimal: "Animal", tabExpression: "Expressions",
+        tabAccessories: "Accessories", tabStyle: "Style", secAnimal: "Select Animal", secFur: "Fur Color",
+        secEyes: "Eyes Style", secMouth: "Mouth & Smile", secGlass: "Glasses", secMustache: "Gentleman Mustache",
+        secCloth: "Clothing Style", secClothClr: "Clothing Color",
+        bear: "🐻 Bear", cat: "🐱 Cat", rabbit: "🐰 Rabbit", fox: "🦊 Fox",
+        eyeOpen: "Happy Shiny", eyeCute: "Anime Cute", eyeWink: "Wink", eyeSleep: "Closed",
+        mthSmile: "Cute Smile", mthLaugh: "Open Laugh", mthTongue: "Playful Tongue",
+        glsNone: "None", glsRound: "Round Glasses", glsSquare: "Square Glasses", glsCool: "Cool Shades",
+        mstNone: "None", mstClassic: "Classic Mustache", mstGentle: "Curled Mustache", mstBeard: "French Beard",
+        cloShirt: "Bowtie Shirt", cloHoodie: "Cozy Hoodie", cloScarf: "Winter Scarf"
+    },
+    ar: {
+        title: "صانع الرمز اللطيف", save: "حفظ", tabAnimal: "الحيوان", tabExpression: "التعبيرات",
+        tabAccessories: "الملحقات", tabStyle: "المظهر", secAnimal: "اختر الحيوان", secFur: "لون الفرو",
+        secEyes: "شكل العين", secMouth: "الفم والابتسامة", secGlass: "النظارات", secMustache: "الشارب الأنيق",
+        secCloth: "نوع الملابس", secClothClr: "لون الملابس",
+        bear: "🐻 دب لطيف", cat: "🐱 قطة سيامية", rabbit: "🐰 أرنب قفاز", fox: "🦊 ثعلب ذكي",
+        eyeOpen: "سعيد ولامع", eyeCute: "أنمي كيووت", eyeWink: "غمزة", eyeSleep: "مغلق ونعسان",
+        mthSmile: "ابتسامة خفيفة", mthLaugh: "ضحكة واسعة", mthTongue: "لسان ممتع",
+        glsNone: "بدون نظارة", glsRound: "نظارة دائرية", glsSquare: "نظارة مربعة", glsCool: "نظارة شمسية",
+        mstNone: "بدون شارب", mstClassic: "شارب كلاسيكي", mstGentle: "شارب ملتف", mstBeard: "لحية فرنسية",
+        cloShirt: "قميص برابطة", cloHoodie: "سترة دافئة", cloScarf: "وشاح شتوي"
+    },
+    fr: {
+        title: "Créateur d'Avatar", save: "ENREGISTRER", tabAnimal: "Animal", tabExpression: "Expressions",
+        tabAccessories: "Accessoires", tabStyle: "Style", secAnimal: "Choisir l'animal", secFur: "Couleur de la fourrure",
+        secEyes: "Style des yeux", secMouth: "Bouche & Sourire", secGlass: "Lunettes", secMustache: "Moustache",
+        secCloth: "Style de vêtements", secClothClr: "Couleur des vêtements",
+        bear: "🐻 Ours", cat: "🐱 Chat", rabbit: "🐰 Lapin", fox: "🦊 Renard",
+        eyeOpen: "Brillant Joyeux", eyeCute: "Anime Mignon", eyeWink: "Clin d'œil", eyeSleep: "Fermé",
+        mthSmile: "Doux Sourire", mthLaugh: "Rire Ouvert", mthTongue: "Espiègle",
+        glsNone: "Aucun", glsRound: "Lunettes Rondes", glsSquare: "Lunettes Carrées", glsCool: "Lunettes de Soleil",
+        mstNone: "Aucun", mstClassic: "Classique", mstGentle: "Bouclée", mstBeard: "Barbe",
+        cloShirt: "Papillon", cloHoodie: "Sweat", cloScarf: "Écharpe"
+    },
+    es: {
+        title: "Creador de Avatares", save: "GUARDAR", tabAnimal: "Animal", tabExpression: "Expresiones",
+        tabAccessories: "Accesorios", tabStyle: "Estilo", secAnimal: "Seleccionar Animal", secFur: "Color del pelaje",
+        secEyes: "Estilo de ojos", secMouth: "Boca & Sonrisa", secGlass: "Gafas", secMustache: "Bigote",
+        secCloth: "Estilo de ropa", secClothClr: "Color de ropa",
+        bear: "🐻 Oso", cat: "🐱 Gato", rabbit: "🐰 Conejo", fox: "🦊 Zorro",
+        eyeOpen: "Brillante", eyeCute: "Anime Lindo", eyeWink: "Guiño", eyeSleep: "Cerrado",
+        mthSmile: "Sonrisa Linda", mthLaugh: "Risa Abierta", mthTongue: "Juguetón",
+        glsNone: "Ninguno", glsRound: "Gafas Redondas", glsSquare: "Gafas Cuadradas", glsCool: "Gafas de Sol",
+        mstNone: "Ninguno", mstClassic: "Clásico", mstGentle: "Rizado", mstBeard: "Barba",
+        cloShirt: "Pajarita", cloHoodie: "Sudadera", cloScarf: "Bufanda"
+    },
+    de: {
+        title: "Avatar Ersteller", save: "SPEICHERN", tabAnimal: "Tier", tabExpression: "Ausdruck",
+        tabAccessories: "Zubehör", tabStyle: "Stil", secAnimal: "Tier wählen", secFur: "Fellfarbe",
+        secEyes: "Augenstil", secMouth: "Mund & Lächeln", secGlass: "Brillen", secMustache: "Schnurrbart",
+        secCloth: "Kleidungsstil", secClothClr: "Kleidungsfarbe",
+        bear: "🐻 Bär", cat: "🐱 Katze", rabbit: "🐰 Hase", fox: "🦊 Fuchs",
+        eyeOpen: "Glücklich", eyeCute: "Anime Süß", eyeWink: "Blinzeln", eyeSleep: "Geschlossen",
+        mthSmile: "Süßes Lächeln", mthLaugh: "Lachen", mthTongue: "Verspielt",
+        glsNone: "Keine", glsRound: "Runde Brille", glsSquare: "Eckige Brille", glsCool: "Sonnenbrille",
+        mstNone: "Keiner", mstClassic: "Klassisch", mstGentle: "Geschwungen", mstBeard: "Bart",
+        cloShirt: "Fliege", cloHoodie: "Kapuzenpullover", cloScarf: "Schal"
+    },
+    tr: {
+        title: "Avatar Oluşturucu", save: "KAYDET", tabAnimal: "Hayvan", tabExpression: "İfadeler",
+        tabAccessories: "Aksesuarlar", tabStyle: "Stil", secAnimal: "Hayvan Seç", secFur: "Kürk Rengi",
+        secEyes: "Göz Stili", secMouth: "Ağız & Gülümseme", secGlass: "Gözlük", secMustache: "Bıyık",
+        secCloth: "Giyim Stili", secClothClr: "Giyim Rengi",
+        bear: "🐻 Ayı", cat: "🐱 Kedi", rabbit: "🐰 Tavşan", fox: "🦊 Tilki",
+        eyeOpen: "Parlak Mutlu", eyeCute: "Sevimli Anime", eyeWink: "Göz Kırpma", eyeSleep: "Kapalı",
+        mthSmile: "Sevimli Gülüş", mthLaugh: "Açık Kahkaha", mthTongue: "Eğlenceli Dil",
+        glsNone: "Yok", glsRound: "Yuvarlak Gözlük", glsSquare: "Kare Gözlük", glsCool: "Havalı Gözlük",
+        mstNone: "Yok", mstClassic: "Klasik Bıyık", mstGentle: "Kıvrık Bıyık", mstBeard: "Keçi Sakalı",
+        cloShirt: "Papyonlu Gömlek", cloHoodie: "Rahat Hoodie", cloScarf: "Kışlık Atkı"
+    },
+    it: {
+        title: "Creatore di Avatar", save: "SALVA", tabAnimal: "Animale", tabExpression: "Espressioni",
+        tabAccessories: "Accessori", tabStyle: "Stile", secAnimal: "Seleziona Animale", secFur: "Colore Pelliccia",
+        secEyes: "Stile Occhi", secMouth: "Bocca & Sorriso", secGlass: "Occhiali", secMustache: "Baffi",
+        secCloth: "Stile Abbigliamento", secClothClr: "Colore Abbigliamento",
+        bear: "🐻 Orso", cat: "🐱 Gatto", rabbit: "🐰 Coniglio", fox: "🦊 Volpe",
+        eyeOpen: "Felice", eyeCute: "Anime Dolce", eyeWink: "Occhiolino", eyeSleep: "Chiusi",
+        mthSmile: "Sorriso Dolce", mthLaugh: "Risata", mthTongue: "Giocoso",
+        glsNone: "Nessuno", glsRound: "Occhiali Tondi", glsSquare: "Occhiali Quadri", glsCool: "Occhiali da Sole",
+        mstNone: "Nessuno", mstClassic: "Classici", mstGentle: "Arricciati", mstBeard: "Pizzo",
+        cloShirt: "Papillon", cloHoodie: "Felpa", cloScarf: "Sciarpa"
+    },
+    ru: {
+        title: "Создание Аватара", save: "СОХРАНИТЬ", tabAnimal: "Животное", tabExpression: "Эмоции",
+        tabAccessories: "Аксессуары", tabStyle: "Стиль", secAnimal: "Выбор животного", secFur: "Цвет меха",
+        secEyes: "Стиль глаз", secMouth: "Рот и улыбка", secGlass: "Очки", secMustache: "Усы",
+        secCloth: "Стиль одежды", secClothClr: "Цвет одежды",
+        bear: "🐻 Медведь", cat: "🐱 Кот", rabbit: "🐰 Кролик", fox: "🦊 Лиса",
+        eyeOpen: "Блестящие", eyeCute: "Аниме милые", eyeWink: "Подмигивание", eyeSleep: "Закрытые",
+        mthSmile: "Милая улыбка", mthLaugh: "Смех", mthTongue: "Язык",
+        glsNone: "Нет", glsRound: "Круглые очки", glsSquare: "Квадратные очки", glsCool: "Темные очки",
+        mstNone: "Нет", mstClassic: "Классические усы", mstGentle: "Закрученные", mstBeard: "Бородка",
+        cloShirt: "Рубашка с бабочкой", cloHoodie: "Худи", cloScarf: "Шарф"
+    },
+    zh: {
+        title: "可爱动物头像制作", save: "保存", tabAnimal: "动物", tabExpression: "表情",
+        tabAccessories: "配件", tabStyle: "风格", secAnimal: "选择动物", secFur: "毛皮颜色",
+        secEyes: "眼睛 text风格", secMouth: "嘴巴 & 微笑", secGlass: "眼镜", secMustache: "胡子",
+        secCloth: "服装款式", secClothClr: "服装颜色",
+        bear: "🐻 熊", cat: "🐱 猫", rabbit: "🐰 兔子", fox: "🦊 狐狸",
+        eyeOpen: "闪亮闪亮", eyeCute: "动漫萌眼", eyeWink: "眨眼", eyeSleep: " closed闭眼",
+        mthSmile: "可爱微笑", mthLaugh: "开怀大笑", mthTongue: "俏皮吐舌",
+        glsNone: "无", glsRound: "圆框眼镜", glsSquare: "方框眼镜", glsCool: "墨镜",
+        mstNone: "无", mstClassic: "经典胡须", mstGentle: "翘胡子", mstBeard: "山羊胡",
+        cloShirt: "领结衬衫", cloHoodie: "舒适卫衣", cloScarf: "冬日围巾"
+    },
+    ja: {
+        title: "動物アバターメーカー", save: "保存", tabAnimal: "動物", tabExpression: "表情",
+        tabAccessories: "アクセサリー", tabStyle: "スタイル", secAnimal: "動物を選択", secFur: "毛並みの色",
+        secEyes: "目のスタイル", secMouth: "口と微笑み", secGlass: "メガネ", secMustache: "ひげ",
+        secCloth: "服のスタイル", secClothClr: "服の色",
+        bear: "🐻 クマ", cat: "🐱 ネコ", rabbit: "🐰 ウサギ", fox: "🦊 キツネ",
+        eyeOpen: "キラキラ", eyeCute: "アニメ風", eyeWink: "ウィンク", eyeSleep: " sleep目閉じ",
+        mthSmile: "にっこり", mthLaugh: "大笑い", mthTongue: "てへぺろ",
+        glsNone: "なし", glsRound: "丸メガネ", glsSquare: "四角メガネ", glsCool: "サングラス",
+        mstNone: "なし", mstClassic: "普通のひげ", mstGentle: "カールひげ", mstBeard: "アゴひげ",
+        cloShirt: "蝶ネクタイ", cloHoodie: "パーカー", cloScarf: "マフラー"
+    },
+    ko: {
+        title: "귀여운 동물 아바타 메이커", save: "저장", tabAnimal: "동물", tabExpression: "표정",
+        tabAccessories: "액세서리", tabStyle: "스타일", secAnimal: "동물 선택", secFur: "털 색상",
+        secEyes: "눈 스타일", secMouth: "입 & 미소", secGlass: "안경", secMustache: "콧수염",
+        secCloth: "의상 스타일", secClothClr: "의상 색상",
+        bear: "🐻 곰", cat: "🐱 고양이", rabbit: "🐰 토끼", fox: "🦊 여우",
+        eyeOpen: "초롱초롱", eyeCute: "애니메이션 눈", eyeWink: "윙크", eyeSleep: "감은 눈",
+        mthSmile: "예쁜 미소", mthLaugh: "활짝 웃음", mthTongue: "장난스런 혀",
+        glsNone: "없음", glsRound: "동글 안경", glsSquare: "네모 안경", glsCool: "선글라스",
+        mstNone: "없음", mstClassic: "클래식 수염", mstGentle: "멋쟁이 수염", mstBeard: "턱수염",
+        cloShirt: "나비넥타이 셔츠", cloHoodie: "편한 후드티", cloScarf: "겨울 목도리"
+    }
+};
+
+const config = {
+    animal: 'bear',
+    furColor: 'CD7F32',
+    eyes: 'open',
+    mouth: 'smile',
+    mustache: 'none',
+    glasses: 'none',
+    clothing: 'shirt',
+    clothingColor: '7b2cbf'
+};
+
+let currentLang = localStorage.getItem('flowday_app_lang') || 'en';
+let currentTheme = localStorage.getItem('flowday_theme') || 'light';
+
+window.addEventListener('DOMContentLoaded', () => {
+    applyTheme(currentTheme);
+    applyLanguage(currentLang);
+    updateAvatarPreview(false);
+});
+
+const layoutThemes = ['light', 'dark', 'pink', 'purple'];
+function nextTheme() {
+    let index = layoutThemes.indexOf(currentTheme);
+    index = (index + 1) % layoutThemes.length;
+    currentTheme = layoutThemes[index];
+    localStorage.setItem('flowday_theme', currentTheme);
+    applyTheme(currentTheme);
+}
+
+function applyTheme(theme) {
+    document.body.className = '';
+    if (theme !== 'light') {
+        document.body.classList.add('theme-' + theme);
+    }
+}
+
+function toggleLanguage() {
+    const codes = Object.keys(dictionary);
+    let idx = codes.indexOf(currentLang);
+    idx = (idx + 1) % codes.length;
+    currentLang = codes[idx];
+    localStorage.setItem('flowday_app_lang', currentLang);
+    applyLanguage(currentLang);
+}
+
+function applyLanguage(lang) {
+    const dict = dictionary[lang];
+    if (lang === 'ar') {
+        document.body.classList.add('rtl');
+    } else {
+        document.body.classList.remove('rtl');
+    }
+    
+    document.getElementById('appTitle').innerText = dict.title;
+    document.getElementById('saveAvatar').innerText = dict.save;
+    
+    document.querySelector('#tabLnkAnimal span').innerText = dict.tabAnimal;
+    document.querySelector('#tabLnkExpression span').innerText = dict.tabExpression;
+    document.querySelector('#tabLnkAccessories span').innerText = dict.tabAccessories;
+    document.querySelector('#tabLnkStyle span').innerText = dict.tabStyle;
+    
+    document.getElementById('titleSelectAnimal').innerText = dict.secAnimal;
+    document.getElementById('titleFurColor').innerText = dict.secFur;
+    document.getElementById('titleEyesStyle').innerText = dict.secEyes;
+    document.getElementById('titleMouthStyle').innerText = dict.secMouth;
+    document.getElementById('titleGlasses').innerText = dict.secGlass;
+    document.getElementById('titleMustache').innerText = dict.secMustache;
+    document.getElementById('titleClothing').innerText = dict.secCloth;
+    document.getElementById('titleClothColor').innerText = dict.secClothClr;
+    
+    document.getElementById('optBear').innerText = dict.bear;
+    document.getElementById('optCat').innerText = dict.cat;
+    document.getElementById('optRabbit').innerText = dict.rabbit;
+    document.getElementById('optFox').innerText = dict.fox;
+    
+    document.getElementById('optEyeOpen').innerText = dict.eyeOpen;
+    document.getElementById('optEyeCute').innerText = dict.eyeCute;
+    document.getElementById('optEyeWink').innerText = dict.eyeWink;
+    document.getElementById('optEyeSleep').innerText = dict.eyeSleep;
+    
+    document.getElementById('optMouthSmile').innerText = dict.mthSmile;
+    document.getElementById('optMouthLaugh').innerText = dict.mthLaugh;
+    document.getElementById('optMouthTongue').innerText = dict.mthTongue;
+    
+    document.getElementById('optGlassNone').innerText = dict.glsNone;
+    document.getElementById('optGlassRound').innerText = dict.glsRound;
+    document.getElementById('optGlassSquare').innerText = dict.glsSquare;
+    document.getElementById('optGlassCool').innerText = dict.glsCool;
+    
+    document.getElementById('optMustacheNone').innerText = dict.mstNone;
+    document.getElementById('optMustacheClassic').innerText = dict.mstClassic;
+    document.getElementById('optMustacheGentle').innerText = dict.mstGentle;
+    document.getElementById('optMustacheBeard').innerText = dict.mstBeard;
+    
+    document.getElementById('optClothShirt').innerText = dict.cloShirt;
+    document.getElementById('optClothHoodie').innerText = dict.cloHoodie;
+    document.getElementById('optClothScarf').innerText = dict.cloScarf;
+}
+
+function getDarkerColor(hex) {
+    let num = parseInt(hex, 16);
+    let r = (num >> 16) - 35;
+    let g = ((num >> 8) & 0x00ff) - 35;
+    let b = (num & 0x0000ff) - 35;
+    return `#${((1 << 24) + ((r < 0 ? 0 : r) << 16) + ((g < 0 ? 0 : g) << 8) + (b < 0 ? 0 : b)).toString(16).slice(1)}`;
+}
+
+function generateAnimalAvatar() {
+    const furMain = `#${config.furColor}`;
+    const furDark = getDarkerColor(config.furColor);
+    const clothMain = `#${config.clothingColor}`;
+    const clothDark = getDarkerColor(config.clothingColor);
+
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" style="--fur-color:${furMain}; --fur-dark:${furDark}; --cloth-color:${clothMain}; --cloth-dark:${clothDark}; width:100%; height:100%;">
+        ${AnimalLibrary.defs}
+        <g id="layer-animal">${AnimalLibrary.animals[config.animal]()}</g>
+        <g id="layer-expressions">${AnimalLibrary.eyes[config.eyes]()}${AnimalLibrary.mouth[config.mouth]()}</g>
+        <g id="layer-mustache">${AnimalLibrary.mustache[config.mustache]()}</g>
+        <g id="layer-glasses">${AnimalLibrary.glasses[config.glasses]()}</g>
+        <g id="layer-clothing">${AnimalLibrary.clothing[config.clothing]()}</g>
+    </svg>`;
+}
+
+function updateAvatarPreview(isAnimated = false) {
+    const previewBox = document.getElementById('previewBox');
+    previewBox.innerHTML = generateAnimalAvatar();
+
+    if (isAnimated) {
+        gsap.fromTo("#previewBox svg", 
+            { scale: 0.85, rotate: -4 }, 
+            { scale: 1, rotate: 0, duration: 0.4, ease: "elastic.out(1, 0.5)" }
+        );
+    }
+}
+
+document.querySelectorAll('.tab-link').forEach(tab => {
+    tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab-link').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.editor-panel').forEach(p => p.classList.remove('active'));
+        
+        tab.classList.add('active');
+        const target = tab.getAttribute('data-target');
+        document.getElementById(target).classList.add('active');
+        
+        gsap.fromTo(`#${target}`, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.25 });
+    });
+});
+
+function setupGroupListener(groupId, configKey, isColor = false) {
+    document.getElementById(groupId).addEventListener('click', (e) => {
+        const targetClass = isColor ? 'color-picker' : 'style-btn';
+        if (e.target.classList.contains(targetClass)) {
+            document.querySelectorAll(`#${groupId} .${targetClass}`).forEach(el => el.classList.remove('active'));
+            e.target.classList.add('active');
+            
+            config[configKey] = e.target.getAttribute('data-val');
+            updateAvatarPreview(true);
+        }
+    });
+}
+
+setupGroupListener('animalTypes', 'animal', false);
+setupGroupListener('furColors', 'furColor', true);
+setupGroupListener('eyeStyles', 'eyes', false);
+setupGroupListener('mouthStyles', 'mouth', false);
+setupGroupListener('mustacheStyles', 'mustache', false);
+setupGroupListener('glassesStyles', 'glasses', false);
+setupGroupListener('clothingStyles', 'clothing', false);
+setupGroupListener('clothingColors', 'clothingColor', true);
+
+document.getElementById('saveAvatar').addEventListener('click', () => {
+    const svgElement = document.getElementById('previewBox').querySelector('svg');
+    const svgString = new XMLSerializer().serializeToString(svgElement);
+    localStorage.setItem('customVectorAvatar', svgString);
+    
+    gsap.to(".app-container", { scale: 0.95, opacity: 0, duration: 0.2, onComplete: () => {
+        window.location.href = 'main.html';
+    }});
+});
+</script>
+</body>
+</html>

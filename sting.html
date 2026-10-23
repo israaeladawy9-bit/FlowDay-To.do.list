@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Settings - FlowDay Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root {
+    --bg-base: #F9FAFC;
+    --container-bg: rgba(255, 255, 255, 0.85);
+    --card-bg: #FFFFFF;
+    --text-main: #1E1B4B; 
+    --text-muted: #6B7280;
+    --main-purple: #8B5CF6;
+    --main-pink: #F43F5E;
+    --danger-red: #EF4444;
+    --border-color: #E5E7EB;
+    --nav-bg: rgba(255, 255, 255, 0.85);
+    --select-bg: #F3F4F6;
+}
+
+/* الثيم الداكن (Dark Mode) */
+body.theme-dark {
+    --bg-base: #0B0F19;
+    --container-bg: rgba(17, 24, 39, 0.85);
+    --card-bg: #1F2937;
+    --text-main: #F9FAFB;
+    --text-muted: #9CA3AF;
+    --border-color: #374151;
+    --nav-bg: rgba(31, 41, 55, 0.85);
+    --select-bg: #374151;
+}
+
+/* الثيم الوردي (Pink Mode) */
+body.theme-pink {
+    --bg-base: #FFF1F2;
+    --container-bg: rgba(255, 241, 242, 0.85);
+    --card-bg: #FFFFFF;
+    --text-main: #4C0519;
+    --text-muted: #9F1239;
+    --main-purple: #F43F5E;
+    --border-color: #FFE4E6;
+    --select-bg: #FFE4E6;
+}
+
+/* الثيم البنفسجي الغامق (Purple Mode) */
+body.theme-purple {
+    --bg-base: #FAF5FF;
+    --container-bg: rgba(250, 245, 255, 0.85);
+    --card-bg: #FFFFFF;
+    --text-main: #3B0764;
+    --text-muted: #701A75;
+    --border-color: #F3E8FF;
+    --select-bg: #F3E8FF;
+}
+
+/* الثيم البني (Brown Mode) */
+body.theme-brown {
+    --bg-base: #FDF8F5;
+    --container-bg: rgba(253, 248, 245, 0.85);
+    --card-bg: #FFFFFF;
+    --text-main: #431407;
+    --text-muted: #7C2D12;
+    --main-purple: #9A3412;
+    --border-color: #FFEDD5;
+    --select-bg: #FFEDD5;
+}
+
+/* الثيم الأخضر (Green Mode) */
+body.theme-green {
+    --bg-base: #F0FDF4;
+    --container-bg: rgba(240, 253, 244, 0.85);
+    --card-bg: #FFFFFF;
+    --text-main: #052E16;
+    --text-muted: #15803D;
+    --main-purple: #16A34A;
+    --border-color: #DCFCE7;
+    --select-bg: #DCFCE7;
+}
+
+/* الثيم الأصفر (Yellow Mode) */
+body.theme-yellow {
+    --bg-base: #FEFCE8;
+    --container-bg: rgba(254, 252, 232, 0.85);
+    --card-bg: #FFFFFF;
+    --text-main: #422006;
+    --text-muted: #A16207;
+    --main-purple: #CA8A04;
+    --border-color: #FEF9C3;
+    --select-bg: #FEF9C3;
+}
+
+* {
+    margin: 0; padding: 0; box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+html, body { height: 100%; overflow: hidden; background: var(--bg-base); }
+body {
+    font-family: 'Plus Jakarta Sans', 'Outfit', sans-serif; display: flex;
+    justify-content: center; align-items: center; color: var(--text-main); position: relative;
+}
+
+.art-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden; }
+.art-circle-1 {
+    position: absolute; width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+    top: -10%; left: -10%; filter: blur(60px);
+}
+.art-circle-2 {
+    position: absolute; width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(244, 63, 94, 0.12) 0%, transparent 70%);
+    bottom: -10%; right: -10%; filter: blur(60px);
+}
+
+.app-container {
+    background: var(--container-bg); backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px); width: 100%; height: 100%;
+    max-width: 430px; padding: 50px 24px 110px; display: flex; flex-direction: column;
+    border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 40px 80px rgba(139, 92, 246, 0.06);
+    position: relative; z-index: 1;
+}
+
+.header-navigation { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+.back-btn {
+    width: 42px; height: 42px; border-radius: 12px; background: var(--card-bg);
+    border: 1px solid var(--border-color); display: flex; align-items: center;
+    justify-content: center; color: var(--main-purple); font-size: 15px; text-decoration: none;
+}
+.back-btn:hover { background: var(--main-purple); color: white; }
+.header-title h1 { font-size: 1.35rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; }
+
+.settings-list { flex: 1; overflow-y: auto; padding-right: 4px; margin-bottom: 12px; }
+.settings-list::-webkit-scrollbar { width: 4px; }
+.settings-list::-webkit-scrollbar-thumb { background: rgba(139, 92, 246, 0.1); border-radius: 10px; }
+
+.settings-section-title {
+    font-size: 11px; font-weight: 800; color: var(--main-purple); text-transform: uppercase;
+    letter-spacing: 0.8px; margin: 25px 0 12px 4px;
+}
+
+.settings-card {
+    background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px;
+    padding: 14px 16px; display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 10px; text-decoration: none; color: var(--text-main);
+}
+.settings-info { display: flex; align-items: center; gap: 14px; }
+.settings-icon {
+    width: 38px; height: 38px; border-radius: 10px; background: rgba(139, 92, 246, 0.06);
+    color: var(--main-purple); display: flex; align-items: center; justify-content: center; font-size: 16px;
+}
+.settings-label { font-size: 14px; font-weight: 600; }
+
+/* تنسيقات صندوق الملاحظات */
+.feedback-box {
+    background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px;
+    padding: 16px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 12px;
+}
+.feedback-textarea {
+    width: 100%; height: 90px; background: var(--select-bg); border: 1px solid var(--border-color);
+    border-radius: 12px; padding: 12px; font-family: inherit; font-size: 13px; color: var(--text-main);
+    resize: none; outline: none; font-weight: 500;
+}
+.feedback-btn {
+    background: var(--main-purple); color: white; border: none; border-radius: 12px;
+    padding: 12px; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 8px; transition: opacity 0.2s;
+}
+.feedback-btn:active { opacity: 0.8; }
+
+.theme-select-wrapper { position: relative; display: flex; align-items: center; }
+.theme-select {
+    appearance: none; background: var(--select-bg); border: none; border-radius: 10px;
+    padding: 6px 30px 6px 14px; font-family: inherit;
+    font-size: 13px; font-weight: 600; color: var(--text-main); cursor: pointer; outline: none;
+}
+
+.switch { position: relative; display: inline-block; width: 46px; height: 26px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+    position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #E5E7EB; transition: .3s; border-radius: 34px;
+}
+.slider:before {
+    position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px;
+    background-color: white; transition: .3s; border-radius: 50%;
+}
+input:checked + .slider { background-color: var(--main-purple); }
+input:checked + .slider:before { transform: translateX(20px); }
+
+/* دعم اللغات اللتي تبدأ من اليمين RTL */
+body.rtl { direction: rtl; }
+body.rtl .chevron-right i { transform: rotate(180deg); }
+body.rtl .language-select-wrapper i, body.rtl .theme-select-wrapper i { left: 10px; right: auto; }
+body.rtl .lang-select, body.rtl .theme-select { padding: 6px 14px 6px 30px; }
+body.rtl input:checked + .slider:before { transform: translateX(-20px); }
+
+.language-select-wrapper { position: relative; display: flex; align-items: center; }
+.lang-select {
+    appearance: none; background: var(--select-bg); border: none; border-radius: 10px;
+    padding: 6px 30px 6px 14px; font-family: inherit;
+    font-size: 13px; font-weight: 600; color: var(--text-main); cursor: pointer; outline: none;
+}
+
+.ads-accordion {
+    background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px;
+    margin-bottom: 10px; overflow: hidden; transition: all 0.3s ease;
+}
+.ads-trigger { padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; }
+.ads-header { display: flex; align-items: center; gap: 14px; color: var(--text-main); }
+.ads-icon {
+    width: 38px; height: 38px; border-radius: 10px; background: rgba(244, 63, 94, 0.08);
+    color: var(--main-pink); display: flex; align-items: center; justify-content: center; font-size: 16px;
+}
+.ads-title { font-size: 14px; font-weight: 600; }
+.ads-content {
+    max-height: 0; overflow: hidden; transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(139, 92, 246, 0.03);
+}
+.ads-p {
+    padding: 16px; font-size: 12px; color: var(--text-muted); line-height: 1.6; text-align: justify; font-weight: 500;
+    border-top: 1px solid var(--border-color);
+}
+.ads-accordion.open .chevron-right { transform: rotate(90deg); color: var(--main-purple); }
+
+.logout-card { border-color: rgba(239, 68, 68, 0.2); }
+.logout-card .settings-icon { background: rgba(239, 68, 68, 0.08); color: var(--danger-red); }
+.logout-card .settings-label { color: var(--danger-red); }
+
+.nav-wrapper { position: absolute; bottom: 0; left: 0; width: 100%; padding: 0 24px 30px; z-index: 10; }
+.bottom-nav {
+    background: var(--nav-bg); border: 1px solid var(--border-color);
+    backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); height: 72px; border-radius: 24px;
+    display: flex; justify-content: space-around; align-items: center; padding: 0 10px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.03);
+}
+.nav-item {
+    display: flex; align-items: center; justify-content: center; text-decoration: none; color: #9CA3AF;
+    width: 48px; height: 48px; border-radius: 14px; position: relative;
+}
+.nav-icon { font-size: 19px; }
+.nav-item.active { color: var(--main-purple); background: rgba(139, 92, 246, 0.08); }
+.nav-item.active::after {
+    content: ''; position: absolute; bottom: 6px; width: 4px; height: 4px; border-radius: 50%; background: var(--main-purple);
+}
+</style>
+</head>
+<body>
+
+<div class="art-bg">
+    <div class="art-circle-1"></div>
+    <div class="art-circle-2"></div>
+</div>
+
+<div class="app-container animate__animated animate__fadeIn">
+    <div class="header-navigation">
+        <a href="main.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+        <div class="header-title"><h1 data-key="settings_title">Settings</h1></div>
+        <div style="width:42px;"></div>
+    </div>
+
+    <div class="settings-list">
+        
+        <div class="settings-section-title" data-key="account_settings">Account Settings</div>
+        
+        <a href="brofile.html" class="settings-card">
+            <div class="settings-info">
+                <div class="settings-icon"><i class="fa-regular fa-id-card"></i></div>
+                <div class="settings-label" data-key="edit_profile">Edit Profile Information</div>
+            </div>
+            <div class="chevron-right"><i class="fa-solid fa-chevron-right"></i></div>
+        </a>
+
+        <div class="settings-section-title" data-key="appearance_notifications">Appearance & Notifications</div>
+
+        <div class="settings-card">
+            <div class="settings-info">
+                <div class="settings-icon"><i class="fa-solid fa-palette"></i></div>
+                <div class="settings-label" data-key="theme_mode">App Theme</div>
+            </div>
+            <div class="theme-select-wrapper">
+                <select id="appThemeSelect" class="theme-select" onchange="setTheme(this.value)">
+                    <option value="light">Light Mode ☀️</option>
+                    <option value="dark">Dark Mode 🌙</option>
+                    <option value="pink">Pink Theme 🩷</option>
+                    <option value="purple">Purple Theme 💜</option>
+                    <option value="brown">Brown Theme 🤎</option>
+                    <option value="green">Green Theme 💚</option>
+                    <option value="yellow">Yellow Theme 💛</option>
+                </select>
+                <i class="fa-solid fa-chevron-down" style="position: absolute; right: 10px; color: var(--text-main); font-size: 10px; pointer-events: none;"></i>
+            </div>
+        </div>
+
+        <div class="settings-card">
+            <div class="settings-info">
+                <div class="settings-icon"><i class="fa-solid fa-bell"></i></div>
+                <div class="settings-label" data-key="push_notifications">Push Notifications</div>
+            </div>
+            <label class="switch">
+                <input type="checkbox" id="notifSwitch" checked onchange="toggleNotifications()">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <div class="settings-section-title" data-key="preferences">Preferences</div>
+
+        <div class="settings-card">
+            <div class="settings-info">
+                <div class="settings-icon"><i class="fa-solid fa-language"></i></div>
+                <div class="settings-label" data-key="app_language">App Language</div>
+            </div>
+            <div class="language-select-wrapper">
+                <select id="appLanguageSelect" class="lang-select"></select>
+                <i class="fa-solid fa-chevron-down" style="position: absolute; right: 10px; color: var(--text-main); font-size: 10px; pointer-events: none;"></i>
+            </div>
+        </div>
+
+        <div class="settings-section-title" data-key="feedback_title">Feedback & Complaints</div>
+        <div class="feedback-box">
+            <textarea id="feedbackText" class="feedback-textarea" placeholder="Write your notes or complaints here..."></textarea>
+            <button class="feedback-btn" onclick="sendFeedback()">
+                <i class="fa-solid fa-paper-plane"></i>
+                <span data-key="send_btn">Send Feedback</span>
+            </button>
+        </div>
+
+        <div class="settings-section-title" data-key="transparency_support">Transparency & Support</div>
+
+        <div class="ads-accordion" id="adsAccordionBox">
+            <div class="ads-trigger" onclick="toggleAdsExplanation()">
+                <div class="ads-header">
+                    <div class="ads-icon"><i class="fa-solid fa-rectangle-ad"></i></div>
+                    <div class="ads-title" data-key="why_ads">Why do I see ads?</div>
+                </div>
+                <div class="chevron-right"><i class="fa-solid fa-chevron-right"></i></div>
+            </div>
+            <div class="ads-content" id="adsContentWrapper">
+                <p class="ads-p" data-key="ads_explanation">
+                    We display minimal ads to keep FlowDay 100% free for everyone. These ads directly help us cover server costs, maintain high-speed databases, and continuously develop new creative tools to enhance your daily productivity journey. Thank you for supporting our community space!
+                </p>
+            </div>
+        </div>
+
+        <div class="settings-section-title" data-key="session">Session</div>
+
+        <a href="./login.html" class="settings-card logout-card">
+            <div class="settings-info">
+                <div class="settings-icon"><i class="fa-solid fa-right-from-bracket"></i></div>
+                <div class="settings-label" data-key="log_out">Log Out</div>
+            </div>
+            <div class="chevron-right" style="color: var(--danger-red);"><i class="fa-solid fa-chevron-right"></i></div>
+        </a>
+
+    </div>
+
+    <div class="nav-wrapper">
+        <div class="bottom-nav">
+            <a href="main.html" class="nav-item"><span class="nav-icon"><i class="fa-solid fa-house"></i></span></a>
+            <a href="table.html" class="nav-item"><span class="nav-icon"><i class="fa-solid fa-chart-simple"></i></span></a>
+            <a href="achieve.html" class="nav-item"><span class="nav-icon"><i class="fa-solid fa-trophy"></i></span></a>
+            <a href="brofile.html" class="nav-item"><span class="nav-icon"><i class="fa-regular fa-circle-user"></i></span></a>
+            <a href="sting.html" class="nav-item active"><span class="nav-icon"><i class="fa-solid fa-gear"></i></span></a>
+        </div>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyB1gI-OSbGCGPIMA5NCnuB2K_-IyrMWFHs",
+  authDomain: "flowday-81f42.firebaseapp.com",
+  projectId: "flowday-81f42",
+  storageBucket: "flowday-81f42.firebasestorage.app",
+  messagingSenderId: "854763403133",
+  appId: "1:854763403133:web:13f5eafb11422d89787e14",
+  measurementId: "G-W5Q0QYEGEG"
+};
+
+const app = firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+const dictionary = {
+    en: {
+        settings_title: "Settings", account_settings: "Account Settings", edit_profile: "Edit Profile Information",
+        preferences: "Preferences", app_language: "App Language", transparency_support: "Transparency & Support",
+        why_ads: "Why do I see ads?", ads_explanation: "We display minimal ads to keep FlowDay 100% free for everyone. These ads directly help us cover server costs, maintain high-speed databases, and continuously develop new creative tools.",
+        session: "Session", log_out: "Log Out",
+        appearance_notifications: "Appearance & Notifications", theme_mode: "App Theme", push_notifications: "Push Notifications",
+        feedback_title: "Feedback & Complaints", send_btn: "Send Feedback", placeholder_text: "Write your notes or complaints here...", alert_empty: "Please write something first!"
+    },
+    ar: {
+        settings_title: "الإعدادات", account_settings: "إعدادات الحساب", edit_profile: "تعديل ملفك الشخصي",
+        preferences: "التفضيلات", app_language: "لغة التطبيق", transparency_support: "الشفافية والدعم",
+        why_ads: "لماذا تظهر لي الإعلانات؟", ads_explanation: "نعرض الحد الأدنى من الإعلانات للحفاظ على خدماتنا مجانية بالكامل. تساعدنا العوائد في تغطية تكاليف الخوادم وتطوير ميزات جديدة.",
+        session: "الجلسة", log_out: "تسجيل الخروج",
+        appearance_notifications: "المظهر والإشعارات", theme_mode: "ثيم التطبيق", push_notifications: "الإشعارات الفورية",
+        feedback_title: "الملاحظات والشكاوى", send_btn: "إرسال الملاحظة", placeholder_text: "اكتب ملاحظتك أو شكواك هنا...", alert_empty: "الرجاء كتابة شيء أولاً!"
+    },
+    fr: {
+        settings_title: "Paramètres", account_settings: "Paramètres du compte", edit_profile: "Modifier le profil",
+        preferences: "Préférences", app_language: "Langue de l'application", transparency_support: "Transparence et Support",
+        why_ads: "Pourquoi des publicités ?", ads_explanation: "Nous affichons un minimum de publicités pour garder l'application gratuite. Cela couvre nos serveurs.",
+        session: "Session", log_out: "Déconnexion",
+        appearance_notifications: "Apparence & Notifications", theme_mode: "Thème de l'application", push_notifications: "Notifications push",
+        feedback_title: "Commentaires & Réclamations", send_btn: "Envoyer", placeholder_text: "Écrivez vos notes ici...", alert_empty: "Veuillez écrire quelque chose d'abord !"
+    },
+    es: {
+        settings_title: "Ajustes", account_settings: "Ajustes de cuenta", edit_profile: "Editar información de perfil",
+        preferences: "Preferencias", app_language: "Idioma de la aplicación", transparency_support: "Transparencia y Soporte",
+        why_ads: "¿Por qué veo anuncios?", ads_explanation: "Mostramos anuncios mínimos para mantener la app gratuita. Ayudan a financiar los servidores.",
+        session: "Sesión", log_out: "Cerrar sesión",
+        appearance_notifications: "Apariencia y Notificaciones", theme_mode: "Tema de la aplicación", push_notifications: "Notificaciones push",
+        feedback_title: "Comentarios y Quejas", send_btn: "Enviar", placeholder_text: "Escribe tus notas aquí...", alert_empty: "¡Por favor escribe algo primero!"
+    },
+    de: {
+        settings_title: "Einstellungen", account_settings: "Kontoeinstellungen", edit_profile: "Profil bearbeiten",
+        preferences: "Präferenzen", app_language: "App-Sprache", transparency_support: "Transparenz & Support",
+        why_ads: "Warum sehe ich Werbung?", ads_explanation: "Wir zeigen minimale Werbung, um die App kostenlos zu halten. Dies deckt die Serverkosten.",
+        session: "Sitzung", log_out: "Abmelden",
+        appearance_notifications: "Aussehen & Benachrichtigungen", theme_mode: "App-Design", push_notifications: "Push-Benachrichtigungen",
+        feedback_title: "Feedback & Beschwerden", send_btn: "Senden", placeholder_text: "Schreiben Sie Ihre Notizen hier...", alert_empty: "Bitte schreiben Sie zuerst etwas!"
+    },
+    tr: {
+        settings_title: "Ayarlar", account_settings: "Hesap Ayarları", edit_profile: "Profil Bilgilerini Düzenle",
+        preferences: "Tercihler", app_language: "Uygulama Dili", transparency_support: "Şeffaflık ve Destek",
+        why_ads: "Neden reklam görüyorum?", ads_explanation: "Uygulamayı ücretsiz tutmak için minimum düzeyde reklam gösteriyoruz. Sunucu maliyetlerine yardımcı olur.",
+        session: "Oturum", log_out: "Çıkış Yap",
+        appearance_notifications: "Görünüm ve Bildirimler", theme_mode: "Uygulama Teması", push_notifications: "Anlık Bildirimler",
+        feedback_title: "Geri Bildirim ve Şikayetler", send_btn: "Gönder", placeholder_text: "Notlarınızı buraya yazın...", alert_empty: "Lütfen önce bir şeyler yazın!"
+    },
+    it: {
+        settings_title: "Impostazioni", account_settings: "Impostazioni Account", edit_profile: "Modifica Profilo",
+        preferences: "Preferenze", app_language: "Lingua App", transparency_support: "Trasparenza e Supporto",
+        why_ads: "Perché vedo gli annunci?", ads_explanation: "Mostriamo annunci minimi per mantenere l'app gratuita. Aiutano a coprire i costi dei server.",
+        session: "Sessione", log_out: "Disconnetti",
+        appearance_notifications: "Aspetto e Notifiche", theme_mode: "Tema dell'app", push_notifications: "Notifiche push",
+        feedback_title: "Feedback e Reclami", send_btn: "Invia", placeholder_text: "Scrivi qui le tue note...", alert_empty: "Per favore, scrivi prima qualcosa!"
+    },
+    ru: {
+        settings_title: "Настройки", account_settings: "Настройки аккаунта", edit_profile: "Редактировать профиль",
+        preferences: "Предпочтения", app_language: "Язык приложения", transparency_support: "Прозрачность и поддержка",
+        why_ads: "Почему я вижу рекламу?", ads_explanation: "Мы показываем минимум рекламы, чтобы приложение оставалось бесплатным. Это покрывает расходы на серверы.",
+        session: "Сессия", log_out: "Выйти",
+        appearance_notifications: "Внешний вид и уведомления", theme_mode: "Тема приложения", push_notifications: "Push-уведомления",
+        feedback_title: "Отзывы и жалобы", send_btn: "Отправить", placeholder_text: "Напишите ваши заметки здесь...", alert_empty: "Пожалуйста, напишите что-нибудь сначала!"
+    },
+    zh: {
+        settings_title: "设置", account_settings: "账户设置", edit_profile: "编辑个人资料",
+        preferences: "偏好设置", app_language: "应用语言", transparency_support: "透明度与支持",
+        why_ads: "为什么会看到广告？", ads_explanation: "我们展示极少量的广告以保持应用免费。这直接用于支持服务器运营。",
+        session: "会话", log_out: "退出登录",
+        appearance_notifications: "外观与通知", theme_mode: "应用主题", push_notifications: "推送通知",
+        feedback_title: "意见反馈与投诉", send_btn: "发送反馈", placeholder_text: "在此处写入您的意见...", alert_empty: "请先写点什么！"
+    },
+    ja: {
+        settings_title: "設定", account_settings: "アカウント設定", edit_profile: "プロフィール編集",
+        preferences: "환경설정", app_language: "アプリの言語", transparency_support: "透明性とサポート",
+        why_ads: "なぜ広告が表示されるのですか？", ads_explanation: "アプリを無料で提供し続けるために最小限의 광고를 표시합니다. 서버 비용에 충당됩니다.",
+        session: "セッション", log_out: "ログアウト",
+        appearance_notifications: "外観と通知", theme_mode: "アプリのテーマ", push_notifications: "プッシュ通知",
+        feedback_title: "フィードバックと苦情", send_btn: "送信する", placeholder_text: "ここにメモを記入してください...", alert_empty: "最初に何か書いてください！"
+    },
+    ko: {
+        settings_title: "설정", account_settings: "계정 설정", edit_profile: "프로필 정보 수정",
+        preferences: "기본 설정", app_language: "앱 언어", transparency_support: "투명성 및 지원",
+        why_ads: "왜 광고가 나오나요?", ads_explanation: "앱을 무료로 유지하기 위해 최소한의 광고를 표시합니다. 서버 비용 충당에 도움이 됩니다.",
+        session: "세션", log_out: "로그아웃",
+        appearance_notifications: "외관 및 알림", theme_mode: "앱 테마", push_notifications: "푸시 알림",
+        feedback_title: "피드백 및 불만사항", send_btn: "피드백 보내기", placeholder_text: "여기에 메모를 작성하세요...", alert_empty: "먼저 내용을 입력해주세요!"
+    },
+    fa: {
+        settings_title: "تنظیمات", account_settings: "تنظیمات حساب", edit_profile: "ویرایش اطلاعات پروفایل",
+        preferences: "ترجیحات", app_language: "زبان برنامه", transparency_support: "شفافیت و پشتیبانی",
+        why_ads: "چرا تبلیغات می‌بینم؟", ads_explanation: "ما حداقل تبلیغات را نشان می‌دهیم تا برنامه را رایگان نگه وارد کنیم. این هزینه‌ها سرور را تامین می‌کند.",
+        session: "نشست", log_out: "خروج",
+        appearance_notifications: "ظاهر و اعلان‌ها", theme_mode: "پوسته برنامه", push_notifications: "اعلان‌های فوری",
+        feedback_title: "نظرات و شکایات", send_btn: "ارسال بازخورد", placeholder_text: "یادداشت‌ها یا شکایات خود را اینجا بنویسید...", alert_empty: "لطفاً ابتدا چیزی بنویسید!"
+    },
+    ur: {
+        settings_title: "ترجیحات", account_settings: "اکاؤنٹ کی ترتیبات", edit_profile: "پروفائل تبدیل کریں",
+        preferences: "ترجیحات", app_language: "ایپ کی زبان", transparency_support: "شفافیت اور مدد",
+        why_ads: "مجھے اشتہارات کیوں نظر آتے ہیں؟", ads_explanation: "ہم ایپ کو مفت رکھنے کے لیے کم سے کم اشتہارات دکھاتے ہیں۔ یہ سرور کے اخراجات میں مدد کرتا ہے۔",
+        session: "سیشن", log_out: "لاگ آؤٹ",
+        appearance_notifications: "ظاهری شکل اور اطلاعات", theme_mode: "ایپ تھیم", push_notifications: "پش اطلاعات",
+        feedback_title: "آراء اور شکایات", send_btn: "ارسال کریں", placeholder_text: "اپنی رائے یہاں لکھیں...", alert_empty: "براہ کرم پہلے کچھ لکھیں!"
+    },
+    hi: {
+        settings_title: "सेटिंग्स", account_settings: "खाता सेटिंग्स", edit_profile: "प्रोफ़ाइल जानकारी संपादित करें",
+        preferences: "प्राथमिकताएं", app_language: "ऐप की भाषा", transparency_support: "पारदर्शिता और सहायता",
+        why_ads: "मुझे विज्ञापन क्यों दिखाई देते हैं?", ads_explanation: "ऐप को मुफ़्त रखने के लिए हम कम से कम विज्ञापन दिखाते हैं। इससे सर्वर का खर्च निकलता है।",
+        session: "सत्र", log_out: "लॉग आउट",
+        appearance_notifications: "दिखावट और सूचनाएं", theme_mode: "ऐप थीम", push_notifications: "पुश सूचनाएं",
+        feedback_title: "प्रतिक्रिया और शिकायतें", send_btn: "भेजें", placeholder_text: "अपनी टिप्पणियाँ यहाँ लिखें...", alert_empty: "कृपया पहले कुछ लिखें!"
+    },
+    bn: {
+        settings_title: "সেটিংস", account_settings: "অ্যাকাউন্ট সেটিংস", edit_profile: "প্রোফাইল তথ্য পরিবর্তন",
+        preferences: "পছন্দসমূহ", app_language: "অ্যাপের ভাষা", transparency_support: "স্বচ্ছতা ও সহায়তা",
+        why_ads: "আমি কেন বিজ্ঞাপন দেখছি?", ads_explanation: "অ্যাপটি বিনামূল্যে রাখার জন্য আমরা খুব কম বিজ্ঞাপন দেখাই। এটি সার্ভারের খরচ চালাতে সাহায্য করে।",
+        session: "সেশন", log_out: "লগ আউট",
+        appearance_notifications: "চেহারা এবং বিজ্ঞপ্তি", theme_mode: "অ্যাপ থিম", push_notifications: "পুশ বিজ্ঞপ্তি",
+        feedback_title: "মতামত ও অভিযোগ", send_btn: "পাঠান", placeholder_text: "আপনার মতামত এখানে লিখুন...", alert_empty: "দয়া করে প্রথমে কিছু লিখুন!"
+    },
+    id: {
+        settings_title: "Pengaturan", account_settings: "Pengaturan Akun", edit_profile: "Ubah Informasi Profil",
+        preferences: "Pranala", app_language: "Bahasa Aplikasi", transparency_support: "Transparansi & Dukungan",
+        why_ads: "Mengapa saya melihat iklan?", ads_explanation: "Kami menampilkan iklan minimal agar aplikasi tetap gratis. Ini membantu biaya server.",
+        session: "Sesi", log_out: "Keluar",
+        appearance_notifications: "Tampilan & Notifikasi", theme_mode: "Tema Aplikasi", push_notifications: "Notifikasi Push",
+        feedback_title: "Umpan Balik & Keluhan", send_btn: "Kirim", placeholder_text: "Tulis catatan Anda di sini...", alert_empty: "Silakan tulis sesuatu terlebih dahulu!"
+    },
+    ms: {
+        settings_title: "Tetapan", account_settings: "Tetapan Akaun", edit_profile: "Sunting Maklumat Profil",
+        preferences: "Pilihan", app_language: "Bahasa Aplikasi", transparency_support: "Ketelusan & Sokongan",
+        why_ads: "Mengapa saya melihat iklan?", ads_explanation: "Kami memaparkan iklan minimum untuk memastikan aplikasi percuma. Ia membantu kos pelayan.",
+        session: "Sesi", log_out: "Log Keluar",
+        appearance_notifications: "Paparan & Notifikasi", theme_mode: "Tema Aplikasi", push_notifications: "Notifikasi Push",
+        feedback_title: "Maklum Balas & Aduan", send_btn: "Hantar", placeholder_text: "Tulis nota anda di sini...", alert_empty: "Sila tulis sesuatu terlebih dahulu!"
+    },
+    vi: {
+        settings_title: "Cài đặt", account_settings: "Cài đặt tài khoản", edit_profile: "Chỉnh sửa hồ sơ",
+        preferences: "Cá nhân hóa", app_language: "Ngôn ngữ ứng dụng", transparency_support: "Minh bạch & Hỗ trợ",
+        why_ads: "Tại sao tôi thấy quảng cáo?", ads_explanation: "Chúng tôi hiển thị quảng cáo tối thiểu để giữ ứng dụng miễn phí. Việc này giúp chi trả chi phí máy chủ.",
+        session: "Phiên", log_out: "Đăng xuất",
+        appearance_notifications: "Giao diện & Thông báo", theme_mode: "Chủ đề ứng dụng", push_notifications: "Thông báo đẩy",
+        feedback_title: "Ý kiến & Khiếu nại", send_btn: "Gửi phản hồi", placeholder_text: "Nhập ghi chú của bạn tại đây...", alert_empty: "Vui lòng nhập nội dung trước!"
+    },
+    th: {
+        settings_title: "การตั้งค่า", account_settings: "ตั้งค่าบัญชี", edit_profile: "แก้ไขข้อมูลโปรไฟล์",
+        preferences: "ตั้งค่ากำหนด", app_language: "ภาษาของแอป", transparency_support: "ความโปร่งใสและการสนับสนุน",
+        why_ads: "ทำไมฉันถึงเห็นโฆษณา?", ads_explanation: "เราแสดงโฆษณาขั้นต่ำเพื่อให้แอปฟรี ซึ่งช่วยสนับสนุนค่าใช้จ่ายเซิร์ฟเวอร์ของเรา",
+        session: "เซสชัน", log_out: "ออกจากระบบ",
+        appearance_notifications: "รูปลักษณ์และการแจ้งเตือน", theme_mode: "ธีมแอป", push_notifications: "การแจ้งเตือนแบบพุช",
+        feedback_title: "ข้อเสนอแนะและข้อร้องเรียน", send_btn: "ส่งข้อเสนอแนะ", placeholder_text: "เขียนข้อความของคุณที่นี่...", alert_empty: "กรุณาเขียนข้อความก่อน!"
+    },
+    nl: {
+        settings_title: "Instellingen", account_settings: "Accountinstellingen", edit_profile: "Profiel bewerken",
+        preferences: "Voorkeuren", app_language: "App-taal", transparency_support: "Transparantie & Ondersteuning",
+        why_ads: "Waarom zie ik advertenties?", ads_explanation: "We tonen minimale advertenties om de app gratis te houden. Dit dekt de serverkosten.",
+        session: "Sessie", log_out: "Uitloggen",
+        appearance_notifications: "Uiterlijk & Meldingen", theme_mode: "App-thema", push_notifications: "Pushmeldingen",
+        feedback_title: "Feedback & Klachten", send_btn: "Verzenden", placeholder_text: "Schrijf hier uw opmerkingen...", alert_empty: "Schrijf eerst iets!"
+    },
+    pt: {
+        settings_title: "Configurações", account_settings: "Configurações da Conta", edit_profile: "Editar Informações do Perfil",
+        preferences: "Preferências", app_language: "Idioma do App", transparency_support: "Transparência e Suporte",
+        why_ads: "Por que vejo anúncios?", ads_explanation: "Exibimos anúncios mínimos para manter o app gratuito. Eles ajudam a cobrir custos de servidor.",
+        session: "Sessão", log_out: "Sair",
+        appearance_notifications: "Aparência e Notificações", theme_mode: "Tema do App", push_notifications: "Notificações Push",
+        feedback_title: "Feedback e Reclamações", send_btn: "Enviar Feedback", placeholder_text: "Escreva suas notas aqui...", alert_empty: "Por favor, escreva algo primeiro!"
+    }
+};
+
+const languagesData = [
+    { code: "en", name: "English", flag: "🇺🇸" }, { code: "ar", name: "العربية", flag: "🇸🇦" },
+    { code: "fr", name: "Français", flag: "🇫🇷" }, { code: "es", name: "Español", flag: "🇪🇸" },
+    { code: "de", name: "Deutsch", flag: "🇩🇪" }, { code: "tr", name: "Türkçe", flag: "🇹🇷" },
+    { code: "it", name: "Italiano", flag: "🇮🇹" }, { code: "ru", name: "Русский", flag: "🇷🇺" },
+    { code: "zh", name: "中文", flag: "🇨🇳" }, { code: "ja", name: "日本語", flag: "🇯🇵" },
+    { code: "ko", name: "한국어", flag: "🇰🇷" }, { code: "fa", name: "فارسی", flag: "🇮🇷" },
+    { code: "ur", name: "اردو", flag: "🇵🇰" }, { code: "hi", name: "हिन्दी", flag: "🇮🇳" },
+    { code: "bn", name: "বাংলা", flag: "🇧🇩" }, { code: "id", name: "Indonesia", flag: "🇮🇩" },
+    { code: "ms", name: "Melayu", flag: "🇲🇾" }, { code: "vi", name: "Tiếng Việt", flag: "🇻🇳" },
+    { code: "th", name: "ไทย", flag: "🇹🇭" }, { code: "nl", name: "Nederlands", flag: "🇳🇱" },
+    { code: "pt", name: "Português", flag: "🇵🇹" }
+];
+
+document.addEventListener("DOMContentLoaded", () => {
+    renderLanguages();
+    const langSelect = document.getElementById('appLanguageSelect');
+    const savedLang = localStorage.getItem('flowday_app_lang') || 'en';
+    
+    langSelect.value = savedLang;
+    translatePage(savedLang);
+
+    const savedTheme = localStorage.getItem('flowday_theme') || 'light';
+    document.getElementById('appThemeSelect').value = savedTheme;
+    setTheme(savedTheme);
+
+    const savedNotif = localStorage.getItem('flowday_notif');
+    if(savedNotif === 'false') {
+        document.getElementById('notifSwitch').checked = false;
+    }
+
+    langSelect.addEventListener('change', (e) => {
+        const selected = e.target.value;
+        localStorage.setItem('flowday_app_lang', selected);
+        translatePage(selected);
+    });
+});
+
+function renderLanguages() {
+    const langSelect = document.getElementById('appLanguageSelect');
+    langSelect.innerHTML = languagesData.map(lang => 
+        `<option value="${lang.code}">${lang.flag} ${lang.name}</option>`
+    ).join('');
+}
+
+function translatePage(lang) {
+    const rtlLanguages = ['ar', 'fa', 'ur'];
+    if (rtlLanguages.includes(lang)) {
+        document.body.classList.add('rtl');
+    } else {
+        document.body.classList.remove('rtl');
+    }
+
+    document.querySelectorAll('[data-key]').forEach(element => {
+        const key = element.getAttribute('data-key');
+        if (dictionary[lang] && dictionary[lang][key]) {
+            element.innerText = dictionary[lang][key];
+        }
+    });
+
+    const textarea = document.getElementById('feedbackText');
+    if (textarea && dictionary[lang] && dictionary[lang]['placeholder_text']) {
+        textarea.placeholder = dictionary[lang]['placeholder_text'];
+    }
+}
+
+function setTheme(theme) {
+    document.body.className = ''; 
+    
+    const rtlLanguages = ['ar', 'fa', 'ur'];
+    const currentLang = document.getElementById('appLanguageSelect').value;
+    if (rtlLanguages.includes(currentLang)) {
+        document.body.classList.add('rtl');
+    }
+    
+    if (theme !== 'light') {
+        document.body.classList.add('theme-' + theme);
+    }
+    
+    localStorage.setItem('flowday_theme', theme);
+}
+
+function toggleNotifications() {
+    const isChecked = document.getElementById('notifSwitch').checked;
+    localStorage.setItem('flowday_notif', isChecked);
+}
+
+function toggleAdsExplanation() {
+    const accordion = document.getElementById('adsAccordionBox');
+    const content = document.getElementById('adsContentWrapper');
+    if (accordion.classList.contains('open')) {
+        content.style.maxHeight = '0px';
+        accordion.classList.remove('open');
+    } else {
+        content.style.maxHeight = content.scrollHeight + 'px';
+        accordion.classList.add('open');
+    }
+}
+
+// دالة توجيه إجبارية وفورية لفتح تطبيق البريد الإلكتروني
+function openEmailApp(text) {
+    const emailTarget = "flowdayapp.team@gmail.com";
+    const subject = encodeURIComponent("FlowDay Pro - User Feedback & Complaint");
+    const body = encodeURIComponent(text);
+    const mailtoUrl = `mailto:${emailTarget}?subject=${subject}&body=${body}`;
+
+    // إنشاء عنصر رابط خفي والضغط عليه فوراً لتجاوز حظر المتصفحات
+    const link = document.createElement('a');
+    link.href = mailtoUrl;
+    link.target = '_self'; 
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+function sendFeedback() {
+    const textValue = document.getElementById('feedbackText').value.trim();
+    const currentLang = localStorage.getItem('flowday_app_lang') || 'en';
+
+    if (!textValue) {
+        alert(dictionary[currentLang]['alert_empty']);
+        return;
+    }
+
+    // لتجنب تعليق أو حظر المتصفح، يتم توجيه المستخدم لفتح البريد الإلكتروني فوراً ومباشرة
+    openEmailApp(textValue);
+
+    // بالتوازي في الخلفية، يتم رفع البيانات إلى Firebase Firestore للتوثيق
+    db.collection("feedbacks").add({
+        message: textValue,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        language: currentLang
+    })
+    .then(() => {
+        // تفريغ النص بعد نجاح التخزين في الخلفية
+        document.getElementById('feedbackText').value = "";
+    })
+    .catch((error) => {
+        console.error("Firebase background save failed: ", error);
+    });
+}
+</script>
+</body>
+</html>

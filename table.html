@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>FlowDay - Performance Analytics Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-base: #F9FAFC;
+            --container-bg: rgba(255, 255, 255, 0.85);
+            --card-bg: #FFFFFF;
+            --text-main: #1E1B4B; 
+            --text-muted: #6B7280;
+            --main-purple: #8B5CF6;
+            --main-pink: #F43F5E;
+            --border-color: #EAE6EE;
+            --nav-bg: rgba(255, 255, 255, 0.85);
+            --track-color: #EAE6EE;
+            --gradient-start: #F43F5E;
+            --gradient-mid: #8B5CF6;
+            --gradient-end: #C084FC;
+        }
+
+        /* الثيم الداكن الأساسي (Dark Mode) */
+        body.theme-dark {
+            --bg-base: #0B0F19;
+            --container-bg: rgba(17, 24, 39, 0.85);
+            --card-bg: #1F2937;
+            --text-main: #F9FAFB;
+            --text-muted: #9CA3AF;
+            --border-color: #374151;
+            --nav-bg: rgba(31, 41, 55, 0.85);
+            --track-color: #374151;
+        }
+
+        /* ثيم أسود فخم (Black Mode) */
+        body.theme-black {
+            --bg-base: #050505;
+            --container-bg: rgba(15, 15, 15, 0.9);
+            --card-bg: #121212;
+            --text-main: #FFFFFF;
+            --text-muted: #888888;
+            --main-purple: #E2E8F0;
+            --border-color: #222222;
+            --nav-bg: rgba(20, 20, 20, 0.9);
+            --track-color: #222222;
+            --gradient-start: #ffffff;
+            --gradient-mid: #a1a1aa;
+            --gradient-end: #3f3f46;
+        }
+
+        /* ثيم بني (Brown Mode) */
+        body.theme-brown {
+            --bg-base: #FDF8F5;
+            --container-bg: rgba(253, 248, 245, 0.85);
+            --card-bg: #FFFFFF;
+            --text-main: #451A03;
+            --text-muted: #78350F;
+            --main-purple: #B45309;
+            --border-color: #FED7AA;
+            --track-color: #FED7AA;
+            --gradient-start: #78350F;
+            --gradient-mid: #D97706;
+            --gradient-end: #FCD34D;
+        }
+
+        /* ثيم أخضر (Green Mode) */
+        body.theme-green {
+            --bg-base: #F0FDF4;
+            --container-bg: rgba(240, 253, 244, 0.85);
+            --card-bg: #FFFFFF;
+            --text-main: #14532D;
+            --text-muted: #166534;
+            --main-purple: #15803D;
+            --border-color: #BBF7D0;
+            --track-color: #BBF7D0;
+            --gradient-start: #166534;
+            --gradient-mid: #22C55E;
+            --gradient-end: #86EFAC;
+        }
+
+        /* ثيم أصفر (Yellow Mode) */
+        body.theme-yellow {
+            --bg-base: #FEFCE8;
+            --container-bg: rgba(254, 252, 232, 0.85);
+            --card-bg: #FFFFFF;
+            --text-main: #713F12;
+            --text-muted: #854D0E;
+            --main-purple: #A16207;
+            --border-color: #FEF08A;
+            --track-color: #FEF08A;
+            --gradient-start: #854D0E;
+            --gradient-mid: #EAB308;
+            --gradient-end: #FEF08A;
+        }
+
+        /* ثيم بمبي / وردي (Pink Mode) */
+        body.theme-pink {
+            --bg-base: #FFF1F2;
+            --container-bg: rgba(255, 241, 242, 0.85);
+            --card-bg: #FFFFFF;
+            --text-main: #4C0519;
+            --text-muted: #9F1239;
+            --main-purple: #F43F5E;
+            --border-color: #FFE4E6;
+            --track-color: #FFE4E6;
+            --gradient-start: #9F1239;
+            --gradient-mid: #FB7185;
+            --gradient-end: #FECDD3;
+        }
+
+        /* ثيم بنفسجي (Purple Mode) */
+        body.theme-purple {
+            --bg-base: #FAF5FF;
+            --container-bg: rgba(250, 245, 255, 0.85);
+            --card-bg: #FFFFFF;
+            --text-main: #3B0764;
+            --text-muted: #701A75;
+            --main-purple: #8B5CF6;
+            --border-color: #F3E8FF;
+            --track-color: #F3E8FF;
+            --gradient-start: #701A75;
+            --gradient-mid: #A855F7;
+            --gradient-end: #E9D5FF;
+        }
+
+        * { 
+            margin: 0; padding: 0; box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; 
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        html, body { height: 100%; overflow: hidden; background: var(--bg-base); }
+        body {
+            font-family: 'Plus Jakarta Sans', 'Outfit', sans-serif; display: flex;
+            justify-content: center; align-items: center; color: var(--text-main); position: relative;
+        }
+
+        /* دعم لغات الـ RTL */
+        body.rtl { direction: rtl; }
+        body.rtl .back-btn i { transform: rotate(180deg); }
+
+        .art-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; overflow: hidden;
+        }
+        .art-circle-1 {
+            position: absolute; width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, transparent 70%);
+            top: -10%; left: -10%; filter: blur(60px);
+        }
+        .art-circle-2 {
+            position: absolute; width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(244, 63, 94, 0.1) 0%, transparent 70%);
+            bottom: -10%; right: -10%; filter: blur(60px);
+        }
+
+        .app-container {
+            width: 100%; height: 100%; max-width: 430px;
+            background: var(--container-bg); backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px); border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 32px; padding: 50px 24px 110px; display: flex; flex-direction: column;
+            box-shadow: 0 40px 80px rgba(139, 92, 246, 0.06); z-index: 1; position: relative;
+        }
+
+        .header-navigation { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+        .back-btn {
+            display: flex; align-items: center; gap: 6px; background: rgba(139, 92, 246, 0.08);
+            color: var(--main-purple); border: none; padding: 8px 14px; border-radius: 12px;
+            font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .back-btn:hover { background: var(--main-purple); color: white; }
+        h1 { font-size: 1.35rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; }
+
+        .analytics-box {
+            flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px;
+        }
+
+        .circular-progress-wrapper {
+            position: relative; width: 220px; height: 220px; display: flex; align-items: center; justify-content: center;
+        }
+
+        svg.progress-ring {
+            transform: rotate(-90deg); width: 220px; height: 220px;
+        }
+        svg.progress-ring circle {
+            stroke-width: 14; fill: transparent; stroke-linecap: round;
+        }
+        svg.progress-ring .track {
+            stroke: var(--track-color);
+        }
+        svg.progress-ring .fill {
+            stroke: url(#auroraGradient);
+            stroke-dasharray: 615.75; 
+            stroke-dashoffset: 615.75; 
+            transition: stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .progress-content {
+            position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .percentage-num {
+            font-size: 40px; font-weight: 900; color: var(--text-main); letter-spacing: -1px; line-height: 1;
+        }
+        .percentage-label {
+            font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-top: 6px; letter-spacing: 0.5px;
+        }
+
+        .status-card {
+            background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px;
+            width: 100%; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.02);
+        }
+        .status-info-title { font-size: 14px; font-weight: 700; color: var(--text-main); }
+        .status-info-sub { font-size: 12px; font-weight: 500; color: var(--text-muted); margin-top: 2px; }
+        .status-count { font-size: 18px; font-weight: 800; color: var(--main-purple); }
+
+        .nav-wrapper {
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 0 24px 30px; z-index: 10;
+        }
+        .bottom-nav {
+            background: var(--nav-bg); border: 1px solid var(--border-color);
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); height: 72px; border-radius: 24px;
+            display: flex; justify-content: space-around; align-items: center; padding: 0 10px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.03);
+        }
+        .nav-item {
+            display: flex; align-items: center; justify-content: center; text-decoration: none; color: #9CA3AF;
+            width: 48px; height: 48px; border-radius: 14px; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+        .nav-icon { font-size: 19px; }
+        .nav-item.active {
+            color: var(--main-purple); background: rgba(139, 92, 246, 0.08);
+        }
+        .nav-item.active::after {
+            content: ''; position: absolute; bottom: 6px; width: 4px; height: 4px; border-radius: 50%; background: var(--main-purple);
+        }
+        .nav-item:hover:not(.active) {
+            color: var(--text-main); background: rgba(139, 92, 246, 0.05);
+        }
+
+        /* نافذة سؤال الإتمام التلقائية (Modal) */
+        .notification-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(30, 27, 75, 0.4); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            display: flex; justify-content: center; align-items: center; z-index: 9999; padding: 20px;
+            visibility: hidden; opacity: 0; transition: all 0.3s ease;
+        }
+        .notification-modal.active { visibility: visible; opacity: 1; }
+        .modal-box { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 24px; padding: 24px; width: 100%; max-width: 380px; text-align: center; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
+        .modal-icon { width: 55px; height: 55px; background: rgba(139, 92, 246, 0.08); color: var(--main-purple); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 22px; }
+        .modal-box h3 { font-size: 16px; color: var(--text-main); font-weight: 800; }
+        .modal-box p { font-size: 13px; color: var(--text-muted); }
+        .modal-actions { display: flex; gap: 8px; }
+        .modal-btn { flex: 1; padding: 12px; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; font-family: inherit; }
+        .modal-btn.confirm { background: #58CC02; color: white; }
+        .modal-btn.half { background: #F59E0B; color: white; }
+        .modal-btn.cancel { background: #EF4444; color: white; }
+    </style>
+</head>
+<body>
+
+<div class="art-bg">
+    <div class="art-circle-1"></div>
+    <div class="art-circle-2"></div>
+</div>
+
+<div class="app-container animate__animated animate__fadeIn">
+    
+    <div class="header-navigation">
+        <a href="main.html" class="back-btn">
+            <i class="fa-solid fa-arrow-left" style="font-size: 12px;"></i> <span data-key="back_main">Main</span>
+        </a>
+        <h1 data-key="page_title">Day Productivity</h1>
+        <i class="fa-solid fa-chart-line" style="font-size: 18px; color: var(--main-purple);"></i>
+    </div>
+
+    <div class="analytics-box">
+        <div class="circular-progress-wrapper">
+            <svg class="progress-ring" viewBox="0 0 210 210">
+                <defs>
+                    <linearGradient id="auroraGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" id="gradStart" stop-color="var(--gradient-start)" />
+                        <stop offset="60%" id="gradMid" stop-color="var(--gradient-mid)" />
+                        <stop offset="100%" id="gradEnd" stop-color="var(--gradient-end)" />
+                    </linearGradient>
+                </defs>
+                <circle class="track" cx="105" cy="105" r="98" />
+                <circle class="fill" id="glowCircle" cx="105" cy="105" r="98" />
+            </svg>
+            
+            <div class="progress-content">
+                <span class="percentage-num" id="percentText">0%</span>
+                <span class="percentage-label" data-key="completed_label">Completed</span>
+            </div>
+        </div>
+
+        <div class="status-card">
+            <div>
+                <div class="status-info-title" id="statusMainTitle">Starting From Zero</div>
+                <div class="status-info-sub" id="statusSubTitle">Complete your scheduled tasks to progress.</div>
+            </div>
+            <div class="status-count" id="taskRatio">0/0</div>
+        </div>
+    </div>
+
+    <div class="nav-wrapper">
+        <div class="bottom-nav">
+            <a href="main.html" class="nav-item">
+                <span class="nav-icon"><i class="fa-solid fa-house"></i></span>
+            </a>
+            <a href="maketable.html" class="nav-item active">
+                <span class="nav-icon"><i class="fa-solid fa-chart-simple"></i></span>
+            </a>
+            <a href="achieve.html" class="nav-item">
+                <span class="nav-icon"><i class="fa-solid fa-trophy"></i></span>
+            </a>
+            <a href="brofile.html" class="nav-item">
+                <span class="nav-icon"><i class="fa-regular fa-circle-user"></i></span>
+            </a>
+            <a href="sting.html" class="nav-item">
+                <span class="nav-icon"><i class="fa-solid fa-gear"></i></span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="notification-modal" id="checkInModal">
+    <div class="modal-box">
+        <div class="modal-icon"><i class="fa-regular fa-bell"></i></div>
+        <h3 id="modalTaskTitle" data-key="modal_task_title">Task Status</h3>
+        <p id="modalTaskTime" data-key="modal_task_time">Did you complete this task?</p>
+        <div class="modal-actions">
+            <button class="modal-btn confirm" onclick="closeModal('yes')" data-key="btn_yes">Yes</button>
+            <button class="modal-btn half" onclick="closeModal('50%')" data-key="btn_50">50%</button>
+            <button class="modal-btn cancel" onclick="closeModal('no')" data-key="btn_no">No</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // قاموس شامل لـ 22 لغة عالمية لدعم التطبيق بشكل كامل ومحترف
+    const dictionary = {
+        en: { page_title: "Day Productivity", back_main: "Main", completed_label: "Completed", no_tasks_title: "No Tasks Found", no_tasks_sub: "Go to schedule and fill your flow today.", elite_title: "Elite Production!", elite_sub: "All your system goals are secured.", great_title: "Great Progress", great_sub: "You are halfway through your flow.", ongoing_title: "Flow Ongoing", ongoing_sub: "Keep pushing to fill the aurora ring.", zero_title: "Starting From Zero", zero_sub: "Complete your scheduled tasks to progress.", modal_task_title: "Task Status", modal_task_time: "Did you complete this task?", btn_yes: "Yes", btn_50: "50%", btn_no: "No", modal_ask: "Did you finish" },
+        ar: { page_title: "إنتاجية اليوم", back_main: "الرئيسية", completed_label: "مكتمل", no_tasks_title: "لا توجد مهام", no_tasks_sub: "اذهب إلى الجدول لتنظيم يومك.", elite_title: "إنتاجية نخبوية!", elite_sub: "تم تحقيق جميع أهداف النظام بنجاح.", great_title: "تقدم ممتاز", great_sub: "لقد اجتزت نصف مهامك اليوم بنجاح.", ongoing_title: "التدفق مستمر", ongoing_sub: "استمر في التقدم لملء حلقة الأورورا.", zero_title: "البداية من الصفر", zero_sub: "قم بإنجاز مهامك المجدولة لإحراز تقدم.", modal_task_title: "حالة المهمة", modal_task_time: "هل أكملت هذه المهمة؟", btn_yes: "نعم", btn_50: "50%", btn_no: "لا", modal_ask: "هل انتهيت من" },
+        fr: { page_title: "Productivité du Jour", back_main: "Principal", completed_label: "Terminé", no_tasks_title: "Aucune tâche", no_tasks_sub: "Allez au calendrier pour remplir votre journée.", elite_title: "Production Élite !", elite_sub: "Tous vos objectifs système sont sécurisés.", great_title: "Progression Superbe", great_sub: "Vous êtes à mi-chemin de votre flux.", ongoing_title: "Flux En Cours", ongoing_sub: "Continuez pour remplir l'anneau.", zero_title: "Départ à Zéro", zero_sub: "Terminez vos tâches planifiées.", modal_task_title: "Statut de la tâche", modal_task_time: "Avez-vous terminé ?", btn_yes: "Oui", btn_50: "50%", btn_no: "Non", modal_ask: "Avez-vous fini" },
+        es: { page_title: "Productividad del Día", back_main: "Inicio", completed_label: "Completado", no_tasks_title: "No hay tareas", no_tasks_sub: "Ve a la agenda para llenar tu flujo.", elite_title: "¡Producción Élite!", elite_sub: "Todos tus objetivos están asegurados.", great_title: "Gran Progreso", great_sub: "Estás a mitad de camino.", ongoing_title: "Flujo en Curso", ongoing_sub: "Sigue adelante para llenar el anillo.", zero_title: "Empezando de Cero", zero_sub: "Completa tus tareas para avanzar.", modal_task_title: "Estado de Tarea", modal_task_time: "¿Completaste esta tarea?", btn_yes: "Sí", btn_50: "50%", btn_no: "No", modal_ask: "¿Terminaste" },
+        de: { page_title: "Tagesproduktivität", back_main: "Main", completed_label: "Abgeschlossen", no_tasks_title: "Keine Aufgaben", no_tasks_sub: "Gehe zum Zeitplan.", elite_title: "Elite-Produktion!", elite_sub: "Alle Systemziele sind gesichert.", great_title: "Toller Fortschritt", great_sub: "Hälfte des Flows erreicht.", ongoing_title: "Flow läuft", ongoing_sub: "Drücke weiter, um den Ring zu füllen.", zero_title: "Start bei Null", zero_sub: "Erledige deine Aufgaben.", modal_task_title: "Aufgabenstatus", modal_task_time: "Hast du diese Aufgabe erledigt?", btn_yes: "Ja", btn_50: "50%", btn_no: "Nein", modal_ask: "Hast du fertig" },
+        tr: { page_title: "Günlük Verimlilik", back_main: "Ana Sayfa", completed_label: "Tamamlandı", no_tasks_title: "Görev Bulunamadı", no_tasks_sub: "Programınıza gidip bugünü doldurun.", elite_title: "Seçkin Üretim!", elite_sub: "Tüm sistem hedefleri güvende.", great_title: "Harika İlerleme", great_sub: "Akışın yarısı tamamlandı.", ongoing_title: "Akış Sürüyor", ongoing_sub: "Halkayı doldurmak için devam edin.", zero_title: "Sıfırdan Başlıyor", zero_sub: "İlerlemek için görevleri tamamlayın.", modal_task_title: "Görev Durumu", modal_task_time: "Bu görevi tamamladınız mı?", btn_yes: "Evet", btn_50: "%50", btn_no: "Hayır", modal_ask: "Bitirdin mi" },
+        it: { page_title: "Produttività del Giorno", back_main: "Home", completed_label: "Completato", no_tasks_title: "Nessun Compito", no_tasks_sub: "Vai al programma.", elite_title: "Produzione Élite!", elite_sub: "Tutti gli obiettivi sono sicuri.", great_title: "Grande Progresso", great_sub: "Sei a metà del tuo flusso.", ongoing_title: "Flusso in Corso", ongoing_sub: "Continua a spingere.", zero_title: "Partenza da Zero", zero_sub: "Completa i compiti pianificati.", modal_task_title: "Stato del Compito", modal_task_time: "Hai completato questo compito?", btn_yes: "Sì", btn_50: "50%", btn_no: "No", modal_ask: "Hai finito" },
+        ru: { page_title: "Продуктивность Дня", back_main: "Главная", completed_label: "Завершено", no_tasks_title: "Задачи не найдены", no_tasks_sub: "Перейдите в расписание.", elite_title: "Элитная продукция!", elite_sub: "Все цели системы достигнуты.", great_title: "Отличный прогресс", great_sub: "Вы на полпути.", ongoing_title: "Поток продолжается", ongoing_sub: "Продолжайте заполнять кольцо.", zero_title: "Старт с нуля", zero_sub: "Выполняйте задачи для прогресса.", modal_task_title: "Статус задачи", modal_task_time: "Вы выполнили эту задачу?", btn_yes: "Да", btn_50: "50%", btn_no: "Нет", modal_ask: "Вы закончили" },
+        zh: { page_title: "今日生产力", back_main: "主页", completed_label: "已完成", no_tasks_title: "未找到任务", no_tasks_sub: "前往日程表填满流程。", elite_title: "精英生产力！", elite_sub: "所有系统目标已达成。", great_title: "进步巨大", great_sub: "您的流程已经完成了一半。", ongoing_title: "流程进行中", ongoing_sub: "继续努力填满光环。", zero_title: "从零开始", zero_sub: "完成计划任务以获取进度。", modal_task_title: "任务状态", modal_task_time: "您完成这项任务了吗？", btn_yes: "是", btn_50: "50%", btn_no: "否", modal_ask: "您是否完成了" },
+        ja: { page_title: "今日の生産性", back_main: "メイン", completed_label: "完了済み", no_tasks_title: "タスクなし", no_tasks_sub: "スケジュールに移動してください。", elite_title: "エリート生産！", elite_sub: "すべての目標が達成されました。", great_title: "素晴らしい進捗", great_sub: "フローの半分に達しました。", ongoing_title: "フロー進行中", ongoing_sub: "リングを満たしましょう。", zero_title: "ゼロからスタート", zero_sub: "タスクを完了してください。", modal_task_title: "タスクのステータス", modal_task_time: "完了しましたか？", btn_yes: "はい", btn_50: "50%", btn_no: "いいえ", modal_ask: "を完了しましたか" },
+        ko: { page_title: "오늘의 생산성", back_main: "메인", completed_label: "완료됨", no_tasks_title: "작업 없음", no_tasks_sub: "일정으로 이동하세요.", elite_title: "엘리트 생산성!", elite_sub: "모든 시스템 목표 확보.", great_title: "좋은 진전", great_sub: "플로우의 중간 지점입니다.", ongoing_title: "플로우 진행 중", ongoing_sub: "링을 채우기 위해 나아가세요.", zero_title: "0에서 시작", zero_sub: "작업을 완료하세요.", modal_task_title: "작업 상태", modal_task_time: "완료하셨습니까?", btn_yes: "예", btn_50: "50%", btn_no: "아니오", modal_ask: "을 완료했습니까" },
+        hi: { page_title: "आज की उत्पादकता", back_main: "मुख्य", completed_label: "पूरा हुआ", no_tasks_title: "कोई कार्य नहीं", no_tasks_sub: "शेड्यूल पर जाएं।", elite_title: "अभिजात वर्ग उत्पादन!", elite_sub: "सभी लक्ष्य सुरक्षित हैं।", great_title: "बड़ी प्रगति", great_sub: "आधे रास्ते पर हैं।", ongoing_title: "प्रवाह जारी है", ongoing_sub: "रिंग भरने के लिए बढ़ते रहें।", zero_title: "शून्य से शुरुआत", zero_sub: "प्रगति के लिए कार्य पूरे करें।", modal_task_title: "कार्य की स्थिति", modal_task_time: "क्या आपने पूरा किया?", btn_yes: "हाँ", btn_50: "50%", btn_no: "नहीं", modal_ask: "क्या आपने खत्म किया" },
+        pt: { page_title: "Produtividade do Dia", back_main: "Principal", completed_label: "Concluído", no_tasks_title: "Sem Tarefas", no_tasks_sub: "Vá para a agenda.", elite_title: "Produção Elite!", elite_sub: "Todos os objetivos garantidos.", great_title: "Grande Progresso", great_sub: "Metade do caminho concluída.", ongoing_title: "Fluxo em Curso", ongoing_sub: "Continue para preencher o anel.", zero_title: "Começando do Zero", zero_sub: "Conclua as tarefas para progredir.", modal_task_title: "Status da Tarefa", modal_task_time: "Concluiu esta tarefa?", btn_yes: "Sim", btn_50: "50%", btn_no: "Não", modal_ask: "Você terminou" },
+        nl: { page_title: "Productiviteit", back_main: "Home", completed_label: "Voltooid", no_tasks_title: "Geen Taken", no_tasks_sub: "Ga naar de planning.", elite_title: "Elite Productie!", elite_sub: "Alle doelen zijn bereikt.", great_title: "Goede Voortgang", great_sub: "Je bent op de helft.", ongoing_title: "Flow Gaande", ongoing_sub: "Blijf doorgaan om de ring te vullen.", zero_title: "Start vanaf Nul", zero_sub: "Voltooi geplande taken.", modal_task_title: "Taak Status", modal_task_time: "Heb je dit afgerond?", btn_yes: "Ja", btn_50: "50%", btn_no: "Nee", modal_ask: "Heb je afgerond" },
+        sv: { page_title: "Produktivitet", back_main: "Hem", completed_label: "Slutförd", no_tasks_title: "Inga Uppgifter", no_tasks_sub: "Gå till schemat.", elite_title: "Elitproduktion!", elite_sub: "Alla systemmål säkrade.", great_title: "Bra Framsteg", great_sub: "Du är halvvägs igenom.", ongoing_title: "Flöde Pågår", ongoing_sub: "Fortsätt för att fylla ringen.", zero_title: "Börjar från Noll", zero_sub: "Slutför uppgifter för framsteg.", modal_task_title: "Uppgiftsstatus", modal_task_time: "Slutförde du uppgiften?", btn_yes: "Ja", btn_50: "50%", btn_no: "Nej", modal_ask: "Har du avslutat" },
+        no: { page_title: "Produktivitet", back_main: "Hoved", completed_label: "Fullført", no_tasks_title: "Ingen Oppgaver", no_tasks_sub: "Gå til tidsplanen.", elite_title: "Eliteproduksjon!", elite_sub: "Alle mål er sikret.", great_title: "God Fremgang", great_sub: "Du er halvveis.", ongoing_title: "Flyt Pågår", ongoing_sub: "Fortsett for å fylle ringen.", zero_title: "Starter fra Null", zero_sub: "Fullfør oppgaver for fremgang.", modal_task_title: "Oppgavestatus", modal_task_time: "Fullførte du denne?", btn_yes: "Ja", btn_50: "50%", btn_no: "Nei", modal_ask: "Har du fullført" },
+        da: { page_title: "Produktivitet", back_main: "Hoved", completed_label: "Færdig", no_tasks_title: "Ingen Opgaver", no_tasks_sub: "Gå til tidsplan.", elite_title: "Eliteproduktion!", elite_sub: "Alle mål er sikret.", great_title: "God Fremgang", great_sub: "Du er halvvejs.", ongoing_title: "Flyt I Gang", ongoing_sub: "Fortsæt for at fylde ringen.", zero_title: "Starter fra Nul", zero_sub: "Færdiggør opgaver.", modal_task_title: "Opgavestatus", modal_task_time: "Færdiggjorde du denne?", btn_yes: "Ja", btn_50: "50%", btn_no: "Nej", modal_ask: "Er du færdig med" },
+        fi: { page_title: "Tuottavuus", back_main: "Koti", completed_label: "Valmis", no_tasks_title: "Ei Tehtäviä", no_tasks_sub: "Mene aikatauluun.", elite_title: "Valiotuotantoa!", elite_sub: "Kaikki tavoitteet saavutettu.", great_title: "Hyvä Edistyminen", great_sub: "Olet puolivälissä.", ongoing_title: "Virtaus Käynnissä", ongoing_sub: "Jatka renkaan täyttämistä.", zero_title: "Aloitus Nollasta", zero_sub: "Suorita tehtävät edetäksesi.", modal_task_title: "Tehtävän Tila", modal_task_time: "Saitko tämän valmiiksi?", btn_yes: "Kyllä", btn_50: "50%", btn_no: "Ei", modal_ask: "Saitko valmiiksi" },
+        pl: { page_title: "Produktywność", back_main: "Główna", completed_label: "Zrobione", no_tasks_title: "Brak Zadań", no_tasks_sub: "Idź do harmonogramu.", elite_title: "Elitarna Produkcja!", elite_sub: "Wszystkie cele zabezpieczone.", great_title: "Świetny Postęp", great_sub: "Jesteś na półmetku.", ongoing_title: "Przepływ Trwa", ongoing_sub: "Pushuj dalej, aby zapełnić pierścień.", zero_title: "Start od Zera", zero_sub: "Ukończ zadania, aby awansować.", modal_task_title: "Status Zadania", modal_task_time: "Czy ukończyłeś to zadanie?", btn_yes: "Tak", btn_50: "50%", btn_no: "Nie", modal_ask: "Czy skończyłeś" },
+        id: { page_title: "Produktivitas", back_main: "Utama", completed_label: "Selesai", no_tasks_title: "Tidak Ada Tugas", no_tasks_sub: "Buka jadwal Anda.", elite_title: "Produksi Elit!", elite_sub: "Semua target sistem aman.", great_title: "Kemajuan Besar", great_sub: "Anda sudah setengah jalan.", ongoing_title: "Aliran Berjalan", ongoing_sub: "Terus dorong untuk mengisi cincin.", zero_title: "Mulai dari Nol", zero_sub: "Selesaikan tugas terjadwal.", modal_task_title: "Status Tugas", modal_task_time: "Apakah Anda menyelesaikan ini?", btn_yes: "Ya", btn_50: "50%", btn_no: "Tidak", modal_ask: "Apakah Anda selesai" },
+        vi: { page_title: "Năng Suất Ngày", back_main: "Chính", completed_label: "Hoàn thành", no_tasks_title: "Không có nhiệm vụ", no_tasks_sub: "Đi tới lịch trình.", elite_title: "Sản Xuất Tinh Anh!", elite_sub: "Mọi mục tiêu đã an toàn.", great_title: "Tiến Độ Lớn", great_sub: "Bạn đã đi được nửa chặng đường.", ongoing_title: "Luồng Đang Chạy", ongoing_sub: "Tiếp tục để lấp đầy vòng tròn.", zero_title: "Bắt đầu từ số 0", zero_sub: "Hoàn thành nhiệm vụ để tiến bộ.", modal_task_title: "Trạng thái nhiệm vụ", modal_task_time: "Bạn đã hoàn thành chưa?", btn_yes: "Có", btn_50: "50%", btn_no: "Không", modal_ask: "Bạn đã xong" },
+        fa: { page_title: "بهره‌وری امروز", back_main: "اصلی", completed_label: "تکمیل شده", no_tasks_title: "وظیفه‌ای یافت نشد", no_tasks_sub: "به جدول برنامه بروید.", elite_title: "تولید نخبه!", elite_sub: "تمام اهداف سیستم تامین شده است.", great_title: "پیشرفت عالی", great_sub: "نیمی از مسیر را رفته‌اید.", ongoing_title: "جریان مستمر", ongoing_sub: "ادامه دهید تا حلقه پر شود.", zero_title: "شروع از صفر", zero_sub: "وظایف را برای پیشرفت کامل کنید.", modal_task_title: "وضعیت وظیفه", modal_task_time: "این وظیفه را انجام دادید؟", btn_yes: "بله", btn_50: "۵۰٪", btn_no: "خیر", modal_ask: "آیا تمام کردید" }
+    };
+
+    let globalTasks = [];
+    let currentLang = 'en';
+
+    document.addEventListener("DOMContentLoaded", () => {
+        // 1. استعادة وتطبيق اللغة المحفوظة (أو افتراضياً الإنجليزية)
+        currentLang = localStorage.getItem('flowday_app_lang') || 'en';
+        translatePage(currentLang);
+
+        // 2. استعادة وتطبيق الثيم المحفوظ (أو افتراضياً الفاتح)
+        const savedTheme = localStorage.getItem('flowday_theme') || 'light';
+        setTheme(savedTheme);
+
+        calculatePerformance();
+        startClockSyncTracker();
+    });
+
+    function translatePage(lang) {
+        if (lang === 'ar' || lang === 'fa') {
+            document.body.classList.add('rtl');
+        } else {
+            document.body.classList.remove('rtl');
+        }
+
+        document.querySelectorAll('[data-key]').forEach(element => {
+            const key = element.getAttribute('data-key');
+            if (dictionary[lang] && dictionary[lang][key]) {
+                element.innerText = dictionary[lang][key];
+            }
+        });
+    }
+
+    function setTheme(theme) {
+        document.body.className = ''; 
+        if (currentLang === 'ar' || currentLang === 'fa') document.body.classList.add('rtl');
+        if (theme !== 'light') {
+            document.body.classList.add('theme-' + theme);
+        }
+    }
+
+    function calculatePerformance() {
+        globalTasks = JSON.parse(localStorage.getItem('smartUserTasks')) || 
+                      JSON.parse(localStorage.getItem('userTasks')) || 
+                      JSON.parse(localStorage.getItem('tasks')) || [];
+        
+        const dynamicTasks = globalTasks.filter(t => !t.isFixed);
+        const totalCount = dynamicTasks.length;
+
+        let finishedCount = 0;
+
+        dynamicTasks.forEach(t => {
+            if (t.completed === true || t.checked === true || t.status === 'completed' || t.status === 'done') {
+                finishedCount += 1;
+            } else if (t.name && (t.name.includes('(50% Done)') || t.name.includes('نصف مكتمل') || t.name.includes('۵۰٪'))) {
+                finishedCount += 0.5;
+            }
+        });
+
+        let completionPercentage = 0;
+        if (totalCount > 0) {
+            completionPercentage = Math.round((finishedCount / totalCount) * 100);
+            if (completionPercentage < 0) completionPercentage = 0;
+            if (completionPercentage > 100) completionPercentage = 100;
+        }
+
+        document.getElementById('percentText').innerText = `${completionPercentage}%`;
+        document.getElementById('taskRatio').innerText = `${Math.floor(finishedCount)}/${totalCount}`;
+
+        const circle = document.getElementById('glowCircle');
+        const radius = circle.r.baseVal.value;
+        const circumference = 2 * Math.PI * radius; 
+        
+        circle.style.strokeDashoffset = circumference - (completionPercentage / 100) * circumference;
+
+        const mainTitle = document.getElementById('statusMainTitle');
+        const subTitle = document.getElementById('statusSubTitle');
+
+        const dict = dictionary[currentLang] || dictionary['en'];
+
+        if (totalCount === 0) {
+            mainTitle.innerText = dict.no_tasks_title;
+            subTitle.innerText = dict.no_tasks_sub;
+        } else if (completionPercentage === 100) {
+            mainTitle.innerText = dict.elite_title;
+            subTitle.innerText = dict.elite_sub;
+        } else if (completionPercentage >= 50) {
+            mainTitle.innerText = dict.great_title;
+            subTitle.innerText = dict.great_sub;
+        } else if (completionPercentage > 0) {
+            mainTitle.innerText = dict.ongoing_title;
+            subTitle.innerText = dict.ongoing_sub;
+        } else {
+            mainTitle.innerText = dict.zero_title;
+            subTitle.innerText = dict.zero_sub;
+        }
+    }
+
+    function startClockSyncTracker() {
+        setInterval(() => {
+            const now = new Date();
+            const currentDeviceMinute = (now.getHours() * 60) + now.getMinutes();
+            const seconds = now.getSeconds();
+
+            if (seconds === 0) {
+                globalTasks.forEach(task => {
+                    if (!task.isOverflow && !task.isFixed) {
+                        if (task.calculatedEndMinute === currentDeviceMinute && !task.prompted) {
+                            task.prompted = true; 
+                            localStorage.setItem('smartUserTasks', JSON.stringify(globalTasks));
+                            triggerCheckIn(task.id, task.name);
+                        }
+                    }
+                });
+            }
+        }, 1000);
+    }
+
+    let currentActiveCheckInId = null;
+    function triggerCheckIn(id, name) {
+        currentActiveCheckInId = id;
+        const dict = dictionary[currentLang] || dictionary['en'];
+        
+        if (currentLang === 'ar' || currentLang === 'fa') {
+            document.getElementById('modalTaskTitle').innerText = `${dict.modal_ask} "${name}"؟`;
+        } else if (['ja', 'ko', 'zh'].includes(currentLang)) {
+            document.getElementById('modalTaskTitle').innerText = `"${name}" ${dict.modal_ask}?`;
+        } else {
+            document.getElementById('modalTaskTitle').innerText = `${dict.modal_ask} "${name}"?`;
+        }
+        
+        document.getElementById('checkInModal').classList.add('active');
+    }
+
+    function closeModal(status) {
+        document.getElementById('checkInModal').classList.remove('active');
+        if (currentActiveCheckInId) {
+            let task = globalTasks.find(t => t.id === currentActiveCheckInId);
+            if (task) {
+                if (status === 'yes') {
+                    task.completed = true;
+                } else if (status === '50%') {
+                    let mark = " (50% Done)";
+                    if (currentLang === 'ar') mark = " (نصف مكتمل)";
+                    if (currentLang === 'fa') mark = " (۵۰٪ انجام شده)";
+                    
+                    if (!task.name.includes(mark)) {
+                        task.name += mark;
+                    }
+                    task.completed = false;
+                } else {
+                    task.completed = false;
+                }
+            }
+            localStorage.setItem('smartUserTasks', JSON.stringify(globalTasks));
+            calculatePerformance();
+        }
+        currentActiveCheckInId = null;
+    }
+</script>
+</body>
+</html>

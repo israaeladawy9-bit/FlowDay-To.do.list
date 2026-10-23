@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Welcome - FlowDay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            background: #FAF6F0; /* البيج الفاخر المعتمد كأرضية للوحة الفنية */
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            /* أضفنا الانتقال هنا ليكون جاهزاً للتأثير الخروجي الناعم */
+            transition: opacity 0.4s ease;
+            opacity: 1;
+        }
+
+        /* مؤثرات خلفية فنية متحركة بانسيابية */
+        .art-splash-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .glow-circle {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 107, 157, 0.2) 0%, rgba(123, 44, 191, 0.1) 60%, transparent 100%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            filter: blur(50px);
+            animation: pulseGlow 4s infinite alternate ease-in-out;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.7; }
+            100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+        }
+
+        /* حاوية الشاشة المركزية */
+        .splash-container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            max-width: 430px;
+        }
+
+        /* الهالة الهندسية المحيطة باللوجو */
+        .logo-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: scaleIn 1.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .logo-art-ring {
+            width: 90px;
+            height: 90px;
+            border-radius: 32px;
+            background: linear-gradient(135deg, #FF6B9D 0%, #7B2CBF 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 15px 35px rgba(123, 44, 191, 0.25);
+            margin-bottom: 24px;
+            transform: rotate(45deg);
+            animation: rotateArt 20s infinite linear;
+        }
+
+        /* أيقونة مصممة داخلياً بشكل حرف F الفني الهندسي */
+        .logo-icon-text {
+            transform: rotate(-45deg);
+            color: #FFFFFF;
+            font-size: 38px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .logo-text {
+            font-size: 2.4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1F0833 0%, #7B2CBF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+            opacity: 0;
+            animation: fadeInText 0.8s ease-out 0.5s forwards;
+        }
+
+        .tagline {
+            font-size: 13px;
+            color: #8C7A99;
+            font-weight: 600;
+            margin-top: 6px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeInText 0.8s ease-out 0.8s forwards;
+        }
+
+        /* أنيميشن التحميل الاحترافي الفاتح بالأسفل */
+        .loader-bar-container {
+            position: absolute;
+            bottom: 60px;
+            width: 140px;
+            height: 4px;
+            background: rgba(123, 44, 191, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeInText 0.5s ease-out 1s forwards;
+        }
+
+        .loader-progress {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #FF6B9D, #7B2CBF);
+            border-radius: 10px;
+            animation: loadApp 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        /* الحركات الأنيميشن */
+        @keyframes scaleIn {
+            0% { transform: scale(0.6); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes rotateArt {
+            0% { transform: rotate(45deg); }
+            100% { transform: rotate(405deg); }
+        }
+
+        @keyframes fadeInText {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes loadApp {
+            0% { width: 0%; }
+            40% { width: 60%; }
+            70% { width: 82%; }
+            100% { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="art-splash-bg">
+        <div class="glow-circle"></div>
+    </div>
+
+    <div class="splash-container">
+        <div class="logo-wrapper">
+            <div class="logo-art-ring">
+                <span class="logo-icon-text">F</span>
+            </div>
+            <h1 class="logo-text">FlowDay</h1>
+            <p class="tagline">Art of Routine</p>
+        </div>
+
+        <div class="loader-bar-container">
+            <div class="loader-progress"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+        // استدعاء مكتبة Auth للتحقق من الحساب
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        // إعدادات Firebase الخاصة بتطبيقك
+        const firebaseConfig = {
+          apiKey: "AIzaSyB1gI-OSbGCGPIMA5NCnuB2K_-IyrMWFHs",
+          authDomain: "flowday-81f42.firebaseapp.com",
+          projectId: "flowday-81f42",
+          storageBucket: "flowday-81f42.firebasestorage.app",
+          messagingSenderId: "854763403133",
+          appId: "1:854763403133:web:13f5eafb11422d89787e14",
+          measurementId: "G-W5Q0QYEGEG"
+        };
+
+        // تهيئة Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+
+        // الانتظار حتى ينتهي الانيميشن البصري أولاً (2500 ملي ثانية) ليعطي تجربة مستخدم احترافية
+        setTimeout(() => {
+            
+            // مراقبة حالة تسجيل دخول المستخدم
+            onAuthStateChanged(auth, (user) => {
+                // تفعيل تأثير التلاشي الخروجي الناعم للشاشة
+                document.body.style.opacity = "0";
+
+                setTimeout(() => {
+                    if (user) {
+                        // إذا كان هناك حساب مسجل دخول بالفعل، توجه إلى الصفحة الرئيسية
+                        window.location.href = "main.html";
+                    } else {
+                        // إذا لم يكن مسجلاً، توجه إلى الصفحة الترحيبية الأولى
+                        window.location.href = "bage1.html";
+                    }
+                }, 400); // وقت انتظار تلاشي الـ Opacity
+            });
+
+        }, 2500); 
+    </script>
+</body>
+</html>

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CalmZone - Relaxation Exercises</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-aurora-1: #e0c3fc;
+            --bg-aurora-2: #fbc2eb;
+            --bg-aurora-3: #f5eedc;
+            --glass-bg: rgba(255, 255, 255, 0.45);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --text-color: #4a3f54;
+            --accent-color: #9b5de5;
+        }
+
+        /* ─── الأوضاع والثيمات المطلوبة (Themes) ─── */
+        body.theme-dark {
+            --bg-aurora-1: #111827;
+            --bg-aurora-2: #311042;
+            --bg-aurora-3: #1f2937;
+            --glass-bg: rgba(17, 24, 39, 0.6);
+            --glass-border: rgba(155, 93, 229, 0.3);
+            --text-color: #f3f4f6;
+            --accent-color: #bb86fc;
+        }
+        body.theme-pink {
+            --bg-aurora-1: #ffe4e6;
+            --bg-aurora-2: #fbc2eb;
+            --bg-aurora-3: #fff1f2;
+            --glass-bg: rgba(255, 255, 255, 0.5);
+            --glass-border: rgba(251, 113, 133, 0.4);
+            --text-color: #4c0519;
+            --accent-color: #db2777;
+        }
+        body.theme-purple {
+            --bg-aurora-1: #f3e8ff;
+            --bg-aurora-2: #e9d5ff;
+            --bg-aurora-3: #fae8ff;
+            --glass-bg: rgba(255, 255, 255, 0.5);
+            --glass-border: rgba(168, 85, 247, 0.4);
+            --text-color: #3b0764;
+            --accent-color: #a855f7;
+        }
+        body.theme-brown {
+            --bg-aurora-1: #efebe9;
+            --bg-aurora-2: #d7ccc8;
+            --bg-aurora-3: #f5f5f5;
+            --glass-bg: rgba(255, 255, 255, 0.5);
+            --glass-border: rgba(141, 110, 99, 0.4);
+            --text-color: #3e2723;
+            --accent-color: #8d6e63;
+        }
+        body.theme-yellow {
+            --bg-aurora-1: #fffde7;
+            --bg-aurora-2: #fff9c4;
+            --bg-aurora-3: #fffde7;
+            --glass-bg: rgba(255, 255, 255, 0.5);
+            --glass-border: rgba(251, 192, 45, 0.4); /* تم تعديل الخطأ البرمجي للون الحدود هنا */
+            --text-color: #f57f17;
+            --accent-color: #fbc02d;
+        }
+        body.theme-green {
+            --bg-aurora-1: #e8f5e9;
+            --bg-aurora-2: #c8e6c9;
+            --bg-aurora-3: #f1f8e9;
+            --glass-bg: rgba(255, 255, 255, 0.5);
+            --glass-border: rgba(76, 175, 80, 0.4);
+            --text-color: #1b5e20;
+            --accent-color: #4caf50;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(125deg, var(--bg-aurora-1), var(--bg-aurora-2), var(--bg-aurora-3), var(--bg-aurora-1));
+            background-size: 400% 400%;
+            animation: auroraAnimation 15s ease infinite;
+            overflow: hidden;
+            color: var(--text-color);
+            position: relative;
+            transition: all 0.5s ease;
+        }
+
+        body.theme-dark {
+            background: linear-gradient(125deg, var(--bg-aurora-1), var(--bg-aurora-2), var(--bg-aurora-3), var(--bg-aurora-1));
+            background-size: 400% 400%;
+        }
+
+        body.rtl { direction: rtl; }
+
+        @keyframes auroraAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            padding: 10px 20px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 10;
+        }
+        body:not(.rtl) .back-btn { left: 20px; }
+        body.rtl .back-btn { right: 20px; }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 40px 30px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.08);
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .audio-control {
+            position: absolute;
+            top: 20px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s, opacity 0.3s;
+            color: var(--text-color);
+            opacity: 0.5;
+        }
+        body:not(.rtl) .audio-control { right: 20px; }
+        body.rtl .audio-control { left: 20px; }
+
+        .audio-control:hover { transform: scale(1.1); }
+        .audio-control.playing { opacity: 1; }
+
+        .exercise-card {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out forwards;
+        }
+        .exercise-card.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .icon-wrapper {
+            font-size: 3.5rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        h2 { font-size: 1.8rem; margin-bottom: 15px; font-weight: 600; }
+        p { font-size: 1.05rem; line-height: 1.6; margin-bottom: 30px; opacity: 0.9; }
+
+        .timer-container {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 30px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .timer-display { font-size: 2rem; font-weight: 600; color: var(--text-color); }
+
+        .btn-group { display: flex; justify-content: center; gap: 15px; }
+        .btn {
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--glass-bg);
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.7);
+            transform: translateY(-2px);
+        }
+        .btn-primary { background: rgba(255, 255, 255, 0.6); color: var(--accent-color); border-color: var(--accent-color); }
+        .btn-primary:hover { background: var(--accent-color); color: #fff; }
+
+        .congratulations { display: none; animation: scaleUp 0.5s ease forwards; }
+        @keyframes scaleUp {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="main.html" class="back-btn" id="btnBack">
+        <i class="fa-solid fa-arrow-left"></i> <span>Main Menu</span>
+    </a>
+
+    <audio id="bgMusic" loop src="https://assets.mixkit.co/active_storage/sfx/123/123-84.wav"></audio>
+    <audio id="doneSound" src="https://assets.mixkit.co/active_storage/sfx/2019/2019-84.wav"></audio>
+
+    <div class="container">
+        <div class="audio-control" id="featherBtn" onclick="toggleMusic()" title="Toggle Music">
+            <i id="musicIcon" class="fa-solid fa-feather"></i>
+        </div>
+
+        <div class="exercise-card active" id="ex1">
+            <div class="icon-wrapper"><i class="fa-solid fa-wind"></i></div>
+            <h2 id="titleEx1">Deep Breathing</h2>
+            <p id="descEx1">Inhale deeply through your nose, hold it for a moment, and exhale slowly through your mouth. Let go of all tension.</p>
+            <div class="timer-container">
+                <div class="timer-display" id="timer1">01:00</div>
+            </div>
+            <div class="btn-group">
+                <button class="btn btnStart" onclick="startTimer(60, 'timer1')"><i class="fa-solid fa-play"></i> <span>Start</span></button>
+                <button class="btn btn-primary btnNext" onclick="nextExercise(1, 60, 'timer2')"><span>Next</span> <i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+
+        <div class="exercise-card" id="ex2">
+            <div class="icon-wrapper"><i class="fa-solid fa-eye-slash"></i></div>
+            <h2 id="titleEx2">Mindful Scanning</h2>
+            <p id="descEx2">Close your eyes. Focus on your body from head to toe, releasing the tightness in your shoulders, jaw, and neck.</p>
+            <div class="timer-container">
+                <div class="timer-display" id="timer2">01:00</div>
+            </div>
+            <div class="btn-group">
+                <button class="btn btnStart" onclick="startTimer(60, 'timer2')"><i class="fa-solid fa-play"></i> <span>Start</span></button>
+                <button class="btn btn-primary btnNext" onclick="nextExercise(2, 45, 'timer3')"><span>Next</span> <i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+
+        <div class="exercise-card" id="ex3">
+            <div class="icon-wrapper"><i class="fa-solid fa-hand-holding-heart"></i></div>
+            <h2 id="titleEx3">Gratitude Reflection</h2>
+            <p id="descEx3">Think of three simple things you are grateful for today. Let the feeling of appreciation warm your heart.</p>
+            <div class="timer-container">
+                <div class="timer-display" id="timer3">00:45</div>
+            </div>
+            <div class="btn-group">
+                <button class="btn btnStart" onclick="startTimer(45, 'timer3')"><i class="fa-solid fa-play"></i> <span>Start</span></button>
+                <button class="btn btn-primary btnNext" onclick="nextExercise(3, 75, 'timer4')"><span>Next</span> <i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+
+        <div class="exercise-card" id="ex4">
+            <div class="icon-wrapper"><i class="fa-solid fa-cloud"></i></div>
+            <h2 id="titleEx4">Visualization</h2>
+            <p id="descEx4">Imagine yourself in a peaceful place—a quiet beach or a serene forest. Listen to the gentle sounds around you.</p>
+            <div class="timer-container">
+                <div class="timer-display" id="timer4">01:15</div>
+            </div>
+            <div class="btn-group">
+                <button class="btn btnStart" onclick="startTimer(75, 'timer4')"><i class="fa-solid fa-play"></i> <span>Start</span></button>
+                <button class="btn btn-primary btnNext" onclick="nextExercise(4, 30, 'timer5')"><span>Next</span> <i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+
+        <div class="exercise-card" id="ex5">
+            <div class="icon-wrapper"><i class="fa-solid fa-heart-pulse"></i></div>
+            <h2 id="titleEx5">Gentle Stretch</h2>
+            <p id="descEx5">Roll your shoulders back, stretch your arms above your head, and take one final, relaxing deep breath.</p>
+            <div class="timer-container">
+                <div class="timer-display" id="timer5">00:30</div>
+            </div>
+            <div class="btn-group">
+                <button class="btn btnStart" onclick="startTimer(30, 'timer5')"><i class="fa-solid fa-play"></i> <span>Start</span></button>
+                <button class="btn btn-primary" id="btnFinish" onclick="finishSession()"><span>Finish</span> <i class="fa-solid fa-check"></i></button>
+            </div>
+        </div>
+
+        <div class="congratulations" id="congrats">
+            <div class="icon-wrapper" style="color: #ffb703;"><i class="fa-solid fa-award"></i></div>
+            <h2 id="titleCongrats">Peace Achieved!</h2>
+            <p id="descCongrats">You have successfully completed your relaxation session. Your mind and body thank you.</p>
+            <div class="btn-group">
+                <a href="main.html" class="btn btn-primary" id="btnHome" style="text-decoration: none;"><i class="fa-solid fa-house"></i> <span>Back to Main</span></a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        // قاموس يحتوي على 22 لغة بالكامل مع ترجماتها
+        const dict = {
+            en: { back: "Main Menu", start: "Start", next: "Next", finish: "Finish", done: "Done!", home: "Back to Main", t1: "Deep Breathing", d1: "Inhale deeply through your nose, hold it for a moment, and exhale slowly through your mouth. Let go of all tension.", t2: "Mindful Scanning", d2: "Close your eyes. Focus on your body from head to toe, releasing the tightness in your shoulders, jaw, and neck.", t3: "Gratitude Reflection", d3: "Think of three simple things you are grateful for today. Let the feeling of appreciation warm your heart.", t4: "Visualization", d4: "Imagine yourself in a peaceful place—a quiet beach or a serene forest. Listen to the gentle sounds around you.", t5: "Gentle Stretch", d5: "Roll your shoulders back, stretch your arms above your head, and take one final, relaxing deep breath.", tc: "Peace Achieved!", dc: "You have successfully completed your relaxation session. Your mind and body thank you." },
+            ar: { back: "القائمة الرئيسية", start: "بدء", next: "التالي", finish: "إنهاء", done: "تم!", home: "العودة للرئيسية", t1: "التنفس العميق", d1: "استنشق الهواء بعمق من أنفك، واحتفظ به للحظة، ثم اخرجه ببطء من فمك. تخلص من كل التوترات.", t2: "المسح الواعي", d2: "أغمض عينيك. ركز على جسدك من الرأس إلى أصابع قدميك، وتخلص من الشد في كتفيك وفكك ورقبتك.", t3: "التأمل في الامتنان", d3: "فكر في ثلاثة أشياء بسيطة تشعر بالامتنان لها اليوم. دَع شعور التقدير يدفئ قلبك.", t4: "التخيل البصري", d4: "تخيل نفسك في مكان هادئ—شاطئ منعزل أو غابة هادئة. استمع إلى الأصوات اللطيفة من حولك.", t5: "التمدد الخفيف", d5: "قم بتدوير كتفيك للخلف، ومد ذراعيك فوق رأسك، وخذ نفساً عميقاً وأخيراً للاسترخاء.", tc: "تم تحقيق السلام!", dc: "لقد أكملت جلسة الاسترخاء بنجاح. عقلك وجسدك يشكرانك." },
+            fr: { back: "Menu Principal", start: "Démarrer", next: "Suivant", finish: "Terminer", done: "Fait!", home: "Retour", t1: "Respiration Profonde", d1: "Inspirez profondément par le nez, bloquez un instant, puis expirez lentement par la bouche.", t2: "Balayage Corporel", d2: "Fermez les yeux. Concentrez-vous sur votre corps de la tête aux pieds, relâchez les tensions.", t3: "Réflexion de Gratitude", d3: "Pensez à trois choses simples pour lesquelles vous êtes reconnaissant aujourd'hui.", t4: "Visualisation", d4: "Imaginez-vous dans un endroit paisible—une plage calme ou une forêt serene.", t5: "Étirement Doux", d5: "Roulez vos épaules en arrière, étirez vos bras au-dessus de votre tête et respirez profondément.", tc: "Paix Atteinte!", dc: "Vous avez terminé avec succès votre séance de relaxation. Votre esprit vous remercie." },
+            es: { back: "Menú Principal", start: "Comenzar", next: "Siguiente", finish: "Finalizar", done: "¡Hecho!", home: "Volver al Inicio", t1: "Respiración Profunda", d1: "Inhala profundamente por la nariz, mantén un momento y exhala lentamente por la boca.", t2: "Escaneo Mental", d2: "Cierra los ojos. Concéntrate en tu cuerpo de la cabeza a los pies, liberando la tensión.", t3: "Reflexión de Gratitude", d3: "Piensa en tres cosas sencillas por las que estés agradecido el día de hoy.", t4: "Visualización", d4: "Imagínate en un lugar pacífico: una playa tranquila o un bosque sereno.", t5: "Estiramiento Suave", d5: "Gira los hombros hacia atrás, estira los brazos sobre la cabeza y respira hondo.", tc: "¡Paz Alcanzada!", dc: "Has completado con éxito tu sesión de relajación. Tu mente y cuerpo te lo agradecen." },
+            de: { back: "Hauptmenü", start: "Starten", next: "Weiter", finish: "Beenden", done: "Fertig!", home: "Zurück", t1: "Tiefenatmung", d1: "Atmen Sie tief durch die Nase ein, halten Sie kurz inne und atmen Sie langsam aus.", t2: "Achtsames Scannen", d2: "Schließen Sie die Augen. Konzentrieren Sie sich von Kopf bis Fuß auf Ihren Körper.", t3: "Dankbarkeit", d3: "Denken Sie an drei einfache Dinge, für die Sie heute dankbar sind.", t4: "Visualisierung", d4: "Stellen Sie sich einen friedlichen Ort vor – einen ruhigen Strand oder einen Wald.", t5: "Sanfte Dehnung", d5: "Roll die Schultern nach hinten, streck die Arme hoch und atme tief ein.", tc: "Frieden Erreicht!", dc: "Sie haben Ihre Entspannungssitzung erfolgreich abgeschlossen. Ihr Körper dankt Ihnen." },
+            tr: { back: "Ana Menü", start: "Başla", next: "İleri", finish: "Bitir", done: "Bitti!", home: "Ana Sayfaya Dön", t1: "Derin Nefes", d1: "Burnunuzdan derin nefes alın, bir an tutun ve ağzınızdan yavaşça nefes verin.", t2: "Bilinçli Tarama", d2: "Gözlerinizi kapatın. Tepeden tırnağa vücudunuza odaklanın, gerginliği serbest bırakın.", t3: "Şükran Gözlemi", d3: "Bugün minnettar olduğunuz üç basit şeyi düşünün. Takdir hissi kalbinizi ısıtsın.", t4: "Görselleştirme", d4: "Kendinizi huzurlu bir yerde hayal edin; sakin bir plaj veya dingin bir orman.", t5: "Hafif Esneme", d5: "Omuzများကို geriye yuvarlayın, kollarınızı başınızın üzerine uzatın ve derin bir nefes alın.", tc: "Huzur Sağlandı!", dc: "Rahatlama seansınızı başarıyla tamamladınız. Zihniniz ve bedeniniz size teşekkür eder." },
+            it: { back: "Menu Principale", start: "Inizia", next: "Avanti", finish: "Termina", done: "Fatto!", home: "Torna alla Home", t1: "Respirazione Profonda", d1: "Inspira profondamente dal naso, trattieni un attimo ed espira lentamente dalla bocca.", t2: "Scansione Consapevole", d2: "Chiudi gli occhi. Concentrati sul tuo corpo dalla testa ai piedi, rilasciando le tensioni.", t3: "Riflessione di Gratitudine", d3: "Pense a tre cose semplici per cui sei grato oggi. Lascia che il calore ti avvolga.", t4: "Visualizzazione", d4: "Immaginati in un luogo pacifico: una spiaggia tranquilla o una foresta serena.", t5: "Allungamento Dolce", d5: "Ruota le spalle all'indietro, allunga le braccia sopra la testa e fai un respiro profondo.", tc: "Pace Raggiunta!", dc: "Hai completato con successo la tua sessione di rilassamento. Il tuo corpo ti ringrazia." },
+            ru: { back: "Главное меню", start: "Старт", next: "Далее", finish: "Завершить", done: "Готово!", home: "На главную", t1: "Глубокое дыхание", d1: "Глубоко вдохните через нос, задержите дыхание и медленно выдохните через рот.", t2: "Осознанное сканирование", d2: "Закройте глаза. Сосредоточьтесь на своем теле от головы до пят, снимая напряжение.", t3: "Размышление о благодарности", d3: "Подумайте о трех простых вещах, за которые вы благодарны сегодня.", t4: "Визуализация", d4: "Представьте себя в мирном месте — на тихом пляже или в безмятежном лесу.", t5: "Мягкая растяжка", d5: "Отведите плечи назад, вытяните руки над головой и сделайте глубокий вдох.", tc: "Мир достигнут!", dc: "Вы успешно завершили сеанс релаксации. Ваше разумы и тело благодарят вас." },
+            zh: { back: "主菜单", start: "开始", next: "下一步", finish: "完成", done: "完成！", home: "返回主页", t1: "深呼吸", d1: "用鼻子深吸气，稍作停顿，然后用嘴慢慢呼气。释放所有紧张感。", t2: "正念扫描", d2: "闭上眼睛。将注意力从头到脚集中在身体上，释放肩膀、下巴和颈部的紧绷感。", t3: "感恩冥想", d3: "想想今天你心存感激的三件简单的事情。让感激的感觉温暖你的心。", t4: "意象导引", d4: "想象自己身处一个宁静的地方——安静的沙滩或宁静的森林。聆听周围温柔的声音。", t5: "柔和拉伸", d5: "将肩膀向后滚动，双臂伸展至头顶，最后做一次放松的深呼吸。", tc: "达到平静！", dc: "您已成功完成放松体验。您的身心感谢您。" },
+            ja: { back: "メインメニュー", start: "スタート", next: "次へ", finish: "終了", done: "完了！", home: "ホームに戻る", t1: "深呼吸", d1: "鼻から深く息を吸い、少し止めて、口からゆっくりと息を吐き出します。緊張をほぐしましょう。", t2: "マインドフルスキャン", d2: "目を閉じます。頭からつま先まで身体に意識を向け、肩や顎、首の力を抜いていきます。", t3: "感謝の瞑想", d3: "今日感謝している3つのシンプルな事柄を思い浮かべ、温かい感謝の気持ちを感じてください。", t4: "イメージング", d4: "静かなビーチや穏やかな森など、平穏な場所を想像し、周囲の優しい音に耳を傾けます。", t5: "軽いストレッチ", d5: "肩を後ろに回し、両腕を頭の上に伸ばして、最後にリラックスした深呼吸をします。", tc: "穏やかな心へ！", dc: "リラクゼーションセッションが完了しました。心と身体に感謝しましょう。" },
+            ko: { back: "메인 메뉴", start: "시작", next: "다음", finish: "완료", done: "완료!", home: "메인으로 가기", t1: "깊은 호흡", d1: "코로 숨을 깊게 들이쉬고, 잠시 멈춘 후, 입으로 천천히 내쉬세요. 모든 긴장을 풀어줍니다.", t2: "마음챙김 스캔", d2: "눈을 감으세요. 머리부터 발끝까지 몸에 집중하며 어깨, 턱, 목의 긴장을 풀어줍니다.", t3: "감사 성찰", d3: "오늘 감사한 세 가지 사소한 일을 떠올려 보세요. 감사함이 마음을 따뜻하게 채웁니다.", t4: "시각화", d4: "조용한 해변이나 평온한 숲속과 같이 평화로운 곳을 상상하며 주변의 부드러운 소리에 귀 기울이세요.", t5: "가벼운 스트레칭", d5: "어깨를 뒤로 돌리고, 팔을 머리 위로 뻗으며 마지막으로 편안하게 깊은 호흡을 하세요.", tc: "평온함 도달!", dc: "릴랙스 세션을 성공적으로 마쳤습니다. 당신의 몸과 마음이 고마워할 것입니다." },
+            pt: { back: "Menu Principal", start: "Iniciar", next: "Próximo", finish: "Concluir", done: "Feito!", home: "Voltar para Principal", t1: "Respiração Profunda", d1: "Inhale profundamente pelo nariz, segure por um momento e expire lentamente pela boca.", t2: "Escaneamento Corporal", d2: "Feche os olhos. Foque no seu corpo da cabeça aos pés, relaxando os ombros e o pescoço.", t3: "Reflexão de Gratidão", d3: "Pense em três coisas simples pelas quais você é grato hoje. Sinta o calor da gratidão.", t4: "Visualização", d4: "Imagine-se num lugar pacífico — uma praia calma ou uma floresta serena.", t5: "Alongamento Suave", d5: "Gire os ombros para trás, estique os braços para cima e respire fundo.", tc: "Paz Alcançada!", dc: "Você concluiu sua sessão de relaxamento com sucesso. Seu corpo agradece." },
+            nl: { back: "Hoofdmenu", start: "Start", next: "Volgende", finish: "Afronden", done: "Klaar!", home: "Terug naar Home", t1: "Diepe Ademhaling", d1: "Adem diep in door je njez, houd even vast, en adem langzaam uit door je mond.", t2: "Mindful Scannen", d2: "Sluit je ogen. Focus op je lichaam van top tot teen en laat alle spanning los.", t3: "Dankbaarheid", d3: "Denk aan drie simpele dingen waar je vandaag dankbaar voor bent.", t4: "Visualisatie", d4: "Stel je een vredige plek voor — een rustig strand of een sereen bos.", t5: "Zachte Stretch", d5: "Rol je schouders naar achteren, strek je armen omhoog en adem diep in.", tc: "Rust Bereikt!", dc: "Je hebt je ontspanningssessie succesvol afgerond. Je lichaam bedankt je." },
+            pl: { back: "Menu Główne", start: "Start", next: "Dalej", finish: "Zakończ", done: "Gotowe!", home: "Powrót", t1: "Głębokie Oddychanie", d1: "Weź głęboki wdech nosem, zatrzymaj na chwilę i powoli wydychaj ustami.", t2: "Skanowanie Ciała", d2: "Zamknij oczy. Skup się na ciele od stóp do głów, rozluźniając ramiona i kark.", t3: "Refleksja Wdzięczności", d3: "Pomyśl o trzech prostych rzeczach, za które jesteś dziś wdzięczny.", t4: "Wizualizacja", d4: "Wyobraź sobie spokojne miejsce — cichą plażę lub kojący las.", t5: "Delikatne Rozciąganie", d5: "Cofnij ramiona, wyciągnij ręce do góry i weź głęboki oddech.", tc: "Spokój Osiągnięty!", dc: "Twoja sesja relaksacyjna zakończyła się sukcesem. Twoje ciało Ci dziękuje." },
+            sv: { back: "Huvudmeny", start: "Start", next: "Nästa", finish: "Slutför", done: "Klart!", home: "Tillbaka", t1: "Djupandning", d1: "Andas in djupt genom näsan, håll andan en kort stund och andas ut långsamt.", t2: "Kroppsskanning", d2: "Blunda. Fokusera på kroppen från topp till tå och släpp alla spänningar.", t3: "Tacksamhet", d3: "Tänk på tre enkla saker som du är tacksam för idag.", t4: "Visualisering", d4: "Föreställ dig en fridfull plats — en tyst strand eller en lugn skog.", t5: "Mjuk Stretch", d5: "Rulla axlarna bakåt, sträck armarna mot taket och ta ett djupt andetag.", tc: "Frid Uppnådd!", dc: "Du har slutfört din avslappningssession. Din kropp och själ tackar dig." },
+            hi: { back: "मुख्य मेनू", start: "शुरू करें", next: "आगे", finish: "समाप्त", done: "पूर्ण!", home: "मुख्य पर जाएं", t1: "गहरी सांस लेना", d1: "नाक से गहरी सांस लें, एक पल के लिए रोकें, और मुंह से धीरे-धीरे छोड़ें।", t2: "सजग शरीर स्कैन", d2: "अपनी आंखें बंद करें। सिर से पैर तक अपने शरीर पर ध्यान दें और तनाव मुक्त करें।", t3: "कृतज्ञता विचार", d3: "आज उन तीन सरल चीजों के बारे में सोचें जिनके लिए आप आभारी हैं।", t4: "कल्पना", d4: "खुद को एक शांत जगह पर सोचें—एक शांत समुद्र तट या एक शांत जंगल।", t5: "हल्का खिंचाव", d5: "कंधों को पीछे घुमाएं, हाथों को ऊपर उठाएं और एक अंतिम गहरी सांस लें।", tc: "शांति प्राप्त हुई!", dc: "आपने अपना विश्राम सत्र सफलतापूर्वक पूरा कर लिया है।" },
+            fa: { back: "منوی اصلی", start: "شروع", next: "بعدی", finish: "پایان", done: "انجام شد!", home: "بازگشت به خانه", t1: "تنفس عمیق", d1: "از بینی عمیق نفس بکشید، لحظه‌ای نگه دارید و از دهان به آرامی بیرون دهید.", t2: "اسکن آگاهانه بدن", d2: "چشمان خود را ببندید. از سر تا پا روی بدن خود تمرکز کنید و انقباضات را رها کنید.", t3: "تفکر شکرگزاری", d3: "به سه چیز ساده که امروز بابت آن‌ها سپاسگزارید فکر کنید. بگذارید این حس قلبتان را گرم کند.", t4: "تجسم ذهنی", d4: "خود را در مکانی آرام تصور کنید؛ یک ساحل دنج یا یک جنگل آرام.", t5: "کشش ملایم", d5: "شانه‌ها را به عقب بچرخانید، دستان را بالای سر بکشید و یک نفس عمیق نهایی بکشید.", tc: "آرامش حاصل شد!", dc: "جلسه آرامش‌بخشی شما با موفقیت به پایان رسید. روح و جسمتان از شما سپاسگزار است." },
+            id: { back: "Menu Utama", start: "Mulai", next: "Lanjut", finish: "Selesai", done: "Selesai!", home: "Kembali ke Awal", t1: "Napas Dalam", d1: "Tarik napas dalam lewat hidung, tahan sebentar, lalu hembuskan perlahan lewat mulut.", t2: "Pemindaian Tubuh", d2: "Pejamkan mata. Fokus pada tubuh dari kepala hingga kaki, lepaskan ketegangan.", t3: "Refleksi Syukur", d3: "Pikirkan tiga hal sederhana yang Anda syukuri hari ini.", t4: "Visualisasi", d4: "Bayangkan diri Anda di tempat yang damai — pantai yang sepi atau hutan yang tenang.", t5: "Peregangan Ringan", d5: "Putar bahu ke belakang, rentangkan tangan ke atas, dan tarik napas dalam.", tc: "Kedamaian Diraih!", dc: "Anda telah berhasil menyelesaikan sesi relaksasi. Tubuh dan pikiran Anda berterima kasih." },
+            th: { back: "เมนูหลัก", start: "เริ่ม", next: "ถัดไป", finish: "เสร็จสิ้น", done: "เสร็จแล้ว!", home: "กลับหน้าหลัก", t1: "หายใจลึกๆ", d1: "หายใจเข้าลึกๆ ทางจมูก กลั้นไว้ครู่หนึ่ง แล้วค่อยๆ ผ่อนลมหายใจออกทางปาก", t2: "สำรวจร่างกาย", d2: "หลับตาลง ผ่อนคลายร่างกายตั้งแต่ศีรษะจรดปลายเท้า ปล่อยความตึงเครียดออกไป", t3: "นึกถึงสิ่งดีๆ", d3: "คิดถึงสิ่งง่ายๆ สามสิ่งที่คุณรู้สึกขอบคุณในวันนี้ ให้ใจคุณรู้สึกอบอุ่น", t4: "จินตนาการภาพ", d4: "จินตนาการว่าตัวคุณอยู่ในที่ที่สงบ เช่น ชายหาดที่เงียบสงบหรือป่าที่ร่มรื่น", t5: "ยืดเส้นยืดสาย", d5: "หมุนไหล่ไปข้างหลัง ยืดแขนขึ้นเหนือศีรษะ แล้วหายใจเข้าลึกๆ เป็นครั้งสุดท้าย", tc: "ความสงบมาเยือน!", dc: "คุณได้เสร็จสิ้นการผ่อนคลายแล้ว ร่างกายและจิตใจของคุณขอขอบคุณ" },
+            vi: { back: "Menu Chính", start: "Bắt đầu", next: "Tiếp theo", finish: "Hoàn thành", done: "Xong!", home: "Về Trang Chủ", t1: "Thở Sâu", d1: "Hít vào sâu bằng mũi, giữ lại một chút, rồi từ từ thở ra bằng miệng.", t2: "Quét Tâm Trí", d2: "Nhắm mắt lại. Tập trung vào cơ thể từ đầu đến chân, giải tỏa căng thẳng ở vai và cổ.", t3: "Nghĩa Về Lòng Biết Ơn", d3: "Nghĩ về ba điều đơn giản khiến bạn biết ơn hôm nay. Hãy để sự trân trọng làm ấm lòng bạn.", t4: "Hình Dung", d4: "Tưởng tượng bạn đang ở một nơi thanh bình — một bãi biển yên tĩnh hoặc khu rừng tĩnh lặng.", t5: "Duỗi Người Nhẹ Nhàng", d5: "Xoay vai ra sau, vươn hai tay lên cao và hít một hơi thật sâu để thư giãn.", tc: "Đạt Được Bình Yên!", dc: "Bạn đã hoàn thành xuất sắc buổi thư giãn. Thân tâm bạn thầm cảm ơn bạn." },
+            ur: { back: "بنیادی مینو", start: "شروع", next: "اگلا", finish: "ختم", done: "مکمل!", home: "ہوم پر جائیں", t1: "گہرا سانس لینا", d1: "ناک سے گہرا سانس لیں، ایک لمحے کے لیے روکیں، اور منہ سے آہستہ آہستہ باہر نکالیں۔", t2: "جسمانی سکیننگ", d2: "اپنی آنکھیں بند کریں۔ سر سے پاؤں تک اپنے جسم پر توجہ دیں激活 تناؤ کو دور کریں۔", t3: "شکر گزاری", d3: "آج ان تین چیزوں کے بارے में سوچیں جن کے لیے آپ شکر گزار ہیں۔", t4: "تصوراتی دنیا", d4: "خود کو کسی پرسکون جگہ پر تصور کریں—جیسے کوئی خاموش ساحل یا پرسکون جنگل۔", t5: "ہلکی ورزش", d5: "کندھوں کو پیچھے گھمائیں، ہاتھوں کو اوپر اٹھائیں اور آخری گہرا سانس لیں۔", tc: "سکون مل گیا!", dc: "آپ نے اپنا ریلیکسیشن سیشن کامیابی سے مکمل کر لیا ہے۔" },
+            he: { back: "תפריט ראשי", start: "התחל", next: "הבא", finish: "סיום", done: "בוצע!", home: "חזרה לראשי", t1: "נשימה עמוקה", d1: "שאפו עמוק דרך האף, החזיקו לרגע, ונשפו לאט דרך הפה. שחררו מתח.", t2: "סריקת גוף", d2: "עצמו עיניים. התרכזו בגוף מהראש עד כפות הרגליים, ושחררו את הצוואר והכתפיים.", t3: "חשיבה על תודה", d3: "חשבו על שלושה דברים פשוטים שאתם אסירי תודה עליהם היום. תנו ללב להתחמם.", t4: "דמיון מודרך", d4: "דמיינו את עצמכם במקום שליו - חוף שקט או יער רגוע ושמעו את הקולות סביבכם.", t5: "מתיחה קלה", d5: "גלגלו את הכתפיים לאחور, מילחו ידיים אל מעל הראש וקחו נשימה עמוקה אחרונה.", tc: "השלווה הושגה!", dc: "סיימתם בהצלחה את מפגש ההרגעה שלכם. הגוף והנפש מודים לכם." }
+        };
+
+        let countdown;
+        const music = document.getElementById('bgMusic');
+        const doneSound = document.getElementById('doneSound');
+        const featherBtn = document.getElementById('featherBtn');
+
+        const currentLang = localStorage.getItem('flowday_app_lang') || 'en';
+        const savedTheme = localStorage.getItem('flowday_theme') || 'light';
+        const langData = dict[currentLang] || dict.en;
+
+        const rtlLanguages = ['ar', 'fa', 'ur', 'he'];
+        if (rtlLanguages.includes(currentLang)) {
+            document.body.classList.add('rtl');
+        }
+        if (savedTheme !== 'light') {
+            document.body.classList.add('theme-' + savedTheme);
+        }
+
+        function applyLocalization() {
+            document.querySelector('#btnBack span').textContent = langData.back;
+            document.getElementById('titleEx1').textContent = langData.t1;
+            document.getElementById('descEx1').textContent = langData.d1;
+            document.getElementById('titleEx2').textContent = langData.t2;
+            document.getElementById('descEx2').textContent = langData.d2;
+            document.getElementById('titleEx3').textContent = langData.t3;
+            document.getElementById('descEx3').textContent = langData.d3;
+            document.getElementById('titleEx4').textContent = langData.t4;
+            document.getElementById('descEx4').textContent = langData.d4;
+            document.getElementById('titleEx5').textContent = langData.t5;
+            document.getElementById('descEx5').textContent = langData.d5;
+            document.getElementById('titleCongrats').textContent = langData.tc;
+            document.getElementById('descCongrats').textContent = langData.dc;
+            document.querySelector('#btnFinish span').textContent = langData.finish;
+            document.querySelector('#btnHome span').textContent = langData.home;
+            
+            document.querySelectorAll('.btnStart span').forEach(el => el.textContent = langData.start);
+            document.querySelectorAll('.btnNext span').forEach(el => el.textContent = langData.next);
+        }
+
+        function toggleMusic() {
+            if (music.paused) {
+                music.play().catch(e => console.log("Playback blocked."));
+                featherBtn.classList.add('playing');
+            } else {
+                music.pause();
+                featherBtn.classList.remove('playing');
+            }
+        }
+
+        document.body.addEventListener('click', function() {
+            if (music.paused && featherBtn.classList.contains('playing')) {
+                music.play().catch(e => {});
+            }
+        }, { once: true });
+
+        function startTimer(seconds, displayId) {
+            clearInterval(countdown);
+            const display = document.getElementById(displayId);
+            let timer = seconds, minutes, remSeconds;
+
+            countdown = setInterval(() => {
+                minutes = parseInt(timer / 60, 10);
+                remSeconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                remSeconds = remSeconds < 10 ? "0" + remSeconds : remSeconds;
+
+                display.textContent = minutes + ":" + remSeconds;
+
+                if (--timer < 0) {
+                    clearInterval(countdown);
+                    display.textContent = langData.done;
+                    doneSound.play().catch(e => console.log("Sound play delayed"));
+                }
+            }, 1000);
+        }
+
+        // تم تحديث الدالة لتهيئة وعرض الوقت الافتراضي للتمرين الجديد تلقائياً
+        function nextExercise(currentNum, nextSeconds, nextDisplayId) {
+            clearInterval(countdown);
+            document.getElementById(`ex${currentNum}`).classList.remove('active');
+            
+            const nextDisplay = document.getElementById(nextDisplayId);
+            let minutes = parseInt(nextSeconds / 60, 10);
+            let remSeconds = parseInt(nextSeconds % 60, 10);
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            remSeconds = remSeconds < 10 ? "0" + remSeconds : remSeconds;
+            nextDisplay.textContent = minutes + ":" + remSeconds;
+
+            document.getElementById(`ex${currentNum + 1}`).classList.add('active');
+        }
+
+        function finishSession() {
+            clearInterval(countdown);
+            document.getElementById('ex5').classList.remove('active');
+            document.getElementById('congrats').style.display = 'block';
+
+            let duration = 3 * 1000;
+            let end = Date.now() + duration;
+
+            (function frame() {
+                confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#e0c3fc', '#fbc2eb', '#9b5de5'] });
+                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#e0c3fc', '#fbc2eb', '#9b5de5'] });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
+        }
+
+        applyLocalization();
+    </script>
+</body>
+</html>
